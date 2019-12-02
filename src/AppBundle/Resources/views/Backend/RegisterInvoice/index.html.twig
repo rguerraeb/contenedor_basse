@@ -1,0 +1,51 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+	<div class="page-header">
+	    <div class="page-block">
+	        <div class="row align-items-center">
+	            <div class="col-md-12">
+	                <div class="page-header-title">
+	                    <h5 class="m-b-10">Facturas Recibidas</h5>
+	                </div>
+	                <ul class="breadcrumb">
+	                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+	                    <li class="breadcrumb-item"><a href="#!">Facturas</a></li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+						
+					{{ include('@App/Backend/flash_message.html.twig') }}
+
+					<div class="card Application-list">
+				
+						{% if permits["wp"] %}
+							{{
+								include(
+									'@App/Backend/create_modal.html.twig',
+									{
+										'title': 'Facturas',
+										'form': form,
+										'formPath': '@App/Backend/RegisterInvoice/form.html.twig'
+									}
+								)
+							}}
+						{% endif %}
+			
+						{% if permits["rp"] %}
+							{{ include('@App/Backend/RegisterInvoice/list.html.twig', { 'list': list }) }}
+						{% endif %}
+			
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

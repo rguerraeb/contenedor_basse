@@ -1,0 +1,51 @@
+.green-panel {
+    height: 160px;
+    background: url('../../../images/frontend/green_strip.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.green-panel.footer {
+    height: 100px;
+}
+
+.green-header .logos-panel {
+    top: 30px;
+    position: relative;
+    text-align: center;
+}
+
+.green-header .logos-panel .cr-logo,
+.green-header .logos-panel .cdc-logo,
+.green-header .logos-panel .cp-logo {
+    vertical-align: top;
+}
+
+.green-header .logos-panel .cr-logo {
+
+    height: 100px;
+    margin-right: 50px;
+}
+
+.green-header .logos-panel .cdc-logo {
+    height: 170px;
+}
+
+.green-header .logos-panel .cp-logo {
+    height: 100px;
+    margin-left: 50px;
+}
+
+@media (max-width: 645px) {
+    .green-header .logos-panel .cp-logo {
+        display: none;
+    }
+}
+
+@media (max-width: 410px) {
+    .green-header .logos-panel .cdc-logo {
+        display: none;
+    }
+}

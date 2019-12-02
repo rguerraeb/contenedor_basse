@@ -1,0 +1,40 @@
+AppBundle\Entity\PromoPointOfSale:
+    type: entity
+    table: promo_point_of_sale
+    repositoryClass: AppBundle\Repository\PromoPointOfSaleRepository    
+    indexes:
+        promo_point_of_sale_promo_id:
+            columns:
+                - promo_id
+        promo_point_of_sale_point_of_sale_id:
+            columns:
+                - point_of_sale_id
+    id:
+        promoPointOfSaleId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_point_of_sale_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

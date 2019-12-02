@@ -1,0 +1,78 @@
+{% extends '@App/Frontend/base.html.twig' %}
+
+{% block title %}
+- Acceso al sistema
+{% endblock %}
+
+
+{% block body %}
+
+<section class="main alt">
+	<header>
+		<h2>Ingresar a mi cuenta</h2>
+		<p>Ingresa a tu cuenta para poder ver tu historial de facturas,
+			canjear premios, ver tu ranking y manejar los datos de cuenta.</p>
+	</header>
+	<div class="inner narrow">
+		<div class="row gtr-uniform">
+			<div class="col-3 col-12-xsmall"></div>
+			<div class="col-6 col-12-xsmall">
+				<form action="{{ path('frontend_login') }}" method="post"
+					class="login-form alt" id="loginForm">
+					{{ include('@App/Backend/flash_message.html.twig') }}
+
+					{% if error %}
+					<div class="alert alert-danger" role="alert">
+						{{ error.messageKey|trans(error.messageData, 'security') }}
+					</div>
+					{% endif %}
+
+					<div class="row gtr-uniform">
+						<div class="col-12 col-12-xsmall">
+							<input type="text" class="required digits form-control"
+								maxlength="8" placeholder="Tel&eacute;fono" name="_username">
+						</div>
+						<div class="col-12 col-12-xsmall">
+							<input type="password" id="password" maxlength="13"
+								class="required digits form-control" placeholder="DPI"
+								name="_password">
+						</div>
+						<div class="col-12 col-12-xsmall" align="center">
+							<button id="sendButton" class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+						</div>
+						<div class="col-12 col-12-xsmall">
+							<p align="center">Si has olvidado tu usuario o
+								contrase&ntilde;a, comun&iacute;cate a nuestra L&iacute;nea de
+								Servicio al 0000-00-00</p>
+						</div>
+					</div>
+					{{ form_widget(form._token) }}
+				</form>
+			</div>
+			<div class="col-3 col-12-xsmall"></div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script
+	src="{{ asset('bundles/jquery-validate/jquery.validate.min.js') }}"></script>
+<script
+	src="{{ asset('bundles/jquery-validate/localization/messages_es.js') }}"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#loginForm').validate({
+			submitHandler : function(form) {
+				$("#sendButton").attr("disabled", "disabled");				
+				form.submit();
+			}
+		});
+
+		$('#header').removeClass("alt");
+		$('#loginItem').addClass("current");
+	})
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+AppBundle\Entity\PromoCupon:
+    type: entity
+    table: promo_cupon
+    indexes:
+        cupon2staff_idx:
+            columns:
+                - staff_id_used_by
+        cupon2sale_idx:
+            columns:
+                - sale_id
+        cupon:
+            columns:
+                - code
+    id:
+        promoCodeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_code_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        usedAt:
+            type: datetime
+            nullable: true
+            column: used_at
+        saleRewardAmount:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: sale_reward_amount
+        rewardCriteriaPerBag:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: reward_criteria_per_bag
+        rewardCriteriaPerBagMixtoListo:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: reward_criteria_per_bag_mixto_listo
+    manyToOne:
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+        staffUsedBy:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id_used_by:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

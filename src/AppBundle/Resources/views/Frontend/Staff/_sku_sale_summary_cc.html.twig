@@ -1,0 +1,30 @@
+{% if item is not defined %}
+    {% set item = {
+        'cc':'',
+        'total_venta':0.00,
+        'total_puntos':0.00
+    } %}
+{% endif %}
+<div class="info-box cc-box" id="cc-{{ item.cc }}">
+    <span class="info-box-icon bg-aqua info-box-number">
+        <span id="item-cc">
+            {{ item.cc }}
+        </span>
+        CC
+    </span>
+
+    <div class="info-box-content">
+        <span class="info-box-text" id="item-total-sale">
+            {{ item.total_venta }}
+        </span>
+        <span class="info-box-number">
+            <span id="total-points">
+                {% transchoice item.total_venta %}
+                    ]-Inf,0] unidades
+                    |{1} unidad
+                    |]1,Inf[ unidades
+                {% endtranschoice %}
+            </span> 
+        </span>
+    </div>
+</div>

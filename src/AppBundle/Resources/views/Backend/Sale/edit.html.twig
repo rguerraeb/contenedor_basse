@@ -1,0 +1,13 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Ventas del Sistema',
+            'smallTitle': 'Venta',
+            'formPath': '@App/Backend/Sale/form.html.twig',
+            'form': form
+        }
+    ) }}
+{% endblock %}

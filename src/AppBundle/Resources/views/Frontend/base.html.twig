@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Navidad Totto {% block title %}{% endblock %}</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet"
+	href="{{ asset('bundles/px-relativity-html/blue/assets/css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/frontend/base.css') }}" />
+
+
+</head>
+<body id="top" class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		{{ include('@App/Frontend/Website/_header.html.twig') }}
+		
+		<div id="cintillol"></div>
+		<div id="cintillor"></div>
+
+
+		{% block body %}
+		{% endblock %}
+
+
+		<!-- Footer -->
+		<footer id="footer">
+
+			<div class="inner narrow" style="max-width: 1024px; margin: auto">
+				<div class="row gtr-uniform">
+					<div class="col-5 col-12-xsmall">
+						<h2>Guatemala</h2>
+						<br /> <a href="http://gt.totto.com" target="_blank"> <img
+							src="{{ asset('images/totto.com.jpg') }}" alt="" title="" />
+						</a> &nbsp; <a href="https://www.facebook.com/totto.guatemala/"
+							target="_blank"> <img
+							src="{{ asset('images/totto.guatemala.jpg') }}" alt="" title="" />
+						</a>
+					</div>
+					<div class="col-2 col-12-xsmall hide-xs">
+						<img src="{{ asset('images/separator.jpg') }}" alt="" title="" />
+					</div>
+					<div class="col-5 col-12-xsmall">
+						<h2>El Salvador</h2>
+						<br /> <a href="http://sv.totto.com" target="_blank"> <img
+							src="{{ asset('images/sv.totto.jpg') }}" alt="" title="" />
+						</a> &nbsp; <a href="https://www.facebook.com/totto.elsalvador/"
+							target="_blank"> <img
+							src="{{ asset('images/totto.sv.jpg') }}" alt="" title="" />
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+
+	</div>
+
+
+	<!-- Scripts -->
+	<!--<script
+		src="{ { asset('bundles/px-relativity-html/blue/assets/js/jquery.min.js') }}"></script>-->
+	<script src="{{ asset('js/jquery-2.2.4.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/jquery.dropotron.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/jquery.scrollex.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/jquery.scrolly.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/browser.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/breakpoints.min.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/util.js') }}"></script>
+	<script
+		src="{{ asset('bundles/px-relativity-html/blue/assets/js/main.js') }}"></script>
+	<script src="{{ asset('js/freewall.js') }}"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+	{% block extra_scripts %}
+
+	<script type="text/javascript">
+		/*
+		 * for activate menu
+		 */
+		$('.mainMenu').click(function() {
+			$('#nav li').removeClass('current');
+			$(this).parent().addClass('current');
+		});
+	</script>
+	{% endblock %}
+
+	{% block extra_css %}
+	<style>
+/*#header{
+	background-color : #0067ac !important;
+	text-decoration: none;
+}*/
+</style>
+
+	{% endblock %}
+
+</body>
+</html>

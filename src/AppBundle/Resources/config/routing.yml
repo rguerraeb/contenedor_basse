@@ -1,0 +1,4 @@
+app_user-roles:
+    resource: "@AppBundle/Resources/config/routing/userrole.yml"
+    prefix:   /user-roles
+

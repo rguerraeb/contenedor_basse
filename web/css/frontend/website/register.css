@@ -1,0 +1,44 @@
+.register-panel {
+    margin: 60px auto 0 auto;
+    width: 65%;
+}
+
+.register-panel .inputs-panel:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.register-panel .inputs-panel input {
+    width: 50%;
+    float: left;
+}
+
+.register-panel .inputs-panel input.long {
+    width: 100%;
+    float: left;
+}
+
+.register-panel .inputs-panel select {
+    width: 50%;
+    float: left;
+    padding: 9px 10px;
+}
+
+.register-panel .submit-panel {
+    width: 100%;
+    text-align: left;
+    margin-top: 30px;
+}
+
+@media (max-width: 645px) {
+    .register-panel .inputs-panel input,
+    .register-panel .inputs-panel select {
+        width: 100%;
+        float: none;
+    }
+
+    .register-panel .submit-panel {
+        text-align: center;
+    }
+}

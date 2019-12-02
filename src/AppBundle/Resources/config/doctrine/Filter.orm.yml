@@ -1,0 +1,44 @@
+AppBundle\Entity\Filter:
+    type: entity
+    table: filter
+    indexes:
+        filter2filtergroup_idx:
+            columns:
+                - filter_group_id
+    id:
+        filterId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: filter_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        filterCode:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: filter_code
+        filterValue:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: filter_value
+    manyToOne:
+        filterGroup:
+            targetEntity: FilterGroup
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                filter_group_id:
+                    referencedColumnName: filter_group_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

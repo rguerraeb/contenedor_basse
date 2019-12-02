@@ -1,0 +1,139 @@
+{#<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title">Listado de {{ title }}</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Filtro del Grupo</th>
+                <th>Puesto</th>
+                <th>Factor</th>
+                <th>Fecha Creaci&oacute;n</th>
+                <th>Herramientas</th>
+            </tr>
+            {% for rewardCriteria in entities %}
+            <tr>
+                <td>{{ rewardCriteria.idRewardCriteria }}</td>
+                <td>{{ rewardCriteria.filterGroup }}</td>
+                <td>{{ rewardCriteria.jobPosition }}</td>
+                <td>{{ rewardCriteria.mathematicalOperator }}</td>
+                <td>{{ rewardCriteria.createdAt.format('Y-m-d H:i')|default('') }}</td>
+                <td>
+                	{% if permits["ep"] %}
+                    <a 
+                        href="{{ path(
+                                'backend_reward_criteria_edit',
+                                {'id': rewardCriteria.idRewardCriteria}
+                            ) }}">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if false %}
+                    <a
+                        class="delete-point-of-sale"
+                        data-id="{{ rewardCriteria.idRewardCriteria }}" 
+                        data-href="{{ path(
+                            'backend_reward_criteria_delete',
+                            {'id': rewardCriteria.idRewardCriteria}
+                        ) }}"
+                        data-toggle="modal"
+                        data-target="#confirm-modal">
+                        <i class="fa fa-fw fa-remove"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+    {{ knp_pagination_render(entities) }}
+    </div>
+</div>
+<!-- /.box -->#}
+
+<div class="card Application-list">
+    <div class="card-header">
+        <h5>Listado de {{ title }}</h5>
+        {% if permits["wp"] %}
+            <span  title="Agregar {{ title }}" data-toggle="tooltip">
+                <a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+            </span>
+        {% endif %}
+        <div class="card-header-right">
+            <div class="btn-group card-option">
+                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="feather icon-more-horizontal"></i>
+                </button>
+                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Filtro del Grupo</th>
+                        <th>Puesto</th>
+                        <th>Factor</th>
+                        <th>Fecha Creaci&oacute;n</th>
+                        <th>Herramientas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rewardCriteria in entities %}
+                        <tr>
+                            <td>{{ rewardCriteria.idRewardCriteria }}</td>
+                            <td>{{ rewardCriteria.filterGroup }}</td>
+                            <td>{{ rewardCriteria.jobPosition }}</td>
+                            <td>{{ rewardCriteria.mathematicalOperator }}</td>
+                            <td>{{ rewardCriteria.createdAt.format('Y-m-d H:i')|default('') }}</td>
+                            <td>
+                                {% if permits["ep"] %}
+                                <a class="btn btn-icon btn-rounded theme-bg2 text-white" 
+                                    href="{{ path(
+                                            'backend_reward_criteria_edit',
+                                            {'id': rewardCriteria.idRewardCriteria}
+                                        ) }}" title="Editar {{ title }}" data-toggle="tooltip">
+                                    <i class="feather icon-edit-1"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if false %}
+                                <span  title="Eliminar {{ title }}" data-toggle="tooltip">
+                                    <a
+                                        class="btn btn-icon btn-rounded btn-danger text-white delete-point-of-sale"
+                                        data-id="{{ rewardCriteria.idRewardCriteria }}" 
+                                        data-href="{{ path(
+                                            'backend_reward_criteria_delete',
+                                            {'id': rewardCriteria.idRewardCriteria}
+                                        ) }}"
+                                        data-toggle="modal"
+                                        data-target="#confirm-modal">
+                                        <i class="fa fa-fw fa-remove"></i>
+                                    </a>
+                                </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>{{ knp_pagination_render(entities) }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

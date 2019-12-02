@@ -1,0 +1,40 @@
+AppBundle\Entity\GoalState:
+    type: entity
+    table: goal_state
+    repositoryClass: AppBundle\Repository\GoalStateRepository
+    indexes:
+        goal_state_goal_id:
+            columns:
+                - goal_id
+        goal_state_state_id:
+            columns:
+                - state_id
+    id:
+        goalStateId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_state_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

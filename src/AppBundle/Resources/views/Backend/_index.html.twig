@@ -1,0 +1,68 @@
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">
+                        {{ title }}
+                        {% if staff is defined %}
+                            <small> >> {{ staff.name }}</small>
+                        {% endif %}
+                    </h5>
+                </div>
+                {% if staff is not defined %}
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('backend_main') }}"><i class="feather icon-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="#!">{{ title }}</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+					
+				{{ include('@App/Backend/flash_message.html.twig') }}
+
+				{#<div class="card">#}
+			
+					{% if permits["wp"] %}
+                        {% if form %}
+                            {{
+                                include(
+                                    '@App/Backend/create_modal.html.twig',
+                                    {
+                                        'title': singleTitle,
+                                        'form': form,
+                                        'formPath': formPath
+                                    }
+                                )
+                            }}
+					    {% endif %}
+					{% endif %}
+		
+					{% if permits["rp"] %}
+						{{ include(listPath, { 'entities': entities }) }}
+					{% endif %}
+
+                    {% if staff is defined %}
+                        <div class="col-xs-12" align="right">
+                            <a class="upload-link btn btn-primary" href="{{ path('backend_staff') }}"> << Regresar </a>
+                        </div>
+                    {% endif %}
+		
+					{{ include(
+                        '@App/Backend/confirm_modal.html.twig',
+                        {
+                            'confirmQuestion': deleteQuestion
+                        }
+                    ) }}
+				{#</div>#}
+			</div>
+		</div>
+	</div>
+</div>

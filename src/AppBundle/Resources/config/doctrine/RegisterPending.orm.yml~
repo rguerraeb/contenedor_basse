@@ -1,0 +1,294 @@
+AppBundle\Entity\RegisterPending:
+    type: entity
+    table: register_pending
+    repositoryClass: AppBundle\Repository\RegisterPendingRepository
+    indexes:
+        staff2city_idx:
+            columns:
+                - city_id
+        staff2state_idx:
+            columns:
+                - state_id
+        staff2jobposition_idx:
+            columns:
+                - point_of_sale_id
+        staff2jobposition_idx1:
+            columns:
+                - job_position_id
+        staff2country_idx:
+            columns:
+                - country_id
+    id:
+        registerPendingId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: register_pending_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        staffId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: staff_id
+        name:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+        firstName:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false    
+            column: first_name
+        lastName:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false    
+            column: last_name    
+        taxIdentifier:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: tax_identifier
+        citizenId:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'En Guatemala seria DPI'
+            column: citizen_id
+        gender:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        birthdate:
+            type: datetime
+            nullable: true
+        phoneSecondary:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: phone_secondary
+        phoneMain:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: "Este campo también será utilizado como CODIGO PERSONAL del empleado\n"
+            column: phone_main
+        email:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+        zone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        address1:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: address_1
+        jobPositionId:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: job_position_id
+        profession:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+        otherProfession:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false 
+        specialty:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+        experienceYears:
+            type: boolean
+            nullable: true
+            column: experience_years
+        cemproClub:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+            column: cempro_club
+        maritalStatus:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            column: marital_status
+        childNum:
+            type: boolean
+            nullable: true
+            column: child_num
+        childAge:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: child_age
+        religion:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        phoneThrid:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: phone_thrid
+        social:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+        freeTime:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+            column: free_time
+        passwd:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        status:
+            type: boolean
+            nullable: true
+            comment: '1- pendiente, 2-aprobado, 3 - rechazado'
+        comments:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            comment: 'se llena solo si es rechazado '
+        businessCity:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: business_city
+        businessState:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: business_state
+        businessZone:
+            type: string
+            nullable: true
+            length: 16
+            fixed: false
+            column: business_zone
+        businessAddress:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: business_address
+        groupName:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+            column: group_name
+        businessName:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: business_name
+        quantity:
+            type: integer
+            nullable: true
+            unsigned: false
+        invoiceNumber:
+            type: string
+            nullable: true
+            length: 32
+            fixed: false
+            column: invoice_number
+        invoiceImage:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: invoice_image
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: updated_by
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        city:
+            targetEntity: City
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                city_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        country:
+            targetEntity: Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

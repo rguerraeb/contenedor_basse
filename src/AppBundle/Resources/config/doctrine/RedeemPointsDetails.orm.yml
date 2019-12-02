@@ -1,0 +1,66 @@
+AppBundle\Entity\RedeemPointsDetails:
+    type: entity
+    table: redeem_points_details
+    indexes:
+        redeem2sale_idx:
+            columns:
+                - sale_id
+        redeem2prizeexchange_idx:
+            columns:
+                - prize_exchange_id
+        redeem2pointtype_idx:
+            columns:
+                - point_type_id
+    id:
+        redeemPointsDetailsId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: redeem_points_details_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        points:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        staffId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: staff_id
+    manyToOne:
+        pointType:
+            targetEntity: PointType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_type_id:
+                    referencedColumnName: point_type_id
+            orphanRemoval: false
+        prizeExchange:
+            targetEntity: PrizeExchange
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_exchange_id:
+                    referencedColumnName: prize_exchange_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

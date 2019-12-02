@@ -1,0 +1,30 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Contenido',
+            'smallTitle': 'Contenido',
+            'formPath': '@App/Backend/SiteContent/form_news.html.twig',
+            'form': form,
+            'titleRoute': 'backend_site_content_news'
+        }
+    ) }}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="text/javascript"
+        src="{{ asset('bundles/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+
+    <script type="text/javascript">
+        $(function() {
+           
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('bundles/adminLTE/plugins/datepicker/datepicker3.css') }}">
+{% endblock %}

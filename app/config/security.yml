@@ -1,0 +1,74 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    providers:
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: email
+        
+        staff_db_provider:
+            entity:
+                class: AppBundle:Staff
+                property: phoneMain
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: md5    
+        AppBundle\Entity\Staff:
+            algorithm: md5    
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        backend:
+            pattern:    ^/backend/
+            provider: our_db_provider
+            form_login:
+                success_handler: authentication.success.listener
+                always_use_default_target_path: true
+                default_target_path: backend_main
+                check_path: backend_login
+                login_path: backend_login
+                require_previous_session: false
+
+            logout:
+                path:   /backend/logout
+                target: /backend/login
+            anonymous: true
+        
+        frontend:
+            pattern:    ^/staff/
+            provider: staff_db_provider
+            form_login:
+                success_handler: authentication.staff.success.listener
+                always_use_default_target_path: true
+                default_target_path: /staff/login
+                check_path: /staff/login
+                login_path: /staff/login
+                require_previous_session: false
+
+            logout:
+                path:   /staff/logout
+                target: /staff/login
+            anonymous: true
+
+
+    access_control:
+        - { path: ^/backend/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend/user/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend/checkmp, role: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/main, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/sms-incoming, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/sale/not-assigned, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/staff, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/registerPending/edit, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/registerPending, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/staff/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/staff/getPrize, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/staff/, roles: [ROLE_ADMINISTRADOR] }

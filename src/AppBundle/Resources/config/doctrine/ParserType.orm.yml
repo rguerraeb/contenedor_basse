@@ -1,0 +1,24 @@
+AppBundle\Entity\ParserType:
+    type: entity
+    table: parser_type
+    id:
+        parserTypeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: parser_type_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 500
+            fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+    lifecycleCallbacks: {  }

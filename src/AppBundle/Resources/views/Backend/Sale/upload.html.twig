@@ -1,0 +1,23 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Subir
+{% endblock %}
+
+{% set id = 'sale-upload-form' %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_upload.html.twig',
+            {
+                'title': 'Ventas',
+                'fileFormPath': '@App/Backend/Sale/file_form.html.twig',
+                'form': form,
+                'id': 'sale-upload-form',
+                'example': '@App/Backend/Sale/excel_example.twig.html',
+                'titleRoute': 'backend_sale'
+            }
+        )
+    }}
+{% endblock %}

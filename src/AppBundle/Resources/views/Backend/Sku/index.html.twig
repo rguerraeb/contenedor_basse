@@ -1,0 +1,22 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Sku
+{% endblock %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Backend/Sku/list.html.twig',
+                'entities': skus,
+                'title': 'Sku',
+                'deleteQuestion': '¿Seguro que desea eliminar el sku #[ID]?',
+                'form': form,
+                'formPath': '@App/Backend/Sku/form.html.twig',
+                'singleTitle': 'Sku'
+            }
+        )
+    }}
+{% endblock %}

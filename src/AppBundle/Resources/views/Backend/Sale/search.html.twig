@@ -1,0 +1,62 @@
+<div class="row staff-search-panel">
+    <div class="col-md-12">
+        <div class="box box-warning collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class='fa fa-search'></i> B&uacute;squeda</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <form class="form-horizontal search-form" method="get">
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" placeholder="SKU" type="text" name="sku">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" placeholder="Código de motor" type="text" name="code">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" placeholder="ID Interno" type="text" name="innerId">
+                        </div>
+
+                        <div class="col-sm-4 input-panel date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input
+                                class="form-control"
+                                id="issued-at"
+                                placeholder="Fecha de Facturación"
+                                type="date"
+                                name="issuedAt">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" id="invoice-number" placeholder="No. Factura" type="text" name="invoice">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <select name="isAssigned" id="is-assigned" class="form-control">
+                                <option value="">Asignada</option>
+                                <option value="1">Sí</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-danger" href="{{ path(noFilterPath) }}">
+                        <i class="fa fa-remove"></i> Quitar filtros
+                    </a>
+                    <button type="submit" class="btn btn-info pull-right"><i class='fa fa-search'></i> Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

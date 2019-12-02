@@ -1,0 +1,71 @@
+AppBundle\Entity\Message:
+    type: entity
+    table: message
+    repositoryClass: AppBundle\Repository\MessageRepository
+    indexes:
+        message2created_by:
+            columns:
+                - created_by
+        fk_message_type_id:
+            columns:
+                - message_type_id
+        fk_message_status_id:
+            columns:
+                - message_status_id
+    id:
+        messageId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: message_id
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        sms:
+            type: string
+            nullable: false
+            length: 200
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        name:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        sendDate:
+            type: datetime
+            nullable: true
+            column: send_date
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        messageType:
+            targetEntity: MessageType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                message_type_id:
+                    referencedColumnName: message_type_id
+            orphanRemoval: false
+        messageStatus:
+            targetEntity: MessageStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                message_status_id:
+                    referencedColumnName: message_status_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

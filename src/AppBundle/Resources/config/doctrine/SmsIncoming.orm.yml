@@ -1,0 +1,61 @@
+AppBundle\Entity\SmsIncoming:
+    type: entity
+    table: sms_incoming
+    repositoryClass: AppBundle\Repository\SmsIncomingRepository
+    indexes:
+        smsincoming2staff_idx:
+            columns:
+                - staff_id
+    id:
+        smsIncomingId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sms_incoming_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        phone:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+        smsString:
+            type: string
+            nullable: true
+            length: 160
+            fixed: false
+            column: sms_string
+        parseResult:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+            column: parse_result
+        alreadyParsed:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: already_parsed
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        isCancelled:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '0'
+            column: is_cancelled
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

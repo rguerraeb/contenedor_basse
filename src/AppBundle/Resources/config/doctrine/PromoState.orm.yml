@@ -1,0 +1,40 @@
+AppBundle\Entity\PromoState:
+    type: entity
+    table: promo_state
+    repositoryClass: AppBundle\Repository\PromoStateRepository
+    indexes:
+        promo_state_promo_id:
+            columns:
+                - promo_id
+        promo_state_state_id:
+            columns:
+                - state_id
+    id:
+        promoStateId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_state_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

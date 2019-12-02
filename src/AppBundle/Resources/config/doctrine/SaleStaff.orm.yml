@@ -1,0 +1,97 @@
+AppBundle\Entity\SaleStaff:
+    type: entity
+    table: sale_staff
+    repositoryClass: AppBundle\Repository\SaleStaffRepository    
+    indexes:
+        sale2staff_idx:
+            columns:
+                - staff_id
+        sale2sku_idx:
+            columns:
+                - sku_id
+        salestaff2sale_idx:
+            columns:
+                - sale_id
+        sale_staff_original_sale_staff_id:
+            columns:
+                - original_sale_staff_id
+    id:
+        saleStaffId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sale_staff_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        points:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+        wasSeller:
+            type: boolean
+            nullable: false
+            comment: 'Esta tabla se usa para identificar si los puntos vinieron por la venta de alguien mas que pertenece a la estructura o si fueron ventas propias del usuario'
+            default: '0'
+            column: was_seller
+        smsString:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: sms_string
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        isCancelled:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '0'
+            column: is_cancelled
+    manyToOne:
+        originalSaleStaff:
+            targetEntity: SaleStaff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                original_sale_staff_id:
+                    referencedColumnName: sale_staff_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+        sku:
+            targetEntity: Sku
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sku_id:
+                    referencedColumnName: sku_id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

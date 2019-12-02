@@ -1,0 +1,131 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Facturación</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_validate_exchange') }}">Validar Canje</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Facturación</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+
+                {{ include('@App/Backend/flash_message.html.twig') }}
+
+				<div class="card Application-list">
+					<div class="card-header">
+						<h5>Datos de Facturación</h5>
+					</div>
+					<form method="post" action="" id="validateExchangeInvoiceForm" class="validateForm" autocomplete="false">
+					    <div class="card-block table-border-style">
+							<div class="row text-center">
+								<div class="col-md-2 col-12">
+									<b>Nombre:</b><br>{{ staff.name }}
+								</div>
+								<div class="col-md-2 col-12">
+									<b>DPI:</b><br>{{ staff.citizenId }}
+								</div>
+								<div class="col-md-2 col-12">
+									<b>Teléfono:</b><br>{{ staff.phone }}
+								</div>
+                                <div class="col-md-2 col-12">
+	                                <b>No. factura</b>
+									<div class="form-group">
+										<input type="text" id="invoice_number" value = "{{ staffCode.billNumber }}" name="invoice_number" minlenght="1" maxlength="100" class="required form-control" placeholder="No. Factura"  title="Debe ingresar el número de factura" data-toggle="tooltip">
+									</div>
+								</div>
+                                <div class="col-md-2 col-12">
+	                                <b>Tienda donde Compro</b>
+	                                <br>
+									{{ staffCode.store.storeName }}
+								</div>
+                                <div class="col-md-2 col-12">
+	                                <b>Responsable</b>
+									<div class="form-group">
+										<input type="text" id="responsable" name="responsable" minlenght="1" maxlength="100" class="required form-control" placeholder="Responsable"  title="Debe ingresar el nombre del Responsable del Canje" data-toggle="tooltip">
+									</div>
+								</div>
+							</div>
+                            <hr>
+                            
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button id="button-save" type="submit" class="btn btn-rounded btn-success float-right" >Confirmar canje</button>
+                                </div>
+                            </div>
+                        </div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+
+	<script>
+        $(function(){
+            var map = {};
+
+            $("#button-save").prop("disabled", true);
+
+            $('.zero').change(function(){
+
+                var map = $('.zero').map(function() {
+                    return $(this).val();
+                }).toArray();
+
+                var len = map.length;
+
+                var cont = 0;
+
+                for(i=0; i<len; i++){
+
+                    var validated = $.inArray("0", map[i]);
+
+                    if(validated == 0){
+                        cont++;
+                    }
+
+                }
+                    if(len == cont){
+                        $("#button-save").prop("disabled", true);
+                    } else {
+                        $("#button-save").prop("disabled", false);
+                    }
+            });
+
+            $('#validateExchangeInvoiceForm').validate({
+	            alert("voy");
+                submitHandler: function(form) {
+                    var saveButton = document.getElementById("button-save");
+                    var validateForm = document.getElementById("validateExchangeInvoiceForm");
+                    saveButton.setAttribute("disabled", true);
+                    saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+                    var elements = validateForm.elements;
+                    for (var i = 0, len = elements.length; i < len; ++i) {
+                        elements[i].readOnly = true;
+                    }
+                    document.getElementById("validateExchangeInvoiceForm").submit();
+                }
+            });
+        });
+	</script>
+
+{% endblock %}

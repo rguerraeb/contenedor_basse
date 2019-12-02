@@ -1,0 +1,202 @@
+/* Stylesheet CSS */
+body {
+	background: url(../../images/frontend/bg.jpg) no-repeat center center
+		fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	font-family: arial;
+	color: #FFF;
+}
+
+
+
+.header-home {
+	width: 100%;
+	margin: 100px auto 0;
+	text-align: center;
+}
+
+.header-home a {
+	text-decoration: none;
+}
+
+
+
+.header-home img {
+	width: 180px;
+	margin: 0 20px;
+}
+
+.header-int {
+	width: 100%;
+	margin: 100px auto 0;
+	text-align: center;
+}
+
+.header-int a {
+	text-decoration: none;
+}
+
+.header-int img {	
+	margin: 0 10px;
+}
+ 
+.logo-home {
+	margin: auto;
+	text-align: center;
+	margin-top: 40px;
+}
+
+.logo-home img {
+	width: 65%;
+}
+
+.button-footer-home {
+	margin: 30px auto 0 auto;
+	text-align: center;
+}
+
+.button-footer-inner img {
+	width: 150px;
+	margin: 20px
+}
+
+.button-footer-inner {
+	margin: 40px auto 0 auto;
+	text-align: center;
+}
+
+.button-footer-home img {
+	width: 250px;
+}
+
+#loginForm {
+	width: 300px;
+	margin: 60px auto;
+	text-align: center;
+}
+
+input, textarea, select  {
+	width: 96%;
+	border: solid 5px #21273D;
+	margin: 0;
+	font-size: 19px;
+	padding: 2%;
+	font-family: arial;	
+}
+
+button {
+	background: none;
+	border: none;
+}
+
+#loginError {
+	color: #FFF;
+	font-size: 16px;
+}
+
+#wrapper-cont {
+	width: 1024px;
+	overflow: hidden;
+	margin: 60px auto 0 auto;	
+}
+
+#wrapper-cont p {
+	text-align: justify;
+}
+
+.col33 {
+	width: 33.33%;
+	float: left;	
+}
+
+#register-form {
+	width: 65%;
+	margin: auto;	
+}
+
+.colInner {
+	width: 90%;
+	margin: auto;
+}
+
+.col50 {
+	width: 50%;
+	float: left;	
+}
+
+.col100 {
+	width: 100%;
+	float: left;	
+}
+
+#contact-info {
+	text-align: right;
+	padding: 0 60px;
+}
+
+#register-form .selectDB {
+	width: 102%;
+	height: 45px;
+}
+
+#register-form .date {
+    height: 22px;
+}
+
+.alert{
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.alert-success{
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+}
+.alert-dismissable, .alert-dismissible{
+	padding-right: 35px;
+}
+
+.login-form .error-panel .error-form {
+	color: #C92724;
+}
+
+
+@media (max-width: 800px) {
+	
+	.header-int {
+		margin: 10px 0;
+	}
+	
+	.header-int img.logo {
+		width: 100%;
+		height: auto;
+	}
+	
+	#wrapper-cont {
+		width: 100%;
+	}
+	
+	#contact-info {
+		padding: 10px;
+	}
+	
+  	.contact-wrapper .col50 {
+  		width: 100%;  		
+  		float: none;
+  	}
+  	
+  	#contact-info {
+  		text-align: left;
+  	}
+  	
+  	.about-wrapper .col33 {
+  		width: 100%;  		
+  		float: none;
+  		margin-bottom: 40px;
+  	}
+}

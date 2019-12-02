@@ -1,0 +1,44 @@
+AppBundle\Entity\PromoSubcategory:
+    type: entity
+    table: promo_subcategory
+    indexes:
+        promo_subcategory_parent_category_id:
+            columns:
+                - parent_category_id
+        promo_subcategory_subcategory_id:
+            columns:
+                - subcategory_id
+    id:
+        promoSubcategoryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_subcategory_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        parentCategory:
+            targetEntity: PromoCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parent_category_id:
+                    referencedColumnName: promo_category_id
+            orphanRemoval: false
+        subcategory:
+            targetEntity: PromoCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subcategory_id:
+                    referencedColumnName: promo_category_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

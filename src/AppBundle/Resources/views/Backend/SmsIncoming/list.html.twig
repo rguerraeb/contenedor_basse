@@ -1,0 +1,246 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">B&uacute;squeda</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <form class="form-horizontal" method="get">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            Tel&eacute;fono
+                        </label>
+
+                        <div class="col-sm-10">
+                            <input class="form-control" placeholder="Tel&eacute;fono" type="text" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">
+                            Mensaje
+                        </label>
+
+                        <div class="col-sm-10">
+                            <input class="form-control" id="inputPassword3" placeholder="Mensaje" type="text" name="sms">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-danger" href="{{ path('backend_sms_incoming') }}">
+                        <i class="fa fa-list-ul"></i> Sin filtro
+                    </a>
+                    <button type="submit" class="btn btn-info pull-right">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+    	<div class="box box-info collapsed-box">
+		 	<div class="box-header with-border">
+	            <h3 class="box-title">Ingresar código</h3>
+	
+	            <div class="box-tools pull-right">
+	                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+	                    <i class="fa fa-plus"></i>
+	                </button>
+	            </div>
+	        </div>
+	        
+                <div class="box-body">
+                	<div class='row'>
+	                    <div class="form-group">
+	                        <label for="inputEmail3" class="col-sm-2 control-label">
+	                            C&oacute;digo
+	                        </label>
+	
+	                        <div class="col-sm-10">
+	                            <input class="form-control" placeholder="C&oacute;digo"  id='sku_code' type="text" name="sku_code">
+	                        </div>
+	                    </div>
+                    </div>
+                    <br>
+                    <div class='row'>
+	                    <div class="form-group">
+	                        <label for="inputPassword3" class="col-sm-2 control-label">
+	                            T&eacute;lefono
+	                        </label>
+	
+	                        <div class="col-sm-10">
+	                            <input class="form-control" id="sku_phone" placeholder="T&eacute;lefono" type="text" name="sku_phone">
+	                        </div>
+	                    </div>
+                    </div>
+                </div>
+                <div class="box-footer">                    
+                    <a href="javascript:void(0)" id='register_sale' class="btn btn-info pull-right">Agregar a Queue</a>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Listado de Mensajes</h3>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>No. Tel&eacute;fono</th>
+                        <th>Mensaje Recibido</th>
+                        <th>Resultado</th>
+                        <th>Fecha</th>
+                        <th>Herramientas</th>
+                    </tr>
+
+                    {% for smsIncoming in entities %}
+                    <tr>
+                        <td>{{ smsIncoming.smsIncomingId }}</td>
+                        <td>{{ smsIncoming.phone }}</td>
+                        <td>{{ smsIncoming.smsString }}</td>
+                        <td>{{ smsIncoming.parseResult }}</td>
+                        <td>{{ smsIncoming.createdAt|date('Y-m-d H:i:s') }}</td>
+                        <td class="list_tools">
+                            <a
+                                href="{{ path(
+                                    'backend_sms_incoming_view',
+                                    {'id': smsIncoming.smsIncomingId})
+                                    }}">
+                                <i class="fa fa-fw fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+            {{ knp_pagination_render(entities) }}
+            </div>
+        </div>
+    </div>
+</div>	
+<!-- /.box -->
+
+
+
+
+<script>
+	$('#register_sale').on('click',function()
+	{
+		
+		if($('#sku_code').val().length > 0 && $('#sku_phone').val().length > 0)
+		{
+			$('.confirm_code').html($('#sku_code').val());
+			$('#myModal').modal('show');
+		} else {
+			alert("Ingrese valor en los campos para continuar");
+		}	
+		
+	});	
+</script>
+
+<div id="myModalLoading" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+	  <div class="modal-content">
+	  	
+  		  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Cargando</h4>
+          </div>
+          <div class="modal-body" style='text-align:center'>
+          	<br><br>
+            <div class='spinner'></div>
+            <br><br>
+          </div>          
+            	  	
+	  </div>
+   </div> 
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+	  <div class="modal-content">
+	  	
+  		  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Confirmar código</h4>
+          </div>
+          <div class="modal-body" style='text-align:center'>
+            <p>Confirmar que deseas registrar el número de motor:</p>
+            <h1 style='color:red'><span class='confirm_code'></span></h1>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+            <a href="javascript:void(0)" class="btn btn-primary" data-dismiss="modal" id='confirm'>Continuar</a>
+          </div>
+            	  	
+	  </div>
+   </div> 
+</div>
+
+<div id="myModalThanks" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+	  <div class="modal-content">
+	  	
+  		  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Gracias</h4>
+          </div>
+          <div class="modal-body" style='text-align:center'>
+            <p style='color:green'><b>Has registrado el número de motor:</b></p>
+            <h1 style='color:red'><span class='confirm_code'></span></h1>
+            <p>Validaremos la venta de esta moto. <b>Si la venta es válida</b>, en las próximas <b>48 horas</b>, recibirás un mensaje de texto Confirmándote la acumulación de los puntos.</p>
+          </div>
+          <div class="modal-footer">            
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id='refresh_button'>Ok</button>
+          </div>
+            	  	
+	  </div>
+   </div> 
+   <script>
+   $('#refresh_button').on('click',function()
+   {
+   		location.reload();
+   });
+   
+   
+   	$('#confirm').on('click',function()
+	{	
+		$('#myModalLoading').modal('show');
+		var url = 'http://dev.ebfuture.net/dcontreras/loyalty2/loyalty_v2/web/api/entrance.php'; 
+		$.ajax({   
+	    	url : url,
+	 	    data : { phone : $('#sku_phone').val(), sku_code:$('#sku_code').val()},
+	    	type : 'GET',	    	
+	    	dataType : 'json',
+		    success : function(json) {
+		    	$('#myModalLoading').modal('toggle');
+		    	$('#code').val('');
+		        $('#myModalThanks').modal('show');		        
+		    },
+		    error : function(xhr, status) {
+		    	$('#myModalLoading').modal('toggle');
+		        alert('Disculpe, existió un problema');
+		    },
+		    complete : function(xhr, status) {
+		        //alert('Petición realizada');
+		    }
+		});
+		
+	});
+   </script>
+</div>
+<div id='void' style='display:none'></div>	

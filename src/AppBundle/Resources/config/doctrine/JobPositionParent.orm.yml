@@ -1,0 +1,32 @@
+AppBundle\Entity\JobPositionParent:
+    type: entity
+    table: job_position_parent
+    repositoryClass: AppBundle\Repository\JobPositionParentRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        parent:
+            targetEntity: JobPosition
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parent_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        child:
+            targetEntity: JobPosition
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                child_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

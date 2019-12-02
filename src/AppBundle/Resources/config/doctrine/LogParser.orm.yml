@@ -1,0 +1,44 @@
+AppBundle\Entity\LogParser:
+    type: entity
+    table: log_parser
+    repositoryClass: AppBundle\Repository\LogParserRepository
+    indexes:
+        logparser2parsertype_idx:
+            columns:
+                - parser_type_id
+    id:
+        logParserId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: log_parser_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        logText:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: log_text
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+    manyToOne:
+        parserType:
+            targetEntity: ParserType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parser_type_id:
+                    referencedColumnName: parser_type_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

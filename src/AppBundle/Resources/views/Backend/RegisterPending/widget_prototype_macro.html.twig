@@ -1,0 +1,56 @@
+{% macro widget_prototype(widget, remove_text) %}
+
+
+{% if widget.vars.prototype is defined %}
+{% set form = widget.vars.prototype %}
+{% set name = widget.vars.prototype.vars.name %}
+{% else %}
+{% set form = widget %}
+{% set name = widget.vars.full_name %}
+{% endif %}
+
+<div data-content="{{ name }}"  class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.purchasedProductCategory, "Categoría") }}
+          {{ form_widget(form.purchasedProductCategory, {'attr': {'class': 'required form-control purchasedProductCategory-option' }}) }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.purchasedProductList, "Producto") }}
+          {{ form_widget(form.purchasedProductList, {'attr': {'class': 'required form-control purchasedProductList-option' }}) }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.amount, "Cantidad") }}
+          {{ form_widget(form.amount, {'attr': {'class': 'required form-control' }}) }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.value, "Valor") }}
+          {{ form_widget(form.value, {'attr': {'class': 'required form-control' }}) }}
+        </div>
+      </div>
+
+
+      {{ form_widget(form) }}
+    </div>
+    <a class="btn-remove btn btn-danger" data-related="{{ name }}">{{ remove_text }}</a>
+    <a class="btn-add btn btn-info pull-right" onclick="addOther()" data-target="register_pending_purchasedProductDetails">Agregar Otro Producto</a>
+  </div>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+{% endmacro %}

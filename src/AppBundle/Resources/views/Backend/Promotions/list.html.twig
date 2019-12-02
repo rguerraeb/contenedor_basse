@@ -1,0 +1,59 @@
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">Lista de Promociones</h3>
+	</div>
+
+	<div class="box-body table-responsive no-padding">
+		<table class="table table-hover">
+			<tr>
+				<th>ID</th>
+				<th>Nombre</th>
+				<th>Fecha Inicio</th>
+				<th>Fecha Fin</th>
+				<th>Categor&iacute;a</th>
+				<th>Estado</th>
+				<th>Herramientas</th>
+			</tr>
+			{% for item in list %}
+			<tr>
+				<td>{{ item.promoId }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.startDate | date('d-m-Y H:i:s') }}</td>
+				<td>{{ item.endDate | date('d-m-Y H:i:s') }}</td>
+				<td>{{ item.promoCategory }}</td>
+				<td>{{ item.status }}</td>
+				<td class="list_tools">
+					{% if item.promoCategory.promoCategoryId == 7
+						and item.alreadyFinished %}
+						<a href="{{ path(
+							'backend_promo_raffle',
+							{'id': item.promoId}
+							) }}">
+							<i class="fa fa-ticket"></i>
+						</a>
+					{% endif %}
+					{% if permits["ep"] %}
+						<a href="{{ path('backend_promo_edit', {'promoId': item.promoId}) }}">
+							<i class="fa fa-fw fa-edit"></i>
+						</a>
+					{% endif %}
+
+					{% if permits["dp"] %}
+						<a href="javascript:;"
+							data-id="{{ item.promoId }}" 
+							data-href="{{ path(
+	                            'backend_promo_delete',
+	                            {'id': item.promoId}
+	                        ) }}"
+	                        data-toggle="modal"
+	                        data-target="#confirm-modal">
+							<i class="fa fa-fw fa-remove"></i>
+						</a>
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	{{ knp_pagination_render(list) }}
+</div>

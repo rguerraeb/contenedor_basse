@@ -1,0 +1,28 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Premios
+{% endblock %}
+
+
+{% block body %}	
+<section class="content">
+
+    {{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+
+    {{
+    
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Frontend/Staff/listPrize.html.twig',
+                'entities': staffs,
+                'title': 'Premios',
+                'deleteQuestion': 'Seguro que desea eliminar el empleado '
+            }
+        )
+    }}
+    
+    
+{% endblock %}

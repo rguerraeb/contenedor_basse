@@ -1,0 +1,38 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Registros Pendientes</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('backend_main') }}"><i
+				class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Registros Pendientes</li>
+	</ol>
+</section>
+<section class="content">
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+		
+	<div class="row">
+		
+	</div>
+	
+	{% if permits["rp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include('@App/Backend/RegisterPending/list.html.twig', { 'list': list }) }}
+		</div>
+	</div>
+	{% endif %}
+	
+	{{ include(
+		'@App/Backend/confirm_modal.html.twig',
+		{
+			'confirmQuestion': '¿Seguro que desea desactivar al usuario?'
+		}
+	) }}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

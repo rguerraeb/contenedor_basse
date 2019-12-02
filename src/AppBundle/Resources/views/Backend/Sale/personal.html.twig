@@ -1,0 +1,28 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Ventas
+{% endblock %}
+
+
+{% block body %}
+<section class="content-header">
+    <h1>Ventas</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('backend_main') }}"><i
+                class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Ventas</li>
+    </ol>
+</section>
+<section class="content">
+    {{ include('@App/Backend/flash_message.html.twig') }}
+    <div class="row">
+        <div class="col-xs-12">
+            {{ include('@App/Backend/Sale/counter.html.twig', { 'counter': counter }) }}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

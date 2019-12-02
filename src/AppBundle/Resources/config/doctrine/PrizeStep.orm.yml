@@ -1,0 +1,38 @@
+AppBundle\Entity\PrizeStep:
+    type: entity
+    table: prize_step
+    indexes:
+        prize_id:
+            columns:
+                - prize_id
+        step_id:
+            columns:
+                - step_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        step:
+            targetEntity: Step
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                step_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

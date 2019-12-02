@@ -1,0 +1,71 @@
+<div class="box box-info">
+	<div class="box-header">
+		<h3 class="box-title">Top 10 de Ventas del Mes</h3>
+	</div>
+	{% if showSelect %}
+	<div class="box-header">
+		<form action="" method="post" name="sposSel" id="sposSel">
+			<select name="pos" id="pos" class="form-control">
+				<option value="">- Seleccione un establecimiento -</option>
+				{% for item in posList %}
+					{% set selected = (item.pointOfSaleId == posId)?'selected="selected"':'' %}
+					<option {{ selected }} value="{{ item.pointOfSaleId }}">{{ item.businessName }}</option>
+				{% endfor %}
+			</select>
+		</form>
+	</div>
+	{% endif %}
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-hover dataTable table-responsive no-padding">
+			<tbody>
+				{% if isBarman and not pos %}
+				<tr>
+					<th style="color: tomato">No cuentas con un bar o restarurante
+						asociado, comun&iacute;cate con soporte t&eacute;cnico para que te
+						asignen uno.</th>
+				</tr>
+				{% else %}
+				
+    				{% if (not list and posId) or (not list and isBarman) %}
+    					<tr>
+    						<th>No se encontraron ventas registradas para este establecimiento en el mes en curso.</th>
+    					</tr>
+    				{% else %}
+        				{% for item in list %}
+        				<tr>
+        					<th><h4 align="center" style="padding-top: 10px;">
+        							{{ loop.index }}
+        						</h4></th>        					
+        					<th width="20%">{% if item.profile_image is defined %} {% set img = asset('uploads/clients/profile_image/'~item.profile_image) %}
+        						{% else %} {% set img = asset('images/frontend/profile_icon.png') %}
+        						{% endif %} <img src="{{ img }}" width="100%" class="img-circle"
+        						alt="User Image"></th>
+        					<th>
+        						<h4 style="padding-top: 10px;">
+        							{{ item.name }}
+        						</h4>
+        					</th>
+        				</tr>
+        				{% endfor %}
+        			{% endif %}
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-body -->
+</div>
+
+{% block extra_scripts %}
+
+<script type="text/javascript">
+	$(function() {
+		$('#pos').change(function() {
+			if ($(this).val()) {
+				$('#sposSel').submit();
+			}
+		});
+	});
+</script>
+
+{% endblock %}

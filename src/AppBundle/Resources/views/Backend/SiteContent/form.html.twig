@@ -1,0 +1,78 @@
+<form method="post" action="" id="siteContentForm"
+	class="validateForm" autocomplete="false" enctype="multipart/form-data">
+	<!-- /.box-header -->
+	<div class="box-body">		
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.title, "Título"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+					{{form_widget(form.title, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.keywords, "SEO Keywords") }}
+					{{form_widget(form.keywords, {'attr': {'class': 'form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.published, "Publicado") }}
+					{{form_widget(form.published, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.showContactForm, "Mostrar Formulario de Contacto") }}
+					{{form_widget(form.showContactForm, {'attr': {'class': ' form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.image, "Imagen") }}
+					{{form_widget(form.image, {'attr': {'class': '' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.isNews, "Mostrar en Noticias") }}
+					{{form_widget(form.isNews, {'attr': {'class': ' form-control' }}) }}
+				</div>
+			</div>			
+			
+				<div class="col-md-12">
+					<div class="form-group">
+						{{ form_label(form.description, "Descripción"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+						{{form_widget(form.description, {'attr': {'class': 'required form-control' }}) }}
+					</div>
+				</div>
+			
+			<div class="col-md-12">
+				<div class="form-group">
+					{{ form_label(form.content, "Contenido") }}
+					{{form_widget(form.content, {'attr': {'class': ' form-control' }}) }}
+				</div>
+			</div>
+
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<div class="box-footer">
+		<button type="reset"
+			onclick="window.location='{{ path('site-content_index') }}'"
+			class="btn btn-danger">Cancelar</button>
+		<button type="submit" class="btn btn-primary pull-right">Guardar
+			Datos</button>
+	</div>
+	{{ form_widget(form._token) }}
+</form>
+
+<script type="text/javascript">
+	$(function() {		
+		$("#site_content_content").wysihtml5();
+
+		$('#siteContentForm').validate();
+				
+	});
+</script>

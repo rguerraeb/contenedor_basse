@@ -1,0 +1,452 @@
+{% extends '@App/Frontend/base.html.twig' %}
+
+{% block title %}
+- P&aacute;gina de Inicio
+{% endblock %}
+
+{% set homepage = true %}
+{% block body %}
+
+
+<!-- Banner -->
+<section id="banner">
+	<img src="{{ asset('images/banner.jpg') }}" alt="" title="" 
+		id="bannerImg" width="100%" style="max-width: 1200px;" />
+		
+	<img src="{{ asset('images/banner-movil.jpg') }}" alt="" title=""
+		id="bannerImgSmall" width="100%" style="max-width: 480px;" />	
+</section>
+
+
+<!-- Section -->
+
+
+<section class="main alt div_about" id="aboutSection">
+	<header>
+		<h2>Ingresa tu c&oacute;digo para participar</h2>
+	</header>
+	<div class="inner narrow">
+		<div class="row gtr-uniform" id="choiceContent">
+			<div class="col-1 col-12-xsmall"></div>
+			<div class="col-10 col-12-xsmall">
+				<div class="row gtr-uniform" id="promotionCont">
+					<div class="col-6 col-12-xsmall">
+						<a href="javascript:;" onclick="return showFirstTime()"> <img
+							src="{{ asset('images/register-btn.png') }}" alt="" title=""
+							id="register_button" width="100%" />
+						</a>
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<a href="javascript:;" onclick="return showRegisterUser()"> <img
+							src="{{ asset('images/login-btn.png') }}" alt="" title=""
+							id="already_register_button" width="100%" />
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-1 col-12-xsmall"></div>
+		</div>
+
+		<div class="" id="display_code_content" style="display: none">
+
+			<form action="" method="post" id="registerForm"
+				enctype="multipart/form-data" class="validateForm alt">
+
+				<div class="row gtr-uniform">
+
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="button" onclick="return_main()"
+							class="btn btn-lg btn-primary btnTotto">&laquo;
+							REGRESAR</button>
+					</div>
+
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* PA&Iacute;S:</label> <select
+							id="mcountry" required="required" name="country"
+							class="input_formulario required">
+							<option value="">- SELECCIONA -</option>
+							<option value="1">GUATEMALA</option>
+							<option value="2">EL SALVADOR</option>
+						</select>
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* NOMBRES:</label> <input type="text"
+							id="mname" name="name" required
+							placeholder="INGRESA TUS NOMBRES"
+							data-parsley-pattern="^[a-zA-Z\s]+$"
+							class="input_formulario required">
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* APELLIDOS:</label> <input
+							type="text" id="mlast_name" name="last_name" required
+							placeholder="INGRESA TUS APELLIDOS"
+							data-parsley-pattern="^[a-zA-Z\s]+$"
+							class="input_formulario required">
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* DPI &Oacute; DUI:</label> <input type="text"
+							id="midentification" name="dpi" maxlength="13"
+							minlength="13"
+							placeholder="INGRESA TU N&Uacute;MERO DE DPI &Oacute; DUI"
+							class="input_formulario required digits">
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* N&Uacute;MERO DE CELULAR :</label>
+						<input type="text" pattern="[0-9]{8}" name="phone" id="phone"
+							maxlength="8" minlength="8" maxlength="8" required
+							placeholder="INGRESA TU N&Uacute;MERO"
+							class="input_formulario required digits">
+					</div>
+					<div class="col-6 col-12-xsmall">
+						<label class="p_formumlario">* CORREO ELECTR&Oacute;NICO:</label>
+						<input type="text" name="email" id="email"
+							required="required"
+							placeholder="INGRESA TU CORREO ELECTR&Oacute;NICO"
+							class="input_formulario required email">
+					</div>
+
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="submit" class="btn btn-lg btn-primary btnTotto"
+							id="sendButton">CONTINUAR</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+		
+		<div id="display_code_content_registered" style="display: none; max-width: 480px; margin: auto">
+			<form action="" method="post" id="loginForm"
+				enctype="multipart/form-data" class="validateForm alt">
+				<div class="row gtr-uniform">
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="button" onclick="return_main()"
+							class="btn btn-lg btn-primary btnTotto">&laquo;
+							REGRESAR</button>
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* PA&Iacute;S:</label> <select
+							id="rcountry" required="required" name="country"
+							class="input_formulario required">
+							<option value="">- SELECCIONA -</option>
+							<option value="1">GUATEMALA</option>
+							<option value="2">EL SALVADOR</option>
+						</select>
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* DPI &Oacute; DUI REGISTRADO:</label> <input type="text"
+							id="rdpi" name="dpi" maxlength="13"
+							minlength="13"
+							placeholder="INGRESA TU N&Uacute;MERO DE DPI &Oacute; DUI REGISTRADO"
+							class="input_formulario required digits">
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* N&Uacute;MERO DE CELULAR REGISTRADO:</label>
+						<input type="text" pattern="[0-9]{8}" name="phone" id="rphone"
+							maxlength="8" minlength="8" maxlength="8" required
+							placeholder="INGRESA TU N&Uacute;MERO"
+							class="input_formulario required digits">
+					</div>
+					
+					
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="submit" class="btn btn-lg btn-primary btnTotto"
+							id="sendButtonLogin">CONTINUAR</button>
+					</div>
+				</div>
+			</form>	
+		</div>
+		
+		<div id="result" style="display: none;  max-width: 480px; margin: auto">
+			<form action="" method="post" id="codeForm"
+				enctype="multipart/form-data" class="validateForm alt">
+				<div class="row gtr-uniform">
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="button" onclick="return_main()"
+							class="btn btn-lg btn-primary btnTotto btnTottoSmall">&laquo;
+							CERRAR SESI&Oacute;N</button>
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* TIENDA DE COMPRA:</label> <select
+							id="store" required="required" name="store"
+							class="input_formulario required">
+							<option value="">- SELECCIONA -</option>
+						
+						</select>
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* N&Uacute;MERO DE FACTURA:</label> <input type="text"
+							id="invoice" name="invoice" 
+							placeholder="INGRESA EL N&Uacute;MERO DE FACTURA"
+							class="input_formulario required">
+					</div>
+					
+					<div class="col-12 col-12-xsmall">
+						<label class="p_formumlario">* C&Oacute;DIGO RASPABLE:</label> <input type="text"
+							id="code" name="code" 
+							placeholder="INGRESA EL C&Oacute;DIGO RASPABLE"
+							class="input_formulario required">
+					</div>
+					<input type="hidden" value="" name="sid" id="sid">
+					
+					<div class="col-12 col-12-xsmall" align="center">
+						<button type="submit" class="btn btn-lg btn-primary btnTotto btnTottoSmall"
+							id="sendButtonCode">REGISTRAR C&Oacute;digo</button>
+					</div>
+				</div>
+			</form>	
+		</div>
+		<div class="row gtr-uniform" id="spinner" style="display: none">
+			<div class="col-12 col-12-xsmall">
+				<div class="spinner">
+					<img src="{{ asset('images/frontend/loading.svg') }}">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="" id="restrictionSection">
+	<header>
+		<h2 align="center">RESTRICCIONES</h2>
+	</header>
+	<div class="inner narrow">
+		<div class="row gtr-uniform">
+			<div class="col-12">
+				<p class="ptext" align="center" style="">
+					Descarga las restricciones y <br> condiciones de nuestras
+					promociones
+				</p>
+				<br />
+				<div align="center">
+					<a href="#" target="_blank"> <img
+						src="{{ asset('images/download_list.png') }}" height='100px'>
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript"
+	src="{{ asset('bundles/jquery-validate/jquery.validate.js') }}"></script>
+
+<script type="text/javascript">
+
+	var sid = 0;
+
+	function showFirstTime(){
+
+		$('#choiceContent').hide();
+		$('#display_code_content').show();
+		
+
+		return false;
+	}
+
+	function return_main(type) {
+
+		$('#choiceContent').show();
+		$('#display_code_content').hide();
+		$('#display_code_content_registered').hide();
+		$('#result').hide();
+
+		$("#loginForm")[0].reset();
+		$("#registerForm")[0].reset();
+		$("#codeForm")[0].reset();
+
+		sid = 0;
+
+
+	}
+
+	function showRegisterUser(){
+
+		$('#choiceContent').hide();
+		$('#display_code_content_registered').show();
+		return false;
+	}
+
+	$(function() {
+
+		var bh = window.innerHeight;
+        document.getElementById("cintillol").style.height = $("body").height() + 30 + "px";
+        document.getElementById("cintillor").style.height = $("body").height() + 30 + "px";
+		
+		$('#registerForm').validate({
+			submitHandler : function(form) {				
+				$("#sendButton").attr("disabled", "disabled");
+				$('#spinner').modal('show');
+				var url = '{{ path("frontend_register_user") }}';
+				$.ajax({
+					url : url,
+					data : $('#registerForm').serialize(),							
+					type : 'POST',
+					dataType : 'json',
+					success : function(json) {
+						$('#spinner').modal('hide');
+						$("#sendButton").removeAttr("disabled");
+						
+						if (json && json.message) {
+							Swal.fire({
+								title : 'Error!',
+								text : 'Este usuario ya se encuentra registrado, por favor ingrese datos diferentes.',
+								icon : 'error',
+								confirmButtonText : 'Cerrar'
+							});
+						} else {
+
+							// fill store dropdown
+        					$('#store').html('');
+        					var option = '';
+        					$.each(json.store_list, function( key, val ) {
+    						  	option += '<option value="'+val.store_id+'">'+val.name+'</option>'    						  	
+    						});
+    						$('#store').append(option);
+    						sid = json.sid;
+							
+							// load code page
+							$('#display_code_content').hide();
+    						$('#result').show();	
+						}
+					},
+					error : function(xhr, status) {
+						$('#spinner').modal('hide');
+						$("#sendButtonLogin").removeAttr("disabled");
+						Swal.fire({
+							title : 'Error!',
+							text : 'Ocurrio un error al guardar los datos, por favor intentelo de nuevo.',
+							icon : 'error',
+							confirmButtonText : 'Cerrar'
+						});
+					}
+				});
+
+			}
+		});
+
+		$('#loginForm').validate({
+			submitHandler : function(form) {				
+				$("#sendButtonLogin").attr("disabled", "disabled");
+				$('#spinner').modal('show');
+				var url = '{{ path("frontend_login_user") }}';				
+				$.ajax({
+    				url : url,
+    				data : $('#loginForm').serialize(),
+    				type : 'POST',
+    				dataType : 'json',
+    				success : function(json) {
+    
+    					$('#spinner').modal('hide');
+    					$("#sendButtonLogin").removeAttr("disabled");
+    					$("#codeForm")[0].reset();
+    					
+    					if (json && json.message) {
+    						
+    						// login error message
+    						Swal
+    								.fire({
+    									title : 'Error!',
+    									text : 'El usuario y/o contrase\u00f1a ingresados son inv\u00E1lidos',
+    									icon : 'error',
+    									confirmButtonText : 'Cerrar'
+    								})
+    
+    					} else {
+        					// fill store dropdown
+        					$('#store').html('');
+        					var option = '';
+        					$.each(json.store_list, function( key, val ) {
+    						  	option += '<option value="'+val.store_id+'">'+val.name+'</option>'    						  	
+    						});
+    						$('#store').append(option);
+    						sid = json.sid;
+    						// show code page
+    						$('#display_code_content_registered').hide();
+    						$('#result').show();
+    					}
+    
+    				},
+    				error : function(xhr, status) {
+    					$('#spinner').modal('hide');
+    					$("#sendButtonLogin").removeAttr("disabled");
+    					Swal.fire({
+    						title : 'Error!',
+    						text : 'Ocurrio un error al guardar los datos, por favor intentelo de nuevo.',
+    						icon : 'error',
+    						confirmButtonText : 'Cerrar'
+    					});
+    				}
+    			});
+
+			}
+		});
+
+		$('#codeForm').validate({
+			submitHandler : function(form) {				
+				$("#sendButtonCode").attr("disabled", "disabled");
+				$('#spinner').modal('show');
+				$('#sid').val(sid);
+				var url = '{{ path("frontend_register_code") }}';						
+				$.ajax({
+    				url : url,
+    				data : $('#codeForm').serialize(),
+    				type : 'POST',
+    				dataType : 'json',
+    				success : function(json) {
+    
+    					$('#spinner').modal('hide');
+    					$("#sendButtonCode").removeAttr("disabled");
+    					
+    					if (json && json.message) {
+    						
+    						// login error message
+    						Swal.fire({
+    									title : 'Error!',
+    									text : json.message,
+    									icon : 'error',
+    									confirmButtonText : 'Cerrar'
+    								});
+    
+    					} else {
+    						$("#codeForm")[0].reset();
+    						Swal.fire({								
+								text : 'Tu c\u00F3digo se ha registrado correctamente, en breve recibir\u00E1s un mensaje de texto con el premio que haz ganado.',
+								icon : 'success',
+								confirmButtonText : 'OK'
+							});
+    					}
+    
+    				},
+    				error : function(xhr, status) {
+    					$('#spinner').modal('hide');
+    					$("#sendButtonCode").removeAttr("disabled");
+    					Swal.fire({
+    						title : 'Error!',
+    						text : 'Ocurrio un error al guardar los datos, por favor intentelo de nuevo.',
+    						icon : 'error',
+    						confirmButtonText : 'Cerrar'
+    					});
+    				}
+    			});
+
+			}
+		});
+	});
+
+	
+
+	
+</script>
+{% endblock %}

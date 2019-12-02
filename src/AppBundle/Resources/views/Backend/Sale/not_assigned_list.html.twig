@@ -1,0 +1,64 @@
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title"><i class='fa fa-list'></i> Listado de ventas</h3>
+
+        <div class="box-tools">
+            <div class="input-group-btn">
+                <a href="{{ path('backend_sale_upload') }}" class="upload-link btn btn-sm btn-success">
+                   <i class='fa fa-upload'></i> Subir ventas
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Sku</th>
+                <th>C&oacute;digo</th>
+                <th>Id Interno</th>
+                <th>Precio</th>
+                <th>Cliente</th>
+                <th>Archivo</th>
+            </tr>
+            {% for sale in sales %}
+                <tr>
+                    <td>
+                        {{ sale.saleId }}
+                    </td>
+                    <td>
+                        {{ sale.skuFilterString }}
+                    </td>
+                    <td>
+                        {{ sale.skuCode }}
+                    </td>
+                    <td>
+                        {{ sale.pointOfSale.pointOfSaleInnerId }}
+                    </td>
+                    <td>
+                        {{ sale.price }}
+                    </td>
+                    <td>
+                        {{ sale.clientName }}
+                    </td>
+                    <td>
+                        {% if sale.parserRegister %}
+                            <a
+                                href="{{ path(
+                                    'backend_parser_register_download',
+                                    {'id': sale.parserRegister.parserRegisterId}
+                                ) }}"
+                                class="link-to-file">
+                                Ver
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+    {{ knp_pagination_render(sales) }}
+</div>
+<!-- /.box -->

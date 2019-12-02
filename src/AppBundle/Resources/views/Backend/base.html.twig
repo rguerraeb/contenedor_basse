@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>		
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>{% block title %}Totto Promos{% endblock %}</title>
+
+		{% block stylesheets %}
+
+			<!-- Font Awesome -->
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/fonts/fontawesome/css/fontawesome-all.min.css') }}">
+
+			<!-- Animate -->
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/animation/css/animate.min.css') }}">
+
+			<!-- PNotify -->
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/pnotify/css/pnotify.custom.min.css') }}">
+
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/css/pages/pnotify.css') }}">
+
+			<!-- DattaAble -->
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/css/style.css') }}">
+
+			{#<!-- jvectormap -->
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/vector-maps/css/jquery-jvectormap-2.0.2.css') }}">
+
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css') }}">#}
+			
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/data-tables/css/datatables.min.css') }}">
+
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/select2/css/select2.min.css') }}">
+
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}">
+			<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/lightbox2-master/css/lightbox.min.css') }}">
+			
+			<!-- Custom CSS -->
+	    	<link href="{{ asset('css/backend/styleNew.css') }}" rel="stylesheet">
+			
+		{% endblock %}
+		
+		<!-- JQuery -->
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/jquery/js/jquery.min.js') }}"></script>
+		
+		{% block extra_css %}
+		{% endblock %}
+		
+		{#<link rel="icon" type="image/x-icon" href="{{ asset('images/logo_small.jpg') }}" />#}
+	</head>
+<body>
+
+    <!-- [ Pre-loader ] start -->
+    <div id="loader" class="loader-bg">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+    <!-- [ Pre-loader ] End -->
+
+		{% set user_agent = app.request.server.get('HTTP_USER_AGENT') %}
+		   	{% if ('Microsoft Internet Explorer' in user_agent) or ('Trident' in user_agent) or ('rv:11' in user_agent)  %}
+		   	<div style="background-color:#FFF3CD;color:#856404;padding:20px;text-align:center;">
+	        &#x26a0; &nbsp;
+			        Tu navegador no es compatible con este sitio. Por favor utiliza Chrome o Firefox {{ app.request.server.get('HTTP_USER_AGENT') }}
+			</div>
+		{% endif %}
+        {% block content %}{% endblock %}
+	    {% block firstInBody %}{% endblock %}
+
+		<!-- Left side column. contains the logo and sidebar -->
+        {{ render(controller("AppBundle:Backend/Main:mainMenu")) }}	
+
+		<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">
+
+			<div class="m-header">
+				<a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
+				<a href="" class="b-brand">
+					<div class="b-bg">
+						<img class="logo-menu" src="{{ asset('images/logo-world-white.png') }}">
+					</div>
+					<span class="b-title">Totto</span>
+				</a>
+			</div>
+			<a class="mobile-menu" id="mobile-header" href="#!">
+				<i class="feather icon-more-horizontal"></i>
+			</a>
+			<div class="collapse navbar-collapse">
+				<ul class="navbar-nav mr-auto">
+					<li><a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
+					<li>
+						{% if app.user.userRole.id == 5 %}
+							{{ app.user.distributor.name|upper }}
+						{% endif %}
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li>
+						{{ render(controller("AppBundle:Backend/Main:profile")) }}
+					</li>
+				</ul>
+			</div>
+
+		</header>
+
+		<!-- Main container. Contains page content -->
+		<div class="pcoded-main-container">
+			<div class="pcoded-wrapper">
+				<div class="pcoded-content">
+					<div class="pcoded-inner-content">
+						{% block body %}
+						{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.pcoded-main-container -->
+
+		{#<footer class="main-footer">
+			<div class="pull-right hidden-xs">
+				<b>Version</b> 1.2
+			</div>
+			<strong>Copyright &copy; 2017</strong> All rights reserved.
+		</footer>#}
+
+
+
+
+		<!-- DattaAble -->
+		<script src="{{ asset('bundles/dattaAble/assets/js/vendor-all.min.js') }}"></script>
+		
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+		{#<script src="{{ asset('bundles/dattaAble/assets/js/menu-setting.min.js') }}"></script>#}
+
+		<script src="{{ asset('bundles/dattaAble/assets/js/pcoded.js') }}"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/pnotify/js/pnotify.custom.min.js') }}"></script>
+		{#<script src="{{ asset('bundles/dattaAble/assets/plugins/pnotify/js/notify-event.js') }}"></script>#}
+
+		{#<script src="{{ asset('bundles/dattaAble/assets/plugins/vector-maps/js/jquery-jvectormap-2.0.2.min.js') }}"></script>
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/vector-maps/js/jquery-jvectormap-world-mill-en.js') }}"></script>
+		
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/bootstrap-datetimepicker/bootstrap-datepicker.min.js') }}"></script>#}
+		
+		<script src="{{ asset('bundles/jquery-validate/jquery.validate.min.js') }}"></script>
+		
+		<script src="{{ asset('bundles/jquery-validate/localization/messages_es.js') }}"></script>
+		
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/data-tables/js/datatables.min.js') }}"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/ckeditor/js/ckeditor.js') }}"></script>
+
+		<script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/lightbox2-master/js/lightbox.min.js') }}"></script>
+
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/sweetalert/js/sweetalert.min.js') }}"></script>
+
+		<script type="text/javascript">
+			var idioma_español = {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			};
+		</script>
+
+	{% block extra_scripts %}
+		
+	{% endblock %}
+
+	
+</body>
+</html>

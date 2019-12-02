@@ -1,0 +1,144 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: totto_promo
+    database_user: root
+    database_password: 
+
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com:465
+    mailer_user: 
+    mailer_password: 
+    mail_to: jelvira@ebclosion.com
+
+    secret: 570e2daaf563a6f8e4f3c45778c36467371eb901
+
+# MENSAJES DEL SISTEMA
+    invalid_user: El nombre de usuario o la contrase&ntilde;a introducidos no son correctos.
+    invalid_module: You dont have permissions.
+    requerido: 'Este campo es requerido'
+    invalido: 'El valor es inv&aacute;lido'
+    correo: 'Debe escribir un correo electronico'
+    fecha: 'Debe escribir una fecha v&aacute;lida'
+    seleccion: 'Debe seleccionar un valor'
+    error_form: Ocurrio un error al validar los datos del formulario.
+    error_puesto_trabajo: 'El puesto de trabajo ingresado no esta permitido'
+
+#TEXTOS DE RESPUESTA PARA EL USUARIO
+    exito: 'Su registro se guard&oacute; con &eacute;xito.'
+    exito_revisado: 'Tu registro fue guardado con &eacute;xito y tus datos seran validados. En 48 horas te enviaremos un mensaje de texto a tu n&uacute;mero de tel&eacute;fono registrado, para informar si tu inscripcion ha sido confirmada.'
+    exito_mensaje_contacto: 'Tu mensaje se ha enviado correctamente, pronto nos comunicaremos contigo.'
+    error_mensaje_contacto: 'Ocurrio un error al enviar tu mensaje, por favor intentalo nuevamente.'
+    exito_actualizar: 'Se actualiz&oacute; con &eacute;xito el registro.'
+    exito_eliminar: 'Se elimin&oacute; con &eacute;xito el registro.'
+    exito_inactivar: 'Se inactiv&oacute; con &eacute;xito el registro.'
+    exito_factura_pendiente: 'Se han guardado con &eacute;xito <strong>%s</strong> factura(s), recibiras una notificaci&oacute;n cuando sean aprobadas o rechazadas.'
+    error: 'Ocurri&oacute; un error al guardar los datos, por favor intentalo de nuevo.'
+    error_editar: 'Ocurri&oacute; un error al obtener los datos, por favor intentalo de nuevo.'
+    error_eliminar: 'Ocurri&oacute; un error al eliminar el registro.'
+    error_inactivar: 'Ocurri&oacute; un error al inactivar el registro.'
+    error_cupon_no_existe: 'Ocurri&oacute; un error, favor de validar el cupon no existe.'
+    error_cupon_usado: 'Ocurri&oacute; un error, el cupon ya fue usado.'
+    pos_error_msg: 'Este tipo de usuario puede tener &uacute;nicamente un punto de venta asociado, elimine el actual antes de agregar uno nuevo.'
+    no_pos_error_msg: 'No se encontro ningun punto de venta asociado a este cliente, por favor agregue uno para poder validar sus facturas.'
+    usuario_existente: 'El usuario existe en la base de datos, escriba uno diferente.'
+    usuario_existente_dpi_nit: 'El DPI y/o NIT ingresado ya existe en la base de datos, por favor ingrese uno diferente.'
+    usuario_existente_rechazarlo: 'El usuario existe en la base de datos, por favor rechazarlo.'
+    factura_existente_rechazarlo: 'La factura asociada ya fue registrada en la base de datos, por favor rechazarlo.'
+    demasiados_caracteres: 'El campo %s debe ser menor a %s caracteres.'
+    exito_codigo: 'Se guard&oacute; con &eacute;xito el c&oacute;digo.'
+    error_sale_upload: 'Ocurri&oacute; un error guardando datos del archivo'
+    registro_pendiente_confirmado: 'TOTTO PROMOS: Tu inscripcion ha sido confirmada. Recuerda reportar tus facturas para acumular puntos.'                                   
+    registro_pendiente_rechazado: 'TOTTO PROMOS: Tu inscripcion no pudo confirmarse. Para mas informacion llama al 1234-5678'
+    factura_pendiente_rechazada: 'TOTTO PROMOS: Una de tus facturas ingresadas no pudo confirmarse, ingresa a tu cuenta para obtener detalles. Para mas informacion llama al 1234-5678'
+    registro_sms_existente: 'TOTTO PROMOS: Este numero de telefono ya se encuentra inscrito en el programa de lealtad.'
+    sms_exito_revisado: 'TOTTO PROMOS: Tus datos seran validados. En 48 horas te enviaremos un mensaje de texto a tu numero de telefono registrado, para informar si tu inscripcion ha sido confirmada.'
+    extension_error_logo: 'La extensi&oacute;n utilizada en la im&aacute;gen de perfil es inv&aacute;lida. Por favor seleccione JPG o PNG e intente nuevamente.'
+    extension_error_invoice: 'La extensi&oacute;n utilizada en una o m&aacute;s im&aacute;gen seleccionadas es inv&aacute;lida. Por favor seleccione JPG o PNG e intente nuevamente.'
+    reward_criteria_error: 'Ocurrio un error al obtener el criterio de recompenza de unos de los productos, por favor comuniquese con soporte t&eacute;cnico.'
+    error_recarga: 'Ocurrio un error al enviar la recarga.'
+    error_recarga: 'La recarga se entrego con &eacute;xito.'
+    dpi_repetido: 'El DPI ingresado ya existe en la base de datos, por favor ingresa uno diferente.'
+    telefono_repetido: 'El n&uacute;mero de tel&eacute;fono ingresado ya existe en la base de datos, por favor ingresa uno diferente.'
+    
+    sms_puntos_ganados: 'TOTTO PROMOS: Por ingresar la factura No. [FACTURA] has acumulado Q. [PUNTOS] tu saldo total disponible es Q. [TOTAL_PUNTOS].'
+    sms_puntos_promo_ganados: 'TOTTO PROMOS: Ganaste! Q. [PUNTOS] promocionales adicionales con la factura registrada No. [INVOICE] !.'
+    exito_envio: 'Tu mensaje se esta enviando'
+    exito_envios: 'Tus mensajes se estan enviando'
+    exito_envio_programado: 'Tu mensaje ha sido programado'
+    error_desactivar: 'Ocurri&oacute; un error al desactivar el registro.'
+    exito_desactivar: 'Se desactiv&oacute; con &eacute;xito el registro.'
+    agregados_reversa: 'Se agregaron %s registros en el m&oacute;dulo de reversas, se requiere de su atenci&oacute;n para procesarlos.'
+    add_reverse: 'Se agregaron %d registros en el m&oacute;dulo de reversas, se requiere de su atenci&oacute;n para procesarlos.'
+    exito_reverse: 'Se ejecuto con &eacute;xito la reversa.'
+    error_distributor_exist: 'El Distribuidor que intenta registrar, ya existe.'
+    error_campaign_exist: 'La campa&ntilde;a que intenta registrar, ya existe.'
+    error_promotion_exist: 'La promoci&oacute;n que intenta registrar, ya existe.'
+    exito_canje_promo: 'Se registr&oacute; el canje con &eacute;xito.'
+    error_canje_promo: 'El c&oacute;digo que intenta canjear, ya fue canjeado.'
+    error_canje_promo_cero: 'Debe colocar una cantidad mayor a cero en al menos una promoci&oacute;n.'
+        
+#PAGINACION  
+    number_of_rows: 20
+    number_of_rows_large: 100  
+    number_of_rows_small: 5
+
+#PATHS
+    upload_files: 'uploads/'
+    upload_invoice: 'uploads/client_invoice/'
+    profile_image: 'uploads/clients/profile_image/'
+    invoice_image: 'uploads/clients/invoice_image/'
+    whatsapp_image: 'uploads/imgs/'
+
+    # Sale excel folder
+    sale_upload_from_web: 'uploads/sale'
+    news_image_path: 'images/news'
+    promotion_image_path: 'uploads/promotions'
+    prize_image_path: 'images/prize'
+    sale_upload_folder: '%kernel.root_dir%/../web/%sale_upload_from_web%'
+    point_of_sale_upload_from_web: 'uploads/point_of_sale'
+    point_of_sale_upload_folder: '%kernel.root_dir%/../web/%point_of_sale_upload_from_web%'
+    point_of_sale_upload_from_web: 'uploads/point_of_sale'
+    point_of_sale_upload_folder: '%kernel.root_dir%/../web/%point_of_sale_upload_from_web%'
+    staff_upload_folder: '%kernel.root_dir%/../web/uploads/staff'
+    goal_upload_folder: '%kernel.root_dir%/../web/uploads/goal'
+    ws_log_file: '../app/logs/ws_log_file.txt'
+    report_invoice_path: 'uploads/invoices/'
+    
+    
+# Accounts ids
+    conection_recharge_account: 3
+    conection_bag_name: LOYALTY_GAMA
+
+#textos de respuesta para formularios
+    proximo_canje: TOTTO PROMOS: Los canjes no estan habilitados, sigue acumulando Q. y espera para obtener los mejores beneficios.
+    error_canje: Ocurrio un error al realizar el canje, por favor intentalo de nuevo.
+    error_canje_sms: TOTTO PROMOS: Ocurrio un error al realizar el canje, por favor comunicate al 2429-2945
+    error_puntos_sms: TOTTO PROMOS: Tienes [CREDITS] quetzales disponibles. No cuentas con el saldo suficiente para canjear este premio. Mas informacion al 1-801-426-551
+    error_codigo_rest: TOTTO PROMOS: El codigo enviado no es valido.
+    
+
+    exito_canje: Has canjeado Q. [CREDITS] por [PREMIO] Tu nuevo saldo es de Q. [SALDO].
+    exito_canje_codigo: Has canjeado Q. [CREDITS] por [PREMIO] Tu nuevo saldo es de Q. [SALDO], Tu codigo de canje es [CODE].
+    exito_envio: Tu mensaje se esta enviando
+    exito_envios: Tus mensajes se estan enviando
+
+#URL entrance
+    #url_entrance: http://www.puntosypremiosm.com/api/entrance.php
+    url_entrance: http://dev.ebfuture.net/loyalty_cempro/web/api/entrance.php
+    
+    api_token: MzQ1MDQ5MjUzNg
+
+    # Length of text message
+    message_max_length: 157
+
+    # Meta mensaje
+    goal_message: TOTTO PROMOS: Ha ganado el premio: [PRIZE]
+    goal_reached: TOTTO PROMOS: Felicidades ha alcanzado la meta
+    goal_points_message: Felicidades CEMPRO te regala Q. [POINTS]
+
+    promo_won: Felicidades, has ganado la promocion [PROMO] !
+    promo_specific_prize: Felicidades CEMPRO te regala [PRIZE]
+    promo_points_message: Felicidades CEMPRO te regala Q. [POINTS]
+    promo_pre_winners_max: 10

@@ -1,0 +1,22 @@
+AppBundle\Entity\ConcreteType:
+    type: entity
+    table: concrete_type
+    id:
+        concreteTypeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: concrete_type_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        published:
+            type: boolean
+            nullable: true
+    lifecycleCallbacks: {  }

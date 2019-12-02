@@ -1,0 +1,101 @@
+AppBundle\Entity\Distributor:
+    type: entity
+    table: distributor
+    repositoryClass: AppBundle\Repository\DistributorRepository
+    indexes:
+        user2user_rol_idx:
+            columns:
+                - user_role_id
+        distributor2user_idx:
+            columns:
+                - created_by
+        distributor2user2_idx:
+            columns:
+                - updated_by
+    id:
+        distributorId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: distributor_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: name
+        zone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        address:
+            type: text
+            nullable: false
+            length: 300
+            fixed: false
+        status:
+            type: string
+            nullable: false
+            length: null
+            fixed: false
+            default: ACTIVO
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        country:
+            targetEntity: Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+        city:
+            targetEntity: City
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                city_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

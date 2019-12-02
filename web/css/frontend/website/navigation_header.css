@@ -1,0 +1,30 @@
+.navigation-panel {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.navigation-panel .logo-link,
+.navigation-panel .logo-link .logo {
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.navigation-panel .links-panel {
+    text-align: center;
+}
+
+.navigation-panel .links-panel a.green,
+.navigation-panel .links-panel button.green {
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+@media (max-width: 1110px) {
+    .navigation-panel .logo-link,
+    .navigation-panel .links-panel a.green,
+    .navigation-panel .links-panel button.green {
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,60 @@
+{% extends '@App/Frontend/Website/base.html.twig' %}
+
+{% block title %}
+- Cont&aacute;ctanos
+{% endblock %}
+
+{% block body %}
+
+<div class="contact-panel row pt-100">
+	<div class="info col-md-6 text-center pt-50">
+		<h4>Llama a Nuestra L&iacute;nea de Servicio</h4>
+
+		<h4>0000-0000</h4>
+
+		<h4>De lunes a viernes de 8:00 a.m. a 5:00 p.m</h4>
+		<hr>
+	</div>
+	<div class="form-panel col-md-6" id="contact-form">
+		{{ include('@App/Frontend/flash_message.html.twig') }}
+
+		<h3>Env&iacute;anos un correo</h3>
+		<form action="{{ path('frontend_contact') }}" method="post"
+			id="contact">
+
+			<input type="text" class='form-control' name="data[name]"
+				placeholder="Nombre y Apellido" class="required" /> <input
+				type="email" class='form-control' name="data[email]"
+				placeholder="Correo Electr&oacute;nico" class="required email" />
+
+			<textarea name="data[message]" class='form-control'
+				placeholder="Mensaje" class="required"></textarea>
+			<br>
+			<button type="submit" class="btn btn-primary">Enviar</button>
+
+			<p id="enviando">Enviando informacion......</p>
+			{{ form_widget(form._token) }}
+		</form>
+	</div>
+</div>
+
+{{ include('@App/Frontend/Website/_bottom_logo.html.twig') }}
+{% endblock %}
+
+
+{% block extra_scripts %}
+<script type="text/javascript"
+	src="{{ asset('bundles/jquery-validate/jquery.validate.js') }}"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#enviando").hide();
+		$('#contact').validate({
+			submitHandler: function(form) {;
+	            $(".submit").hide();
+	            $("#enviando").show();
+	            form.submit();
+	        }
+	        });
+	});
+	</script>
+{% endblock %}

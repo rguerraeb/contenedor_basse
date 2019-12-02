@@ -1,0 +1,45 @@
+<!-- The Modal -->
+<div class="modal fade" id="confirm-modal" data-show='false'>
+    <div class="modal-dialog">
+        <div class="modal-content bg-c-yellow">
+            <div class="modal-header">
+                <h5 class="modal-title text-white"><i class="feather icon-alert-triangle"></i> Advertencia</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p id="question-p" class="text-black-50 font-weight-bold">
+                    {{ confirmQuestion }}
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-rounded btn-outline-light" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-rounded btn-outline-light btn-ok" id="btn-ok">Aceptar</a>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#confirm-modal').modal();
+
+    $('#confirm-modal').on('show.bs.modal', function(e) {
+        $(this).find('#btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+        // Get the question text
+        var text = $(this).find('#question-p').text();
+
+        // Replace [ID] with the data 'id'
+        var replaceText = "<strong><span class='delete-id'>" + $(e.relatedTarget).data('id') + "</span></strong>";
+        text = text.replace('[ID]', replaceText);
+        $(this).find('#question-p').html(text);
+    });
+
+    $('#confirm-modal').on('hidden.bs.modal', function (e) {
+        // Switch back to [ID]
+        $(this).find('#question-p').find('span.delete-id').replaceWith('[ID]');
+    })
+});    
+</script>

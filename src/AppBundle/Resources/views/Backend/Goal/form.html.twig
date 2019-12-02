@@ -1,0 +1,420 @@
+<form method="post" action="" class="validateForm" id="goal-form">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-textarea-panel">
+                    {{ form_label(form.name, "Nombre") }}
+                    {{ form_widget(
+                        form.name,
+                        {'attr':
+                            {
+                                'class': 'required form-control'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.goalStatus, "Estado") }}
+                    {{form_widget(form.goalStatus, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-textarea-panel">
+                    {{ form_label(form.description, "Descripción") }}
+                    {{form_widget(form.description, {'attr': {'class': 'form-control' }}) }}
+                </div>
+            </div>
+            {% if not form.vars.data.id %}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.start, "Fecha de inicio") }}
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            {{form_widget(
+                                form.start,
+                                {
+                                    'attr': {
+                                        'class': 'required form-control pull-right'
+                                    }
+                                }
+                            ) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.end, "Fecha de fin") }}
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            {{form_widget(
+                                form.end,
+                                {
+                                    'attr': {
+                                        'class': 'required form-control pull-right'
+                                    }
+                                }
+                            ) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="required">Meses</label>
+                    <input type="number" class="form-control" id="months" name="months">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="required">Promedio</label>
+                    <div class="months-average form-control" id="months-average">0</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.goalType, "Tipo") }}
+                    {{form_widget(
+                        form.goalType,
+                        {'attr':
+                            {
+                                'class': 'required form-control'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6" id="points-panel">
+                <div class="form-group">
+                    {{ form_label(form.points, "Puntos") }}
+                    {{form_widget(
+                        form.points,
+                        {'attr': {
+                            'class': 'form-control',
+                            'min': 1
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6" id="message-panel">
+                <div class="form-group">
+                    {{ form_label(form.message, "Premio especial") }}
+                    {{form_widget(form.message, {'attr': {'class': 'form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6" id="prize-panel">
+                <div class="form-group">
+                    {{ form_label(form.prize, "Premio") }}
+                    {{form_widget(
+                        form.prize,
+                        {'attr': {
+                            'class': 'form-control'
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.quantity, "Objetivo") }}
+                    <small class="goal-jp-type" id="jp-type"></small>
+                    {{form_widget(
+                        form.quantity,
+                        {'attr': {
+                            'class': 'form-control',
+                            'min': 0
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.state, "Departamento"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(
+                        form.state,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos',
+                            'data-size': 10
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.city, "Municipio"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(
+                        form.city,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos',
+                            'data-size': 10
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.pointOfSale, "Punto de Venta"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(
+                        form.pointOfSale,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos',
+                            'data-size': 10
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.saleChannel, "Canal de Venta"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(
+                        form.saleChannel,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos'
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.jobPosition, "Puesto"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(
+                        form.jobPosition,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos'
+                        }}
+                    ) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <a
+            href="{{ path('backend_goal') }}"
+            class="btn btn-danger">
+            Cancelar
+        </a>
+        <button
+            type="submit"
+            id="goal-submit"
+            class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+    {{ form_widget(form._token) }}
+</form>
+
+{% block extra_scripts %}
+    <script>
+        $(document).ready(function(){
+            /**
+             * Checks what to hide or show depending on type of goal
+             *
+             * @param integer typeId value of input that decides what to show
+             */
+            function checkType(typeId) {
+                if (typeId == 1) {
+                    $('#points-panel').show();
+                    $('#prize-panel').hide();
+                    $('#message-panel').hide();
+                }
+                else if (typeId == 2) {
+                    $('#prize-panel').show();
+                    $('#points-panel').hide();
+                    $('#message-panel').hide();
+                    $('#goal_points').val('');
+                }
+                else if (typeId == 3) {
+                    $('#message-panel').show();
+                    $('#prize-panel').hide();
+                    $('#points-panel').hide();
+                    $('#goal_points').val('');
+                };
+            }
+
+            function requestAverage(months, jobPositionIds) {
+                $.get(
+                    '{{ path("backend_goal_average")}}',
+                    {
+                        months: months,
+                        jobPositionIds: jobPositionIds
+                    },
+                    function(response){
+                        if (response.status == 200) {
+                            $('#months-average').html(response.average);
+                        };
+                    }
+                )
+            }
+
+            function updateJpType() {
+                var jpIds = $('#goal_jobPosition').val();
+
+                var jpUnitIds = ["4","5","6","8"];
+                var jpPercentageIds = ["2"];
+
+                var text = '';
+
+                // Get intersections
+                var iUnits =  intersectSafe(jpIds, jpUnitIds).length;
+                var iPercentage = intersectSafe(jpIds, jpPercentageIds).length;
+                if (!jpIds || jpIds.length == 0 || iUnits > 0 && iPercentage > 0) {
+                    text = '?';
+
+                    // Change step type
+                    $('#goal_quantity').attr('step', '1');
+                }
+                else if (iUnits > 0) {
+                    text = 'Unidad';
+
+                    // Change step type
+                    $('#goal_quantity').attr('step', '1');
+                }
+                else if (iPercentage > 0) {
+                    text = 'Porcentaje';
+
+                    // Change step type
+                    $('#goal_quantity').attr('step', '0.1');
+                };
+
+                var $jpType = $('#jp-type');
+                if (text != '') {
+                    $jpType.html('(' + text + ')');
+                }
+                else {
+                    $jpType.html('');
+                }
+            }
+
+            function getCities(context) {
+                $('#goal_city').html('');
+                $.get(
+                    "{{ path('frontend_get_cities')}}",
+                    {
+                        stateId: $(context).val()
+                    },
+                    function(data) {
+                        $.each(data, function(key, value) {
+                            $('#goal_city').append('<option value="'+value.id+'">'+value.name+'</option>');
+
+                            $('#goal_city').selectpicker('refresh');
+                    });
+                });
+            }
+
+            function getPoss(context) {
+                $.get(
+                    "{{ path('frontend-point_of_sale')}}",
+                    {
+                        stateId: $('#goal_state').val(),
+                        citiesId:$(context).val()
+                    },
+                    function(data) {
+                        $('#goal_pointOfSale').html('');
+                        $.each(data, function(key, value) {
+                            if (value.id != 0) {
+                                $('#goal_pointOfSale').append(
+                                    '<option value="' + value.id + '">' + value.name
+                                    + '</option>');
+                            };
+
+                            $('#goal_pointOfSale').selectpicker('refresh');
+                    });
+                });
+            }
+
+            function intersectSafe(a, b) {
+                if (!a || !b) {
+                    return [];
+                };
+
+                var ai=0, bi=0;
+                var result = [];
+
+                while( ai < a.length && bi < b.length ) {
+                    if      (a[ai] < b[bi] ){
+                        ai++;
+                    }
+                    else if (a[ai] > b[bi] ){
+                        bi++;
+                    }
+                    else {
+                        result.push(a[ai]);
+                        ai++;
+                        bi++;
+                    }
+                }
+
+                return result;
+            }
+
+            var delay = (function(){
+                var timer = 0;
+                return function(callback, ms){
+                    clearTimeout (timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            // Start datepickers
+            var dtOptions = {
+                format: 'YYYY-MM-DD',
+                minDate: moment()
+            };
+            $('#goal_end').datetimepicker(dtOptions);
+            $('#goal_start').datetimepicker(dtOptions);
+
+            $('#goal_end').on('dp.change', function(e){
+                var date = e.date;
+
+                $("#goal_start").data('DateTimePicker').maxDate(date);
+            });
+
+            $('#goal_start').on('dp.change', function(e){
+                var date = e.date;
+
+                $("#goal_end").data('DateTimePicker').minDate(date);
+            });
+
+            checkType($('#goal_goalType').val());
+            updateJpType();
+
+            $('#goal_goalType').change(function(e){
+                checkType($(this).val());
+            });
+
+            $('#goal_jobPosition').change(function(){
+                updateJpType();
+                requestAverage($('#months').val(), $(this).val());
+            });
+
+            $('#months').keyup(function(){
+                var months = $(this).val();
+                delay(
+                    function(){
+                        requestAverage(months, $('#goal_jobPosition').val());
+                    },
+                    500
+                );
+            });
+
+            // To filter selects
+            $('#goal_state').change(function() {
+                getCities(this);
+            });
+
+            $('#goal_city').change(function() {
+                getPoss(this);
+            });
+        });
+    </script>
+{% endblock %}

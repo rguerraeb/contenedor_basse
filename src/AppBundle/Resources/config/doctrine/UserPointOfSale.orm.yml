@@ -1,0 +1,63 @@
+AppBundle\Entity\UserPointOfSale:
+    type: entity
+    table: user_point_of_sale
+    indexes:
+        userpointofsale2user_idx:
+            columns:
+                - user_id
+        userpointofsale2pointofsale_idx:
+            columns:
+                - point_of_sale_id
+    id:
+        userPointOfSaleId:
+            type: integer
+            nullable: false
+            unsigned: true
+            id: true
+            column: user_point_of_sale_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        isActive:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: is_active
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        updatedBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: updated_by
+    manyToOne:
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

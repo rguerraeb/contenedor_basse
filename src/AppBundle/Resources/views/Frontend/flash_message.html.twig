@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-12">
+		{% for flash_message in app.session.flashbag.get('success_message') %}
+		<div class="alert alert-success alert-dismissible">						
+			{{ flash_message|raw }}
+		</div>
+		{% endfor %}
+
+		{% for flash_message in app.session.flashbag.get('error_message') %}
+		<div class="alert alert-danger alert-dismissible">			
+			<strong>Error!</strong>
+			{{ flash_message|raw }}
+		</div>
+		{% endfor %}
+
+		{% for flash_message in app.session.flashbag.get('alert_message') %}
+		<div class="alert alert-warning alert-dismissible">			
+			<strong>Atenci&oacute;n!</strong>
+			{{ flash_message|raw }}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+

@@ -1,0 +1,30 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Facturas Pendientes de Aprobaci&oacute;n</h1>	
+</section>
+<section class="content">
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	
+	{% if permits["rp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include('@App/Backend/InvoicePending/list.html.twig', { 'list': list }) }}
+		</div>
+	</div>
+	{% endif %}
+	
+	{{ include(
+		'@App/Backend/confirm_modal.html.twig',
+		{
+			'confirmQuestion': '¿Seguro que desea desactivar al usuario?'
+		}
+	) }}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

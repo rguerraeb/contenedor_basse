@@ -1,0 +1,786 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Staff
+ */
+class Staff implements AdvancedUserInterface, \Serializable
+{
+    /**
+     * @var integer
+     */
+    private $staffId;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $taxIdentifier;
+
+    /**
+     * @var string
+     */
+    private $citizenId;
+
+    /**
+     * @var string
+     */
+    private $gender;
+
+    /**
+     * @var \DateTime
+     */
+    private $birthdate;
+
+    /**
+     * @var string
+     */
+    private $phoneSecondary;
+
+    /**
+     * @var string
+     */
+    private $phoneMain;
+
+    /**
+     * @var string
+     */
+    private $email;
+    
+    /**
+     * @var string
+     */
+    private $passwd;
+
+    /**
+     * @var string
+     */
+    private $address1;
+
+    /**
+     * @var string
+     */
+    private $address2;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var integer
+     */
+    private $createdBy;
+
+    /**
+     * @var \AppBundle\Entity\City
+     */
+    private $city;
+
+    /**
+     * @var \AppBundle\Entity\State
+     */
+    private $state;
+
+    /**
+     * @var \AppBundle\Entity\PointOfSale
+     */
+    private $pointOfSale;
+
+    /**
+     * @var \AppBundle\Entity\JobPosition
+     */
+    private $jobPosition;
+
+    /**
+     * @var \AppBundle\Entity\Country
+     */
+    private $country;
+
+    /**
+     * @var \AppBundle\Entity\StaffStatus
+     */
+    private $staffStatus;
+
+    /**
+     * @var \AppBundle\Entity\ParserRegister
+     */
+    private $parserRegister;
+
+    /**
+     * Unmapped attribute
+     *
+     * @var string
+     */
+    /**
+     * @Assert\File(
+     *     mimeTypes = {
+     *      NULL,
+     *      "application/vnd.ms-excel", 
+     *      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+     *      "application/vnd.ms-office",
+     *      "application/zip"
+     *     },
+     *     mimeTypesMessage = "Por favor elija un archivo Excel"
+     * )
+     */
+    private $file;
+
+    private $staffPointsOfSale;
+
+    public function __construct()
+    {
+        $this->staffPointsOfSale = new ArrayCollection();
+    }
+
+    public function getStaffPointsOfSale(){
+        return $this->staffPointsOfSale;
+    }
+
+    public function setStaffPointsOfSale($staffPointsOfSale){
+        $this->staffPointsOfSale = $staffPointsOfSale;
+
+        return $this;
+    }
+
+    public function addStaffPointOfSale(StaffPointOfSale $staffPointOfSale)
+    {
+        $staffPointOfSale->setStaff($this);
+        $this->staffPointsOfSale->add($staffPointOfSale);
+    }
+
+    public function removeStaffPointOfSale(StaffPointOfSale $staffPointOfSale)
+    {
+        $this->staffPointsOfSale->removeElement($staffPointOfSale);
+    }
+
+    /**
+     * Set file
+     *
+     * @param string $file
+     * @return ConectionPin
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+
+    /**
+     * Get staffId
+     *
+     * @return integer 
+     */
+    public function getStaffId()
+    {
+        return $this->staffId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Staff
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getFirstName()
+    {
+    	return $this->name;
+    }
+    
+    public function getLastName()
+    {
+    	return null;
+    }
+    
+    public function getUserRole() {
+    	return array("name" => "Staff");
+    }
+
+    /**
+     * Set taxIdentifier
+     *
+     * @param string $taxIdentifier
+     * @return Staff
+     */
+    public function setTaxIdentifier($taxIdentifier)
+    {
+        $this->taxIdentifier = $taxIdentifier;
+
+        return $this;
+    }
+
+    /**
+     * Get taxIdentifier
+     *
+     * @return string 
+     */
+    public function getTaxIdentifier()
+    {
+        return $this->taxIdentifier;
+    }
+
+    /**
+     * Set citizenId
+     *
+     * @param string $citizenId
+     * @return Staff
+     */
+    public function setCitizenId($citizenId)
+    {
+        $this->citizenId = $citizenId;
+
+        return $this;
+    }
+
+    /**
+     * Get citizenId
+     *
+     * @return string 
+     */
+    public function getCitizenId()
+    {
+        return $this->citizenId;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return Staff
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string 
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set birthdate
+     *
+     * @param \DateTime $birthdate
+     * @return Staff
+     */
+    public function setBirthdate($birthdate)
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * Get birthdate
+     *
+     * @return \DateTime 
+     */
+    public function getBirthdate()
+    {
+        return $this->birthdate;
+    }
+
+    /**
+     * Set phoneSecondary
+     *
+     * @param string $phoneSecondary
+     * @return Staff
+     */
+    public function setPhoneSecondary($phoneSecondary)
+    {
+        $this->phoneSecondary = $phoneSecondary;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneSecondary
+     *
+     * @return string 
+     */
+    public function getPhoneSecondary()
+    {
+        return $this->phoneSecondary;
+    }
+
+    /**
+     * Set phoneMain
+     *
+     * @param string $phoneMain
+     * @return Staff
+     */
+    public function setPhoneMain($phoneMain)
+    {
+        $this->phoneMain = $phoneMain;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneMain
+     *
+     * @return string 
+     */
+    public function getPhoneMain()
+    {
+        return $this->phoneMain;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Staff
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    
+    /**
+     * Set passwd
+     *
+     * @param string $passwd
+     * @return Staff
+     */
+    public function setPasswd($passwd)
+    {
+    	$this->passwd = $passwd;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get passwd
+     *
+     * @return string
+     */
+    public function getPasswd()
+    {
+    	return $this->passwd;
+    }
+
+    /**
+     * Set address1
+     *
+     * @param string $address1
+     * @return Staff
+     */
+    public function setAddress1($address1)
+    {
+        $this->address1 = $address1;
+
+        return $this;
+    }
+
+    /**
+     * Get address1
+     *
+     * @return string 
+     */
+    public function getAddress1()
+    {
+        return $this->address1;
+    }
+
+    /**
+     * Set address2
+     *
+     * @param string $address2
+     * @return Staff
+     */
+    public function setAddress2($address2)
+    {
+        $this->address2 = $address2;
+
+        return $this;
+    }
+
+    /**
+     * Get address2
+     *
+     * @return string 
+     */
+    public function getAddress2()
+    {
+        return $this->address2;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Staff
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param integer $createdBy
+     * @return Staff
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return integer 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set city
+     *
+     * @param \AppBundle\Entity\City $city
+     * @return Staff
+     */
+    public function setCity(\AppBundle\Entity\City $city = null)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return \AppBundle\Entity\City 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set state
+     *
+     * @param \AppBundle\Entity\State $state
+     * @return Staff
+     */
+    public function setState(\AppBundle\Entity\State $state = null)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return \AppBundle\Entity\State 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set pointOfSale
+     *
+     * @param \AppBundle\Entity\PointOfSale $pointOfSale
+     * @return Staff
+     */
+    public function setPointOfSale(\AppBundle\Entity\PointOfSale $pointOfSale = null)
+    {
+        $this->pointOfSale = $pointOfSale;
+
+        return $this;
+    }
+
+    /**
+     * Get pointOfSale
+     *
+     * @return \AppBundle\Entity\PointOfSale 
+     */
+    public function getPointOfSale()
+    {
+        return $this->pointOfSale;
+    }
+
+    /**
+     * Set jobPosition
+     *
+     * @param \AppBundle\Entity\JobPosition $jobPosition
+     * @return Staff
+     */
+    public function setJobPosition(\AppBundle\Entity\JobPosition $jobPosition = null)
+    {
+        $this->jobPosition = $jobPosition;
+
+        return $this;
+    }
+
+    /**
+     * Get jobPosition
+     *
+     * @return \AppBundle\Entity\JobPosition 
+     */
+    public function getJobPosition()
+    {
+        return $this->jobPosition;
+    }
+
+    /**
+     * Set country
+     *
+     * @param \AppBundle\Entity\Country $country
+     * @return Staff
+     */
+    public function setCountry(\AppBundle\Entity\Country $country = null)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return \AppBundle\Entity\Country 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set staffStatus
+     *
+     * @param \AppBundle\Entity\StaffStatus $staffStatus
+     * @return Staff
+     */
+    public function setStaffStatus(\AppBundle\Entity\StaffStatus $staffStatus = null)
+    {
+        $this->staffStatus = $staffStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get staffStatus
+     *
+     * @return \AppBundle\Entity\StaffStatus 
+     */
+    public function getStaffStatus()
+    {
+        return $this->staffStatus;
+    }
+
+    /**
+     * Set parserRegister
+     *
+     * @param \AppBundle\Entity\ParserRegister $parserRegister
+     * @return Staff
+     */
+    public function setParserRegister(\AppBundle\Entity\ParserRegister $parserRegister = null)
+    {
+        $this->parserRegister = $parserRegister;
+
+        return $this;
+    }
+
+    /**
+     * Get parserRegister
+     *
+     * @return \AppBundle\Entity\ParserRegister 
+     */
+    public function getParserRegister()
+    {
+        return $this->parserRegister;
+    }
+
+    public function isValid() {
+        return $this->pointOfSale != null && $this->citizenId != null
+            && $this->phoneMain != null && $this->name != null;
+    }
+    
+    public function getUsername() {
+    	return $this->email;
+    }
+    
+    public function getRoles(){
+        return array('ROLE_ADMINISTRADOR');
+    }
+    
+    public function getSalt() {
+    	return null;
+    }
+    
+    public function getPassword() {
+    	return $this->passwd;
+    }
+    
+    public function eraseCredentials() {
+    }
+    
+    /** @see \Serializable::serialize() */
+    public function serialize() {
+    	return serialize(array(
+    			$this->staffId,
+    			$this->email,
+    			$this->passwd
+    	));
+    }
+    
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized) {
+    	list (
+    			$this->staffId,
+    			$this->email,
+    			$this->passwd
+    			) = unserialize($serialized);
+    }
+
+    public function isEnabled()
+    {
+        $staffStatus =$this->getStaffStatus();
+        if ($staffStatus) {
+            if ($staffStatus->getId() == 1 || $staffStatus->getId() == 3) {
+                return false;
+            }
+
+            // Else
+            return true;
+        }
+        return false;
+    }
+    
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+    
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function __toString() {
+        if ($this->name) {
+            return $this->name;
+        }
+
+        return "";
+    }
+
+    /**
+     * Tells if staff is seller
+     *
+     * @return boolean if its a seller or no
+     */
+    public function isSeller(){
+        if ($this->jobPosition) {
+            $jobPositionId = $this->jobPosition->getId();
+
+            if ($jobPositionId == 5
+                || $jobPositionId == 6) {
+                // Seller
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get area code of staff's phone
+     *
+     * @return string area code of staff's phone
+     */
+    public function getAreaCode(){
+        $prefix = "502";
+        if ($this->country) {
+            $prefix = $this->country->getPhonePrefix();
+        }
+
+        return $prefix;
+    }
+}

@@ -1,0 +1,62 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+	<link rel="stylesheet"
+		href="{{ asset('css/backend/loading_animation.css') }}">
+	<link rel="stylesheet"
+		  href="{{ asset('bundles/adminLTE/plugins/datepicker/datepicker3.css') }}">
+	<link rel="stylesheet"
+		  href="{{ asset('bundles/adminLTE/plugins/select2/select2.min.css') }}">	  
+
+{% endblock %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Revision de Factura Pendiente</h1>	
+</section>
+<section class="content">
+
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Editar factura pendiente</h3>
+				</div>
+				{{ include('@App/Backend/InvoicePending/form.html.twig', { 'form': form }) }}
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript"
+			src="{{ asset('bundles/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+			
+	<script type="text/javascript"
+			src="{{ asset('bundles/adminLTE/plugins/select2/select2.min.js') }}"></script>		
+
+	<script type="text/javascript">
+		$(function() {
+			$('.select2').select2();
+			
+		    $('#register_pending_state').change(function () {
+		        if ($(this).val()) {
+                    var data = {'stateId': $(this).val(), 'type' : 'html'}
+                    $.post("{{ path('backend_load_cities') }}", data, function (res) {
+						$('#register_pending_city').html(res);
+                    })
+                } else {
+		            return false;
+				}
+            });
+		})
+
+	</script>
+
+{% endblock %}
+

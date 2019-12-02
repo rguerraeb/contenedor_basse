@@ -1,0 +1,46 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    authentication.success.listener:
+        class: AppBundle\EventListener\AuthenticationEventListener
+        arguments: ['@router', '@security.context', '@service_container']
+        
+    authentication.staff.success.listener:
+        class: AppBundle\EventListener\AuthenticationStaffEventListener
+        arguments: ['@router', '@security.context', '@service_container']
+    
+    exception.listener:
+        class: AppBundle\EventListener\ExceptionListener
+        arguments: ['@kernel','@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }	
+    
+    user.helper:
+        class: AppBundle\Helper\UserHelper
+        arguments: ['@security.password_encoder']
+
+    user.role.handler:
+        class: AppBundle\Handler\UserRoleHandler
+        arguments: [ "@router", "@security.context", "@doctrine.orm.entity_manager", '@session', %invalid_module%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    message.helper:
+        class: AppBundle\Helper\MessageHelper
+        arguments: ['@doctrine.orm.entity_manager', '%kernel.root_dir%', "%kernel.environment%"]
+
+    redeem.helper:
+        class: AppBundle\Helper\RedeemHelper
+        arguments: ['@doctrine.orm.entity_manager', '%conection_bag_name%', '%conection_recharge_account%', '%error_canje_sms%']
+
+    entity.helper:
+        class: AppBundle\Helper\EntityHelper

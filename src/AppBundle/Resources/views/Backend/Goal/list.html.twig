@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Listado de Metas
+                </h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Tipo</th>
+                        <th>Objetivo</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Herramientas</th>
+                    </tr>
+
+                    {% for goal in entities %}
+                    <tr>
+                        <td>
+                            {{ goal.id }}
+                        </td>
+                        <td>
+                            {{ goal.name }}
+                        </td>
+                        <td>
+                            {{ goal.goalStatus }}
+                        </td>
+                        <td>
+                            {{ goal.goalType }}
+                        </td>
+                        <td>
+                            {{ goal.quantity }}
+                        </td>
+                        <td>
+                            {{ goal.start|date('Y-m-d') }}
+                        </td>
+                        <td>
+                            {{ goal.end|date('Y-m-d') }}
+                        </td>
+                        <td class="list_tools align-left">
+                            <a
+                                href="{{ path(
+                                    'backend_goal_view',
+                                    {'id': goal.id})
+                                }}">
+                                <i class="fa fa-fw fa-eye"></i>
+                            </a>
+
+                            {% if permits["ep"] %}
+                                <a 
+                                    href="{{ path(
+                                            'backend_goal_edit',
+                                            {'id': goal.id}
+                                        ) }}">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if permits["dp"] %}
+                                <a
+                                    class="delete-point-of-sale pointer-link"
+                                    data-id="{{ goal.id }}" 
+                                    data-href="{{ path(
+                                        'backend_goal_delete',
+                                        {'id': goal.id}
+                                    ) }}"
+                                    data-toggle="modal"
+                                    data-target="#confirm-modal">
+                                    <i class="fa fa-fw fa-remove"></i>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                {{ knp_pagination_render(entities) }}
+            </div>
+        </div>
+    </div>
+</div>

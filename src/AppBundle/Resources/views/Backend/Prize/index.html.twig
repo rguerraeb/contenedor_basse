@@ -1,0 +1,22 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Premio
+{% endblock %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Backend/Prize/list.html.twig',
+                'entities': prizes,
+                'title': 'Premios',
+                'deleteQuestion': '¿Seguro que desea eliminar el premio #[ID]?',
+                'form': form,
+                'formPath': '@App/Backend/Prize/form.html.twig',
+                'singleTitle': 'Premio'
+            }
+        )
+    }}
+{% endblock %}

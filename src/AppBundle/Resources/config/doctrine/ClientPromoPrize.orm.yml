@@ -1,0 +1,91 @@
+AppBundle\Entity\ClientPromoPrize:
+    type: entity
+    table: client_promo_prize
+    indexes:
+        client_promo_prize_promo_id:
+            columns:
+                - promo_id
+        client_promo_prize_prize_id:
+            columns:
+                - prize_id
+        client_promo_prize_client_promo_prize_status_id:
+            columns:
+                - client_promo_prize_status_id
+        client_promo_prize_sale_id:
+            columns:
+                - sale_id
+        client_promo_prize_promo_prize_id:
+            columns:
+                - promo_prize_id
+    id:
+        clientPromoPrizeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: client_promo_prize_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        clientPhone:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            column: client_phone
+        message:
+            type: string
+            nullable: true
+            length: 250
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        clientPromoPrizeStatus:
+            targetEntity: ClientPromoPrizeStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                client_promo_prize_status_id:
+                    referencedColumnName: client_promo_prize_status_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+        promoPrize:
+            targetEntity: PromoPrize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_prize_id:
+                    referencedColumnName: promo_prize_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

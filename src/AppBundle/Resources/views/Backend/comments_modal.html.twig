@@ -1,0 +1,36 @@
+<!-- The Modal -->
+<div class="modal modal-danger" id="confirm-modal" data-show='false'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Comentarios</h4>
+            </div>
+            <div class="modal-body">
+                <p id="comment">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-outline btn-ok" id="btn-ok" data-dismiss="modal">
+                    Aceptar
+                </a>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $('#confirm-modal').modal();
+
+    $('#confirm-modal').on('show.bs.modal', function(e) {
+        $(this).find('#comment').append("<span class='comment'>" + $(e.relatedTarget).data('comment') + "</span>");
+    });
+
+    $('#confirm-modal').on('hidden.bs.modal', function (e) {
+        $(this).find('#comment').find('span.comment').remove();
+    })
+</script>

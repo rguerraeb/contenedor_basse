@@ -1,0 +1,49 @@
+<div class="box box-{{ class }}">
+    <div class="box-header">
+        <h3 class="box-title">
+            Listado de registros {{ type }}
+        </h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Nombres</th>
+                <th>Correo</th>
+                <th>Punto de Venta</th>
+                <th>Telefono</th>
+                <th>Estado</th>
+                {% if type == 'rechazados' %}
+                    <th>Comentarios</th>
+                {% endif %}
+            </tr>
+            {% for registerPending in registerPendings %}
+            <tr>
+                <td>{{ registerPending.registerPendingId }}</td>
+                <td>{{ registerPending.Name }}</td>
+                <td>{{ registerPending.email }}</td>
+                <td>{{ registerPending.pointOfSale }}</td>
+                <td>{{ registerPending.phoneMain }}</td>
+                <td>{{ registerPending.statusToString }}</td>
+                {% if type == 'rechazados' %}
+                    <td class="list_tools">
+                        <a
+                            class="register-comments"
+                            data-comment="{{ registerPending.comments }}"
+                            data-toggle="modal"
+                            data-target="#confirm-modal">
+                            <i class="fa fa-fw fa-eye"></i>
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+        {{ knp_pagination_render(registerPendings) }}
+    </div>
+</div>
+<!-- /.box -->

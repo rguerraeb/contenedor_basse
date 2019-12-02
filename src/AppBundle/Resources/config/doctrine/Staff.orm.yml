@@ -1,0 +1,64 @@
+AppBundle\Entity\Staff:
+    type: entity
+    table: staff
+    repositoryClass: AppBundle\Repository\StaffRepository
+    indexes:
+        staff_staff_status_id_fk:
+            columns:
+                - staff_status_id
+    id:
+        staffId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: name
+        citizenId:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'En Guatemala seria DPI'
+            column: citizen_id
+        phone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: "Este campo también será utilizado como CODIGO PERSONAL del empleado\n"
+            column: phone
+        email:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: email
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        country:
+            targetEntity: Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false        
+    lifecycleCallbacks: {  }

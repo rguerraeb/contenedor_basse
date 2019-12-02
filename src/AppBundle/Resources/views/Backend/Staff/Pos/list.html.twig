@@ -1,0 +1,59 @@
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">
+			Listado de
+			{{ title }}
+		</h3>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-responsive table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre del Establecimiento</th>
+					<th>Estado</th>
+					<th>Fecha Creaci&oacute;n</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in list %}
+				<tr>
+					<td>{{ item.idStaffPointOfSale }}</td>
+					<td>{{ item.pointOfSale.businessName }}</td>
+					<td>{% if item.status == 'ACTIVE' %}
+                    	<span class="label label-success">ACTIVO</span>
+                    {% else %}
+                    	<span class="label label-warning">{{ item.status }}</span>
+                    {% endif %}</td>
+					<td>{{ item.createdAt | date('d-m-Y H:i:s') }}</td>
+					<td class="list_tools">
+					{% if permits["dp"] %} <a class="delete-point-of-sale"
+						data-id="{{ item.pointOfSale.businessName }}"
+						data-href="{{ path(
+                                'backend_staff_point_of_sale_delete',
+                                {'spos': item.idStaffPointOfSale}
+                            ) }}"
+						data-toggle="modal" data-target="#confirm-modal"> <i
+							class="fa fa-fw fa-remove"></i>
+					</a> {% endif %}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- /.box -->
+
+<script type="text/javascript">
+	$(function() {
+		$('.dataTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            }
+        } );
+
+		
+	});
+</script>

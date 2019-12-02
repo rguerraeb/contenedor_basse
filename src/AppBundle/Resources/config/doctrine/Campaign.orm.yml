@@ -1,0 +1,69 @@
+AppBundle\Entity\Campaign:
+    type: entity
+    table: campaign
+    repositoryClass: AppBundle\Repository\CampaignRepository
+    indexes:
+        campaign2user_idx:
+            columns:
+                - created_by
+        campaign2user2_idx:
+            columns:
+                - updated_by
+    id:
+        campaignId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: campaign_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: name
+        startFrom:
+            type: datetime
+            nullable: false
+            column: start_from
+        endAt:
+            type: datetime
+            nullable: false
+            column: end_at
+        status:
+            type: string
+            nullable: false
+            length: null
+            fixed: false
+            default: ACTIVO
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

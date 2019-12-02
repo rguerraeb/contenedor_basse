@@ -1,0 +1,36 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Registro Archivos
+{% endblock %}
+
+
+{% block body %}
+<section class="content-header">
+    <h1>Archivos</h1>
+
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('backend_main') }}">
+                <i class="fa fa-dashboard"></i>
+                Home
+            </a>
+        </li>
+        <li class="active">Archivos</li>
+    </ol>
+</section>
+<section class="content">
+    {{ include('@App/Backend/flash_message.html.twig') }}
+    
+    {% if permits["rp"] %}
+    <div class="row">
+        <div class="col-xs-12">
+            {{ include('@App/Backend/ParserRegister/list.html.twig', { 'parserRegisters': parserRegisters }) }}
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

@@ -1,0 +1,69 @@
+AppBundle\Entity\AccruedPointDetails:
+    type: entity
+    table: accrued_point_details
+    repositoryClass: AppBundle\Repository\AccruedPointDetailsRepository
+    indexes:
+        accrued2sale_idx:
+            columns:
+                - sale_id
+        accrued2staff_idx:
+            columns:
+                - staff_id
+        accrued2pointtype_idx:
+            columns:
+                - point_type_id
+    id:
+        accruedPointDetailsId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: accrued_point_details_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        accruedPoints:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: accrued_points
+        availablePoints:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: available_points
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        pointType:
+            targetEntity: PointType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_type_id:
+                    referencedColumnName: point_type_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

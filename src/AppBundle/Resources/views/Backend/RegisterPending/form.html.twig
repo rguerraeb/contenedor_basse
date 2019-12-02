@@ -1,0 +1,420 @@
+
+{{ include('@App/Backend/loading_css.html.twig') }}
+{% import "AppBundle:Backend/RegisterPending:widget_prototype_macro.html.twig" as pdd_macro %}
+<form id="register_pending" method="post"
+	action="{{ path('backend_register_pending_edit', {'id': id}) }}"
+	class="validate">
+	<!-- /.box-header -->
+	<div class="box-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					{{ form_label(form.pointOfSale, "Punto de venta") }}
+					<br /> <label style="font-weight: normal">{{ form.vars.value.pointOfSale }}</label>
+					{% if pointOfSale > 0 %}
+					<input type='hidden'
+						value='{{ form.vars.value.pointOfSale.pointOfSaleId }}'
+						id="register_pending_pointOfSale"
+						name="register_pending[pointOfSale]"> <input type='hidden'
+						value='1' name="pointOfSaleExists">
+					{% else %}
+					{{ form_widget(form.pointOfSale, {'attr': {'class': 'required form-control' }}) }}
+					<input type='hidden' value='0' name="pointOfSaleExists">
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.firstName, "Nombres") }}
+					{{ form_widget(form.firstName, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.lastName, "Apellidos") }}
+					{{ form_widget(form.lastName, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.birthdate, "Fecha de nacimiento") }}
+					<div class="input-group date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						{{ form_widget(
+						form.birthdate,
+						{
+								'attr':
+								{
+										'class': 'form-control pull-right datepicker date',
+										'id': 'datepicker'
+								}
+						}
+						) }}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">				
+				<div class="form-group">
+					{{ form_label(form.citizenId, "DPI") }}
+					{{ form_widget(form.citizenId, {'attr': {'class': 'required form-control', 'minlength':8, 'maxlength':13 }}) }}
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.email, "Correo Electronico") }}
+					{{ form_widget(form.email, {'attr': {'class': 'form-control email' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="register_pending_phoneSecondary" class="required" aria-required="true">Operador</label>
+					{{ form_widget(form.phoneSecondary, {'attr': {'class': 'form-control' }}) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.phoneMain, "Número de teléfono celular") }}
+					{{ form_widget(form.phoneMain, {'attr': {'class': 'required digits form-control', 'minlength':8, 'maxlength':8 }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.experienceYears, "Tiempo de Laborar") }}
+					{{ form_widget(form.experienceYears, {'attr': {'class': 'required digits form-control', 'maxlength':2 }}) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.jobPositionId, "Tipo de Usuario") }}
+					{{ form_widget(form.jobPositionId, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				{% if  form.vars.value.profileImage %}
+				<div class="form-group">
+					<label>Fotograf&iacute;a</label> <img
+						src="{{ asset('uploads/clients/profile_image/'~form.vars.value.profileImage) }}"
+						width="" class="img-responsive" />
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+		{{ form_widget(form.status, {'attr': {'class': 'required form-control' }}) }}
+
+		<hr>
+		<h4>Informac&oacute;n del Establecimiento</h4>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.groupName, "Tipo") }}
+					{{ form_widget(form.groupName, {'attr': {'readonly': 'readonly','class': ' form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.businessName, "Nombre") }}
+					{{ form_widget(form.businessName, {'attr': {'readonly': 'readonly','class': ' form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.businessAddress, "Direccion ") }}
+					{{ form_widget(form.businessAddress, {'attr': {'readonly': 'readonly','class': ' form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.businessZone, "Zona") }}
+					{{ form_widget(form.businessZone, {'attr': {'readonly': 'readonly','class': ' form-control' }}) }}
+				</div>
+			</div>			
+		</div>
+
+		<!-- /.row -->
+	</div>
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="display: none;">
+		{{ include('@App/Backend/loading_css.html.twig') }}
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">Rechazar Solucitud</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						{{ form_label(form.comments, "Comentario de rechazo") }}
+						{{ form_widget(form.comments, {'attr': {'class': 'required form-control' }}) }}
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button id="rechazar" type="button" class="btn btn-primary">
+						Guardar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	{{ form_widget(form._token) }}
+
+	<div class="box-footer">
+		<button class="btn btn-danger " data-toggle="modal" type="button"
+			data-target="#myModal">Rechazar</button>
+		<button type="submit" id="aceptado" class="btn btn-primary pull-right">
+			Aprobado</button>
+	</div>
+
+</form>
+
+
+
+
+<script type="text/javascript">
+    $(function ($) {
+    
+    	
+		var validator = "";
+
+    	var val = $("#register_pending_constructionCategory").val();
+    	if(val == 30)
+    	{
+    		$("#constructionOther").show();
+    		$('#register_pending_constructionCategoryOther').attr("class", "required form-control");
+    	} else {
+    		$("#constructionOther").hide();
+    		$('#register_pending_constructionCategoryOther').attr("class", "form-control");
+    	};
+    	
+    	
+    	if ($('#register_pending_profession').val() == "OTRO") {
+    		$('#register_pending_otherProfession').removeAttr("disabled");
+    		$('#register_pending_otherProfession').attr("class", "required form-control");
+    	}else{
+    		$('#register_pending_otherProfession').attr("disabled", "disabled");
+            $('#register_pending_otherProfession').attr("class", "form-control");
+    	}
+    	$('#register_pending_profession').change(function() {
+           if ($(this).val() != "OTRO") {
+               $('#register_pending_otherProfession').val("");
+               $('#register_pending_otherProfession').attr("disabled", "disabled");
+               $('#register_pending_otherProfession').attr("class", "form-control");
+               $('#register_pending_otherProfession-error').html("");
+               
+		   } else {
+               $('#register_pending_otherProfession').removeAttr("disabled");
+               $('#register_pending_otherProfession').attr("class", "required form-control");
+		   }
+		});
+        $(document).ajaxStop(function () {
+            $(".loading-animation-panel").hide();
+        });
+        $(document).ajaxStart(function () {
+            $(".loading-animation-panel").show();
+        });
+
+        $('#register_pending_childNum').change(function() {
+           if ($(this).val() == 0) {
+               $('#register_pending_childAge').val("");
+               $('#register_pending_childAge').attr("disabled", "disabled");
+		   } else {
+               $('#register_pending_childAge').removeAttr("disabled");
+		   }
+		});
+		
+        if ($('#register_pending_pointOfSale').val() > 0) {
+            var data = {'posId': $('#register_pending_pointOfSale').val()}
+            changePos(data);
+		}else{
+			$('#register_pending_groupName').val('');
+            $('#register_pending_businessName').val('');
+            $('#register_pending_businessAddress').val('');
+            $('#register_pending_businessZone').val('');
+            $('#register_pending_businessZone').val('');
+            $('#register_pending_businessCity').val('');
+            $('#register_pending_businessState').val('');
+		}
+
+        $('#register_pending_pointOfSale').change(function() {
+            if ($(this).val()) {
+                var data = {'posId': $(this).val()};
+                changePos(data);
+            }
+		});
+
+      $('div[data-prototype]').each(function() {
+        $(this).data('index', $(this).children().length);
+      });
+
+      $('#register_pending_purchasedProductDetails').on
+				('change','.purchasedProductCategory-option',function () {
+        var categoryObject = this;
+        if ($(this).val()) {
+          var data = {'categoryId': $(this).val()}
+          $.post("{{ path('backend_register_pending_purshased_product_list') }}", data, function (res) {
+
+            var stringData = '<option value="">- SELECCIONE -</option>';
+
+            $.each(res.data,function (key, value) {
+							stringData+= '<option value="'+value.id+'">'+value.name+'</option>';
+            })
+
+            var ppl =  $(categoryObject).parent().parent().parent().find('.purchasedProductList-option');
+
+            $('#'+ppl.attr('id')).html(stringData);
+
+          })
+        } else {
+          return false;
+        }
+      });
+
+    });
+
+    $('#register_pending').validate({
+    	submitHandler: function(form) {
+    		$('#register_pending_status').val(2);
+    		var $form = $('#register_pending');
+            var data = $form.serialize();
+            var url = $form.attr('action');
+            $.post(url, data, function (data) {
+	            
+                if (data == "3" || data == "2") {
+                    window.location.href = "{{ path('register_pending') }}";
+                } else {
+                    $form.parent().parent().parent().parent().parent().parent().parent().html(data);
+                    // or replaace form element
+                    //$form.replaceWith(html);
+                }
+
+            });
+    	 }
+    });
+
+    $('#register_pending_birthdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        viewMode: 'years'
+    });
+
+    $("#rechazar").click(function () {
+        $('#register_pending_status').val(3);
+        guardar();
+    });
+    
+    $("#register_pending_constructionCategory").on('change',function(data){
+    	
+    	$("#register_pending_constructionCategoryOther").val("");    	
+    	if($(this).val() == 30)
+    	{
+    		$('#register_pending_constructionCategoryOther').attr("class", "required form-control");
+    		$("#constructionOther").show();
+    	} else {
+    		$('#register_pending_constructionCategoryOther').attr("class", "form-control");
+    		$("#constructionOther").hide();
+    	};
+    	
+    });
+    
+
+    function changePos(data) {
+        $.post( "{{ path('backend_register_pending_get_pos') }}", data, function( res ) {
+            $('#register_pending_groupName').val(res.groupName);
+            $('#register_pending_businessName').val(res.pointOfSale);
+            $('#register_pending_businessAddress').val(res.address);
+            $('#register_pending_businessZone').val(res.zone);
+            $('#register_pending_businessZone').val(res.zone);
+            $('#register_pending_businessCity').val(res.city);
+            $('#register_pending_businessState').val(res.state);
+
+        });
+	}
+
+    function guardar() {
+        var $form = $('#register_pending');
+        var data = $form.serialize();
+        var url = $form.attr('action');
+        $.post(url, data, function (data) {
+            if (data == "3" || data == "2") {
+                window.location.href = "{{ path('register_pending') }}";
+            } else {
+                $form.parent().parent().parent().parent().parent().parent().parent().html(data);
+                // or replaace form element
+                //$form.replaceWith(html);
+            }
+
+        });
+
+    }
+
+    function addOther() {        
+    	var $collectionHolder = $('#' + $('.btn-add').attr('data-target'));
+        var prototype = $collectionHolder.attr('data-prototype');
+        var index = $collectionHolder.data('index') ;
+
+        var $form = $(prototype.replace(/__name__/g, index));
+
+        $collectionHolder.data('index', index + 1);
+
+        $form.hide();
+        $collectionHolder.append($form);
+
+  			$('#register_pending_purchasedProductDetails_'+index+'_purchasedProductList').empty();
+
+        $form.slideDown();
+    }
+    
+
+    $('.btn-add').click(function (e) {
+      e.preventDefault();
+
+      var $collectionHolder = $('#' + $(this).attr('data-target'));
+      var prototype = $collectionHolder.attr('data-prototype');
+      var index = $collectionHolder.data('index') ;
+
+      var $form = $(prototype.replace(/__name__/g, index));
+
+      $collectionHolder.data('index', index + 1);
+
+      $form.hide();
+      $collectionHolder.append($form);
+
+			$('#register_pending_purchasedProductDetails_'+index+'_purchasedProductList').empty();
+
+      $form.slideDown();
+    });
+
+    $(document).on('click', '.btn-remove', function (e) {
+      e.preventDefault();
+
+      var name = $(this).attr('data-related');
+      $('*[data-content="' + name + '"]').slideUp(400, function () {
+        $(this).remove();
+      });
+    });
+
+</script>
+

@@ -1,0 +1,101 @@
+AppBundle\Entity\StaffCode:
+    type: entity
+    table: staff_code
+    repositoryClass: AppBundle\Repository\StaffCodeRepository
+    indexes:
+        staffcode2campaign_idx:
+            columns:
+                - campaign_id
+        staffcode2staff_idx:
+            columns:
+                - staff_id
+        staffcode2code_idx:
+            columns:
+                - code_status_id
+        staffcode2store_idx:
+            columns:
+                - store
+        staffcode2prize_idx:
+            columns:
+                - prize_id
+    id:
+        staffCodeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_code_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        responsable:
+            type: string
+            nullable: true
+            length: 155
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        billNumber:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: bill_number
+    manyToOne:
+        campaign:
+            targetEntity: Campaign
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                campaign_id:
+                    referencedColumnName: campaign_id
+            orphanRemoval: false
+        codeStatus:
+            targetEntity: CodeStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                code_status_id:
+                    referencedColumnName: code_status_id
+            orphanRemoval: false
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+        store:
+            targetEntity: Store
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                store:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

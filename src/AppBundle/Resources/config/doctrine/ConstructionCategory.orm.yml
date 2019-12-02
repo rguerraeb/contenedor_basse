@@ -1,0 +1,25 @@
+AppBundle\Entity\ConstructionCategory:
+    type: entity
+    table: construction_category
+    id:
+        constructionCategoryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: construction_category_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        display:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '1'
+            column: display
+    lifecycleCallbacks: {  }

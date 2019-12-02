@@ -1,0 +1,106 @@
+<div class="row search-panel staff-search-panel">
+    <div class="col-md-12">
+        <div class="box box-warning collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <i class='fa fa-search'></i>
+                    B&uacute;squeda de Canjes
+                </h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <form
+                class="form-horizontal search-form"
+                method="get"
+                action="{{ path(
+                    'backend_staff_prize_exchange_staff',
+                    {id: staff.staffId}
+                ) }}">
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="col-sm-4 input-panel date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input
+                                class="form-control"
+                                id="pe-created-at"
+                                placeholder="Fecha"
+                                type="date"
+                                name="createdAt">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <select name="prize" class="form-control">
+                                <option value="">
+                                    -- Premio canjeado --
+                                </option>
+                                {% for prize in prizes %}
+                                    <option value="{{ prize.id }}">
+                                        {{ prize.displayName }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" placeholder="Puntos" type="number" name="redeemPoints">
+                        </div>
+
+                        <div class="col-sm-4 input-panel">
+                            <input class="form-control" placeholder="Teléfono" type="text" name="phone">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-danger pointer-link remove-filters">
+                        <i class="fa fa-remove"></i>
+                        Quitar filtros
+                    </a>
+                    <button type="submit" class="btn btn-info pull-right" id="redeem-search">
+                        <i class='fa fa-search'></i>
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">
+                    <i class='fa fa-list'></i>
+                    Lista de canjes realizados
+                </h3>
+            </div>
+
+            <div class="box-body">
+                <div class="table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Premio canjeado</th>
+                                <th>Puntos canjeados</th>
+                                <th>No. Tel&eacute;fono</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="box-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>

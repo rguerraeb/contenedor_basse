@@ -1,0 +1,23 @@
+.contact-panel {
+    margin: 60px auto 0 auto;
+    text-align: center;
+    width: 1024px;
+}
+
+.contact-panel .info {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    text-align: right;
+    padding-right: 60px;
+    margin-top: 50px;
+}
+
+.contact-panel .form-panel {
+    width: 50%;
+    display: inline-block;
+}
+
+.contact-panel .form-panel button.submit {
+    margin-top: 50px;
+}

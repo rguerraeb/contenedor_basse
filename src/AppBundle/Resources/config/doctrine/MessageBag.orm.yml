@@ -1,0 +1,34 @@
+AppBundle\Entity\MessageBag:
+    type: entity
+    table: message_bag
+    repositoryClass: AppBundle\Repository\MessageBagRepository
+    id:
+        messageBagId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: message_bag_id
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 60
+            fixed: false
+        quantity:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+        available:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

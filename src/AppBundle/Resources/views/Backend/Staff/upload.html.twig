@@ -1,0 +1,21 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Subir empleados
+{% endblock %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_upload.html.twig',
+            {
+                'title': 'Empleados',
+                'fileFormPath': '@App/Backend/Staff/file_form.html.twig',
+                'form': form,
+                'id': 'staff-upload-form',
+                'example': '@App/Backend/Staff/excel_example.twig.html',
+                'titleRoute': 'backend_staff'
+            }
+        )
+    }}
+{% endblock %}

@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.pointOfSale, "Punto de Venta") }}
+                    {{form_widget(form.pointOfSale, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+                    
+        </div>
+    </div>
+    <div class="box-footer">
+        <button type="reset"
+            onclick="window.location='{{ path('backend_staff_point_of_sale', {'staffId': staff.staffId}) }}'"
+            class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+{{ form_end(form) }}

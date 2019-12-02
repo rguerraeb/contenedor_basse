@@ -1,0 +1,23 @@
+AppBundle\Entity\GoalType:
+    type: entity
+    table: goal_type
+    id:
+        goalTypeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_type_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

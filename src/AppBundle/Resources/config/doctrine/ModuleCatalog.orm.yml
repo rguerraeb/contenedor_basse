@@ -1,0 +1,87 @@
+AppBundle\Entity\ModuleCatalog:
+    type: entity
+    table: module_catalog
+    repositoryClass: AppBundle\Repository\ModuleCatalogRepository
+    indexes:
+        user_id05_idx:
+            columns:
+                - created_by
+        fk_user06_idx:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        parentId:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: parent_id
+        name:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            fixed: false
+        urlAccess:
+            type: string
+            nullable: false
+            length: 512
+            fixed: false
+            column: url_access
+        orderModule:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: order_module
+        visible:
+            type: boolean
+            nullable: false
+            default: '1'
+        moduleIcon:
+            type: string
+            nullable: true
+            length: 24
+            fixed: false
+            column: module_icon
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

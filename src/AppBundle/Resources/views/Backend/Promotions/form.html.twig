@@ -1,0 +1,643 @@
+<form method="post" action="" id="promoForm" class="validateForm promo-form"
+	autocomplete="false">
+	<div class="box-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="promo_name" class="required" aria-required="true">Nombre de la promoci&oacute;n</label>
+					{{form_widget(form.name, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				{{ form_label(form.startDate, "Fecha de Inicio") }}
+				<div class="input-group date">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<input value="{{ form.startDate.vars.value|date('d-m-Y h:i:s') }}" id="promo_startDate" class="required form-control valid" name="promo[startDate]" required="required" aria-required="true" style="" type="text" aria-invalid="false">
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="promo_endDate" class="required" aria-required="true">Fecha de Finalizaci&oacute;n</label>
+				<div class="input-group date">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<input value="{{ form.endDate.vars.value|date('d-m-Y h:i:s') }}" id="promo_endDate" class="required form-control" name="promo[endDate]" required="required" aria-required="true" type="text">
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					{{ form_label(form.state, "Departamento") }}
+					{{form_widget(
+                        form.state,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos'
+                        }}
+                    ) }}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					{{ form_label(form.city, "Municipio") }}
+					{{form_widget(
+                        form.city,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos'
+                        }}
+                    ) }}
+				</div>
+			</div>			
+            <div class="col-md-6 no-show">
+                <div class="form-group">
+                    {{ form_label(form.pointOfSale, "Punto de Venta") }}
+                    {{form_widget(
+                        form.pointOfSale,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todos'
+                        }}
+                    ) }}
+                </div>
+            </div>
+			<div class="col-md-6 job-position-panel" id="job-position-panel">
+				<div class="form-group">
+					{{ form_label(form.jobPosition, "Puesto") }}
+					{{form_widget(
+                        form.jobPosition,
+                        {'attr': {
+                            'class': 'form-control'
+                            
+                        }}
+                    ) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="promo_skuCategory">Categor&iacute;a del Material</label>
+					{{form_widget(
+                        form.skuCategory,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todas'
+                        }}
+                    ) }}
+				</div>
+			</div>
+			<div class="col-md-6 subcategory-panel no-show" id="subcategorySku">
+				<div class="form-group">
+					<label for="promo_sku">Subcategor&iacute;a del Material</label>
+					{{form_widget(
+                        form.sku,
+                        {'attr': {
+                            'class': 'form-control selectpicker',
+                            'data-title': 'Todas'
+                        }}
+                    ) }}
+				</div>
+			</div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="promo_promoCategory">Categor&iacute;a de la Promoci&oacute;n</label>
+                    {{form_widget(
+                        form.promoCategory,
+                        {'attr': {
+                            'class': 'required form-control',
+                        }}
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6 subcategory-panel no-show" id="subcategory-panel">
+                <div class="form-group">
+                    <label for="promo_subcategory">
+                        Subcategor&iacute;a
+                    </label>
+                    <select id="promo_subcategory" name="subcategory" class="required form-control valid">
+                        {% if subcategories %}
+                            {% for subcategory in subcategories %}
+                                <option
+                                    value="{{ subcategory.promoCategoryId }}"
+                                    {% set promo = form.vars.value %}
+                                    {% if promo.promoCategory.promoCategoryId == subcategory.promoCategoryId %}
+                                        selected="selected"
+                                    {% endif %}
+                                    >
+                                    {{ subcategory.name }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="promo_status" class="required" aria-required="true">Estado de la Promoci&oacute;n</label>
+                    {{form_widget(form.status, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div
+                id="promo-prizes-panel"
+                class="promo-prizes-panel"
+                data-prototype="{{ form_widget(form.promoPrizes.vars.prototype)|e }}">
+                {% for promoPrize in form.promoPrizes %}
+                    <div class="promo-prize-panel col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.promoPrizeType) }}
+                                {{form_widget(
+                                    promoPrize.promoPrizeType
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.points) }}
+                                {{form_widget(
+                                    promoPrize.points
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.factor) }}
+                                {{form_widget(
+                                    promoPrize.factor
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.name) }}
+                                {{form_widget(
+                                    promoPrize.name
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.prize) }}
+                                {{form_widget(
+                                    promoPrize.prize
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-textarea-panel">
+                                {{ form_label(promoPrize.notificationMessage) }}
+                                {{form_widget(
+                                    promoPrize.notificationMessage
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.probability) }}
+                                {{form_widget(
+                                    promoPrize.probability
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(promoPrize.maxQuantity) }}
+                                {{form_widget(
+                                    promoPrize.maxQuantity
+                                ) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+		</div>
+	</div>
+	<div class="box-footer">
+		<button type="reset"
+			onclick="window.location='{{ path('backend_promotion') }}'"
+			class="btn btn-danger">Cancelar</button>
+		<button type="submit" class="btn btn-primary pull-right">Guardar
+			Datos</button>
+	</div>
+	{{ form_widget(form._token) }}
+</form>
+
+<script>
+    function getCities(context) {
+        $('#promo_city').html('');
+        $.get(
+            "{{ path('frontend_get_cities')}}",
+            {
+                stateId: $(context).val()
+            },
+            function(data) {
+                $.each(data, function(key, value) {
+                    $('#promo_city').append('<option value="'+value.id+'">'+value.name+'</option>');
+                    $('#promo_city').selectpicker('refresh');
+            });
+        });
+    }
+    function getPoss(stateId, cityId, scId) {
+        $.get(
+            "{{ path('frontend-point_of_sale')}}",
+            {
+                stateId: $('#' + stateId).val(),
+                citiesId:$('#' + cityId).val(),
+                scId: $('#' + scId).val()
+            },
+            function(data) {
+                $('#promo_pointOfSale').html('');
+                $.each(data, function(key, value) {
+                    if (value.id != 0) {
+                        $('#promo_pointOfSale').append(
+                            '<option value="' + value.id + '">' + value.name
+                            + '</option>');
+                    };
+                    $('#promo_pointOfSale').selectpicker('refresh');
+            });
+        });
+    }
+    function requireOneField($required, $notRequired) {
+        $required.prop('required', true);
+        $notRequired.prop('required', false);
+    }
+    function showHidePrizeDepending($context) {
+        var val = $context.val();
+        var id = $context.attr('id');
+        var idBase = id.replace('promoPrizeType', '');
+        if (val == 1) {
+            $('#' + idBase + 'name').parent().parent().hide();
+            $('#' + idBase + 'factor').parent().parent().hide();
+            $('#' + idBase + 'points').parent().parent().show();
+            $('#' + idBase + 'prize').parent().parent().hide();
+        }
+        else if (val == 2) {
+            $('#' + idBase + 'factor').parent().parent().show();
+            $('#' + idBase + 'points').parent().parent().hide();
+            $('#' + idBase + 'name').parent().parent().hide();
+            $('#' + idBase + 'prize').parent().parent().hide();
+        }
+        else if (val == 3) {
+            $('#' + idBase + 'factor').parent().parent().hide();
+            $('#' + idBase + 'points').parent().parent().hide();
+            $('#' + idBase + 'name').parent().parent().show();
+            $('#' + idBase + 'prize').parent().parent().hide();
+        }
+        else if (val == 4) {
+            $('#' + idBase + 'factor').parent().parent().hide();
+            $('#' + idBase + 'points').parent().parent().hide();
+            $('#' + idBase + 'name').parent().parent().hide();
+            $('#' + idBase + 'prize').parent().parent().show();
+        };
+    }
+    function hidePrizeType (category) {
+        var selector = '.prize-type';
+        if (category == 1) {
+            // Hide specific and catalog prize
+            $(selector).find('option[value=1]').show();
+            $(selector).find('option[value=2]').show();
+            $(selector).find('option[value=3]').hide();
+            $(selector).find('option[value=4]').hide();
+        }
+        else if (category == 2) {
+            // Show specific and catalog prize
+            $(selector).find('option[value=1]').show();
+            $(selector).find('option[value=2]').show();
+            $(selector).find('option[value=3]').show();
+            $(selector).find('option[value=4]').hide();
+        }
+        else if (category == 6) {
+            $(selector).find('option[value=1]').hide();
+            $(selector).find('option[value=2]').hide();
+            $(selector).find('option[value=3]').show();
+            $(selector).find('option[value=4]').show();
+        };
+        // Select visible option if not selected already
+        selectVisibleOption('#promo-prizes-panel .promo-prize-panel .prize-type');
+    }
+    function selectVisibleOption(selector) {
+        var $select = $(selector);
+        // Check if selected option is visible
+        var value = $select.val();
+        if ($select.find('option[value=' + value + ']').is(':visible')) {
+            // Element is visible
+            return;
+        };
+        // If not visible, select the first one of the visible ones
+        var options = $select.find('option');
+        for (var i = 0; i < options.length; i++) {
+            var $option = $(options[i]);
+            if ($option.is(':visible')) {
+                $option.prop('selected', true);
+                $select.change();
+                break;
+            };
+        };
+    }
+    
+    function getSubcategory(category) {
+        $.get(
+            '{{ path('backend_promo_get_subcategories') }}',
+            {category: category},
+            function(response){
+                // Add these subcategories
+                var $subHolder = $('#promo_subcategory');
+                // Delete old values
+                $subHolder.empty();
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        var sub = response[i];
+                        var html = "<option value='" + sub.id + "'>" + sub.name + "</option>";
+                        $subHolder.append(html);
+                    };
+                }
+                hideShowSubcategory();
+                $subHolder.change();
+            }
+        )
+    }
+    function hideShowSubcategory() {
+        // Add these subcategories
+        var $subHolder = $('#promo_subcategory');
+        if ($subHolder.val() != '' && $subHolder.val() != null) {
+            $('#subcategory-panel').show();
+        }
+        else {
+            $('#subcategory-panel').hide();
+        }
+    }
+    function blockEnableEndPicker (category) {
+        if (category == 2) {
+            // Block end date picker
+            $('#promo_endDate').attr('readonly',true).datetimepicker("option", "showOn", "off");
+        }
+        else {
+            // Unlock the end picker
+            $('#promo_endDate').attr('readonly',false).datetimepicker("option", "showOn", "true");
+        }
+    }
+    function automaticEndDate(newDate) {
+        var subVal = $('#promo_subcategory').val();
+        if (subVal == 3) {
+            // Week interval
+            newDate._d.setDate(newDate._d.getDate() + 6);
+        }
+        else if (subVal == 4) {
+            // Month interval
+            newDate._d.setMonth(newDate._d.getMonth() + 1);
+            newDate._d.setDate(newDate._d.getDate() - 1);
+        }
+        else if (subVal == 5) {
+            // Year interval
+            newDate._d.setYear(newDate._d.getFullYear() + 1);
+            newDate._d.setDate(newDate._d.getDate() - 1);
+        };
+        $('#promo_endDate').data("DateTimePicker").date(newDate);
+    }
+    function addTagForm($collectionHolder, $newLinkDiv) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+        // get the new index
+        var index = $collectionHolder.data('index');
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newForm = prototype.replace(/__name__/g, index);
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+        // Display the form in the page in an li, before the "Add a tag" link li
+        var $outerPanel = $('<div class="promo-prize-panel col-md-12"></div>');
+        // For each label and input add col-md-6>form-group
+        $(newForm).find('label').each(function(){
+            var $label = $(this);
+            var $input = $label.next();
+            var posOutsideDivHtml = ' ' +
+                '<div class="col-md-6"> ' +
+                '</div>';
+            var $newFormDiv = $('<div class="form-group"></div>').append($label);
+            // Add class to input
+            $newFormDiv.append($input);
+            if ($input.prop('tagName') == 'TEXTAREA') {
+                $newFormDiv.addClass('form-textarea-panel');
+            };
+            var $posOutside = $(posOutsideDivHtml).append($newFormDiv);
+            $outerPanel.append($posOutside);
+        });
+        $newLinkDiv.before($outerPanel);
+        // add a delete link to the new form
+        addTagFormDeleteLink($outerPanel);
+    }
+    function addTagFormDeleteLink($posFormDiv) {
+        var removeFormAHtml = '' +
+            '<div class="col-md-6">' +
+                '<div class="form-group">' +
+                    '<a class="btn btn-danger delete" href="#">' +
+                        'Eliminar premio' +
+                    '</a>' +
+                '</div>' +
+            '</div>'
+        ;
+        var $removeFormA = $(removeFormAHtml);
+        $posFormDiv.append($removeFormA);
+        $removeFormA.find('a.delete').on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // Delete the whole prize
+            $(this).parents('.promo-prize-panel').remove();
+        });
+    };
+    function enableSeveralPrizes(subId, $collectionHolder, $newLinkDiv) {
+        // Automatically add one
+        if ($('#promo-prizes-panel .promo-prize-panel').length == 0) {
+            addPromoPrize($collectionHolder, $newLinkDiv);
+        };
+        if (subId == 8) {
+            // Need to enable several promo prizes, enable add button
+            $('#add-promo-prize').show();
+            // Enable delete button
+            $('#promo-prizes-panel .promo-prize-panel .btn.delete').parent().parent().show();
+        }
+        else {
+            // Disable add button
+            $('#add-promo-prize').hide();
+            // Disable delete button
+            $('#promo-prizes-panel .promo-prize-panel .btn.delete').parent().parent().hide();
+            // Delete all prizes except one
+            var cont = 0;
+            $('#promo-prizes-panel .promo-prize-panel').each(function (){
+                if (cont > 0) {
+                    $(this).remove();
+                };
+                cont++;
+            });
+        }
+    }
+    function addPromoPrize($collectionHolder, $newLinkDiv) {
+        // add a new tag form (see next code block)
+        addTagForm($collectionHolder, $newLinkDiv);
+        hidePrizeType ($('#promo_promoCategory').val());
+        $('#promo-prizes-panel .promo-prize-panel .prize-type').each(
+            function(){
+                // Select visible option if not selected already
+                selectVisibleOption(this);
+                showHidePrizeDepending($(this));
+            }
+        );
+    }
+    function showEditableFields(subcategoryId) {
+        if (subcategoryId == 8) {
+            $('#promo-prizes-panel .promo-prize-panel .notification-message')
+                .parent().parent().show();
+            $('#promo-prizes-panel .promo-prize-panel .max-quantity')
+                .parent().parent().show();
+            $('#promo-prizes-panel .promo-prize-panel .probability')
+                .parent().parent().show();
+        }
+        else {
+            $('#promo-prizes-panel .promo-prize-panel .notification-message')
+                .parent().parent().hide();
+            $('#promo-prizes-panel .promo-prize-panel .max-quantity')
+                .parent().parent().hide();
+            $('#promo-prizes-panel .promo-prize-panel .probability')
+                .parent().parent().hide();
+        }
+    }
+    function attachMessage(selector, type, message) {
+        var $nextTo = $(selector);
+        var html = `
+            <label class="` + type + ` attached">`
+                + message + `
+            </label>
+        `;
+        // Check that there isn't another message
+        var $next = $nextTo.next();
+        if ($next.hasClass('attached')) {
+            // Remove old message
+            $next.remove();
+        };
+        $nextTo.after(html);
+    }
+    function hideFields(categoryId) {
+        if (categoryId == 6) {
+            $('#promo_jobPosition').parents('#job-position-panel').hide();
+        }
+        else {
+            $('#promo_jobPosition').parents('#job-position-panel').show();
+        }
+    }
+    
+    var $collectionHolder;
+    var posLinkHtml = '' +
+        '<a href="#" class="btn btn-info add-promo-prize" id="add-promo-prize"> ' +
+            '<i class="fa fa-fw fa-plus"></i>' +
+        '</a> ';
+    var $addPosLink = $(posLinkHtml);
+    var $newLinkDiv = $('<div class="form-group"></div>').append($addPosLink);
+    var maxPromoPrizes = 3;
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of pos
+        $collectionHolder = $('div.promo-prizes-panel');
+        // add a delete link to all of the existing tag form
+        $collectionHolder.find('div.promo-prize-panel').each(function() {
+            addTagFormDeleteLink($(this));
+        });
+        // add the "add a tag" anchor and li to the pos ul
+        $newLinkDiv = $('<div class="col-md-12"></div>').append($newLinkDiv);
+        $collectionHolder.append($newLinkDiv);
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find('.promo-prize-panel').length);
+        $addPosLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // Check that maximun hasn't been reachead
+            if ($('#promo-prizes-panel .promo-prize-panel').length >= maxPromoPrizes) {
+                attachMessage(this, 'error', 'Solo puede agregar 3 premios');
+                return;
+            };
+            addPromoPrize($collectionHolder, $newLinkDiv);
+        });
+        $('.validateForm').validate();
+        $('#promo_startDate').datetimepicker({
+            format: 'DD-MM-YYYY',
+            {% if form.vars.value %}
+                date: new Date('{{ form.vars.value.startDate|date('Y-m-d H:i') }}')
+            {% endif %}
+        });
+        $('#promo_endDate').datetimepicker({
+            format: 'DD-MM-YYYY',
+            {% if form.vars.value %}
+                date: new Date('{{ form.vars.value.endDate|date('Y-m-d H:i') }}')
+            {% endif %}
+        });
+        {% if not form.vars.value.promoId %}
+            $('#promo_subcategory').empty();
+        {% endif %}
+        $('.promo-prizes-panel .promo-prize-panel .prize-type').each(function(){
+            showHidePrizeDepending($(this));
+        });
+        hidePrizeType ($('#promo_promoCategory').val());
+        blockEnableEndPicker ($('#promo_promoCategory').val());
+        hideFields($('#promo_promoCategory').val());
+        hideShowSubcategory();
+        enableSeveralPrizes($('#promo_subcategory').val(), $collectionHolder, $newLinkDiv);
+        showEditableFields($('#promo_subcategory').val());
+        $("#promo_startDate").on("dp.change", function (e) {
+            $('#promo_endDate').data("DateTimePicker").minDate(e.date);
+            automaticEndDate(e.date);
+        });
+        $("#promo_endDate").on("dp.change", function (e) {
+            $('#promo_startDate').data("DateTimePicker").maxDate(e.date);
+        });
+        // To filter selects
+        $('#promo_state').change(function() {
+            getCities(this);
+        });
+        $('#promo_city').change(function() {
+            getPoss('promo_state', 'promo_city', 'promo_saleChannel');
+        });
+        $('#promo_saleChannel').change(function(){
+            getPoss('promo_state', 'promo_city', 'promo_saleChannel');
+        });
+        $('#promo-prizes-panel').on(
+            'change',
+            '.promo-prize-panel .prize-type',
+            function(){
+                showHidePrizeDepending($(this));
+            }
+        );
+        $('#promo_promoCategory').change(function(){
+            var val = $(this).val();
+            hidePrizeType (val);
+            getSubcategory(val);
+            blockEnableEndPicker(val);
+            hideFields(val);
+        });
+        $('#promo_subcategory').change(function(){
+            automaticEndDate($('#promo_startDate').data("DateTimePicker").date());
+            enableSeveralPrizes($(this).val(), $collectionHolder, $newLinkDiv);
+            showEditableFields($(this).val());
+        });
+        $('#promo_skuCategory').change(function() {
+        	var cat = $(this).val() + '';
+        	cat = cat.split(",");
+        	var showsubcat = false;
+        	$.each(cat, function( index, value ) {
+    			if (value == 2) {				
+    				showsubcat = true;        			
+        		}
+    		});
+    		if (showsubcat) $('#subcategorySku').show(); else $('#subcategorySku').hide(); 
+        });
+        var cat = $('#promo_skuCategory').val() + '';
+    	cat = cat.split(",");
+    	var showsubcat = false;
+    	$.each(cat, function( index, value ) {
+        	//alert(value);
+			if (value == 2) {				
+				showsubcat = true;        			
+    		}
+		});
+		if (showsubcat) $('#subcategorySku').show(); else $('#subcategorySku').hide(); 
+        
+    });
+</script>

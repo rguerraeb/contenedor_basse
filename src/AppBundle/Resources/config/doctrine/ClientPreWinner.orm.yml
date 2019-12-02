@@ -1,0 +1,68 @@
+AppBundle\Entity\ClientPreWinner:
+    type: entity
+    table: client_pre_winner
+    indexes:
+        client_pre_winner_promo_id:
+            columns:
+                - promo_id
+        client_pre_winner_client_pre_winner_status_id:
+            columns:
+                - client_pre_winner_status_id
+        client_pre_winner_sale_id:
+            columns:
+                - sale_id
+    id:
+        clientPreWinnerId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: client_pre_winner_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        clientPhone:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            column: client_phone
+        clientName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            column: client_name
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        clientPreWinnerStatus:
+            targetEntity: ClientPreWinnerStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                client_pre_winner_status_id:
+                    referencedColumnName: client_pre_winner_status_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

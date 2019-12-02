@@ -1,0 +1,42 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Promociones</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_campaign') }}">Campañas</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_promotion',						{'campaignId': app.request.get('campaignId')}) }}">Promociones de {{ campaignName }}</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Editar</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+					
+				{{ include('@App/Backend/flash_message.html.twig') }}
+
+				<div class="card">
+					<div class="card-header">
+    					<h5>Editar Promoción</h5>
+					</div>
+					<div class="card-block">
+						{{ include('@App/Backend/Promotion/form.html.twig', { 'form': form }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

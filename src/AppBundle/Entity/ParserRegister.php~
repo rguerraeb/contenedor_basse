@@ -1,0 +1,110 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * ParserRegister
+ */
+class ParserRegister
+{
+
+    /**
+     * @var integer
+     */
+    private $parserRegisterId;
+
+    /**
+     * @var string
+     */
+    private $fileName;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var integer
+     */
+    private $createdBy;
+
+
+    /**
+     * Get parserRegisterId
+     *
+     * @return integer 
+     */
+    public function getParserRegisterId()
+    {
+        return $this->parserRegisterId;
+    }
+
+    /**
+     * Set fileName
+     *
+     * @param string $fileName
+     * @return ParserRegister
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * Get fileName
+     *
+     * @return string 
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return ParserRegister
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param integer $createdBy
+     * @return ParserRegister
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return integer 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+}

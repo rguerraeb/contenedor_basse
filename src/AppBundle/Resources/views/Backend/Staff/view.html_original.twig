@@ -1,0 +1,498 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Empleado
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('bundles/bootstrap-select/css/boostrap-select.css') }}">
+    <script src="http://maps.google.com/maps/api/js?sensor=false" 
+        type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+    {{ include('@App/Backend/loading_css.html.twig') }}
+    <section class="content-header">
+        <h1>Empleado</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('backend_staff') }}">
+                    Empleados
+                </a>
+            </li>
+            <li class="active">Ver</li>
+        </ol>
+    </section>
+    <section class="content" id="main-content-panel">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <h3 class="profile-username text-center">
+                            {{ staff.name }}
+                        </h3>
+
+                        <p class="text-muted text-center">
+                            {{ staff.jobPosition }}
+                        </p>
+
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Puntos Acumulados</b>
+                                <a class="pull-right">
+                                    {{ accumulatedPoints }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Puntos Canjeados</b>
+                                <a class="pull-right">
+                                    {{ exchangedPoints }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Puntos disponibles</b>
+                                <a class="pull-right">
+                                    {{ availablePoints }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info staff-pos">
+                    <div class="box-header">
+                        <h3 class="box-title">Listado de puntos de venta</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>Nombre del Negocio</th>
+                                    <th>NIT</th>
+                                    <th>Canal de venta</th>
+                                    <th>Tipo de punto de venta</th>
+                                    <th>Tel&eacute;fono Casa</th>
+                                    <th>Tel&eacute;fono Celular</th>
+                                    <th>Direcci&oacute;n</th>
+                                    <th>Gelocalizaci&oacute;n</th>
+                                </tr>
+                                {% for pointOfSale in pointsOfSale %}
+                                    <tr>
+                                        <td>{{ pointOfSale.businessName }}</td>
+                                        <td>{{ pointOfSale.taxIdentifier }}</td>
+                                        <td>{{ pointOfSale.saleChannel.name }}</td>
+                                        <td>{{ pointOfSale.pointOfSaleType.name }}</td>
+                                        <td>{{ pointOfSale.homePhone }}</td>
+                                        <td>{{ pointOfSale.cellPhone }}</td>
+                                        <td>
+                                            {{ pointOfSale.address1 }},
+                                            {{ pointOfSale.address2 }}
+                                        </td>
+                                        <td>
+                                            <a
+                                                class="show-map"
+                                                data-name="{{ pointOfSale.businessName }}"
+                                                data-location="{{ pointOfSale.geolocation }}"
+                                                data-toggle="modal"
+                                                data-target="#map-modal">
+                                                {{ pointOfSale.geolocation }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include(
+            '@App/Backend/Staff/map_modal.html.twig'
+        ) }}
+
+        {% if app.user.userRole.id == 3 %}
+            <div class="staff-detail-panel">
+                <div class="row">
+                    <div class="col-md-12 search-parent-pick-panel">
+                        <div class="row staff-search-panel">
+                            <div class="col-md-12">
+                                <div class="box box-warning collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <i class='fa fa-search'></i>
+                                            B&uacute;squeda
+                                        </h3>
+
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <form class="form-horizontal search-form" method="get">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <div class="col-sm-4 input-panel">
+                                                    <select
+                                                        name="parent-filter[]"
+                                                        multiple
+                                                        id="parent-filter"
+                                                        data-title="Filtro"
+                                                        class="selectpicker"
+                                                        >
+                                                            <option value="1">
+                                                                Mensajes Enviados
+                                                            </option>
+                                                            <option value="2">
+                                                                Ventas
+                                                            </option>
+                                                            <option value="3">
+                                                                Canjes Realizados
+                                                            </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <a
+                                                class="btn btn-danger"
+                                                href="{{ path(
+                                                    'backend_staff_view',
+                                                    {id: staff.staffId}
+                                                ) }}">
+                                                <i class="fa fa-remove"></i>
+                                                Quitar filtros
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="no-show sms-incoming staff-info-panel" id="sms-incoming">
+                    {{ include(
+                        '@App/Backend/SmsIncoming/call_center_staff_detail.html.twig'
+                    ) }}
+                </div>
+
+                <div class="no-show sales staff-info-panel" id="sales">
+                    {{ include(
+                        '@App/Backend/Sale/call_center_staff_detail.html.twig',
+                        {
+                            skuCategories: skuCategories,
+                            ccs: ccs,
+                            staff: staff
+                        }
+                    ) }}
+                </div>
+
+                <div class="no-show prize-exchanges staff-info-panel" id="prize-exchanges">
+                    {{ include(
+                        '@App/Backend/PrizeExchange/call_center_staff_detail.html.twig',
+                        {
+                            prizes: prizes
+                        }
+                    ) }}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ asset('bundles/bootstrap-select/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript">
+        /**
+         * Creates an alert div
+         *
+         * @param string type warning, danger, success
+         * @param string message message of alert
+         * @param title title of alert
+         */
+        function createAlert(type, message, title) {
+            // Remove undefined value
+            if (typeof message == 'undefined') {
+                message = '';
+            }
+
+            var html = '' +
+                '<div class="row">' +
+                '   <div class="col-md-12">' +
+                '       <div class="alert alert-' + type + ' alert-dismissible">' +
+                '           <button type="button" class="close" data-dismiss="alert">×</button>' +
+                '           <strong>' + title + '</strong>' +
+                '               ' + message + 
+                '       </div>' +
+                '   </div>' + 
+                '</div>';
+
+            $('#main-content-panel').prepend(html);
+        }
+
+        /**
+         * Makes request to fill table in div
+         *
+         * @param int idParent id of parent div, which contains search and table
+         */
+        function getTableInfo(idParent) {
+            $('#' + idParent).show();
+
+            // Empty table
+            $('#' + idParent).find('table tbody').empty();
+
+            // Find form and make request with search parameters
+            var $form = $('#' + idParent + ' form.search-form');
+            var url = $form.attr('action');
+            var data = $form.serialize();
+
+            $.get(url, data, function(response){
+                fillTable(idParent, response.data);
+            })
+            .fail(function(){
+                createAlert('error', 'No se pudo buscar los datos', 'Error!');
+            });
+        }
+
+        /**
+         * Looks for table in idParent and fills the table with data
+         *
+         * @param string idParent id of parent element
+         * @param array data data to fill table
+         */
+        function fillTable(idParent, data) {
+            var $table = $('#' + idParent).find('table');
+
+            var totalCols = $table.find('thead tr th').length;
+            for (var i = 0; i < data.length; i++) {
+                var row = data[i];
+
+                if (row.length <= totalCols) {
+                    // Create tr
+                    var $tr = $('<tr></tr>');
+
+                    for (var j = 0; j < totalCols; j++) {
+                        $tr.append(`
+                            <td>
+                                ` + row[j] + `
+                            </td>
+                        `);
+                    };
+
+                    $table.append($tr);
+                };
+            };
+        }
+
+        /**
+         * Clears all fields of a form
+         *
+         * @param jQueryObject $form form to clear inputs
+         */
+        function resetForm($form) {
+            $form.find(
+                'input:text, input:password, input:file,'
+                + 'select, textarea, input[type=date],'
+                + 'input[type=number]').val('');
+            $form.find('input:radio, input:checkbox')
+                 .removeAttr('checked').removeAttr('selected');
+        }
+
+        /**
+         * Chooses what to show or hide based on selected values of parent filters
+         *
+         * @param int elementId id of element holding filters
+         */
+        function checkSelectedFilters(elementId, oldValues) {
+            var newValues = $('#' + elementId).val();
+
+            if (newValues) {
+                var values = arrayDifference(newValues, oldValues);
+                console.log(values);
+
+                /**
+                 * 1: Messages filter
+                 * 2: Sales filter
+                 * 3: Prize exchanges filter
+                 */
+                if (values.indexOf('1') != -1) {
+                    getTableInfo('sms-incoming');
+                }
+
+                if (values.indexOf('2') != -1) {
+                    getTableInfo('sales');
+                }
+
+                if (values.indexOf('3') != -1) {
+                    getTableInfo('prize-exchanges');
+                }
+
+                if (newValues.indexOf('1') == -1) {
+                    $('#sms-incoming').hide();
+                }
+
+                if (newValues.indexOf('2') == -1) {
+                    $('#sales').hide();
+                }
+
+                if (newValues.indexOf('3') == -1) {
+                    $('#prize-exchanges').hide();
+                }
+
+                return newValues;
+            }
+            else {
+                $('#sales').hide();
+                $('#sms-incoming').hide();
+                $('#prize-exchanges').hide();
+
+                return [];
+            }
+        }
+
+        function arrayDifference (a1, a2) {
+            return a1.filter(x => a2.indexOf(x) == -1);
+        };
+
+        $(document).ready(function(){
+            $(document).ajaxStop(function(){
+                $(".loading-animation-panel").hide();
+            });
+            $(document).ajaxStart(function(){
+                $(".loading-animation-panel").show();
+            });
+
+            // Global variables
+            var oldParentFilters = checkSelectedFilters('parent-filter', []);;
+
+            $('#map-modal').modal();
+
+            $('#map-modal').on('show.bs.modal', function(e) {
+                var location = $(e.relatedTarget).data('location');
+
+                // Remove whitespace
+                location.replace(/\s/g,'');
+
+                // Get latitude and longitude
+                var locationList = location.split(',');
+
+                var latitude = null;
+                var longitude = null;
+                if (locationList.length == 2) {
+                    latitude = locationList[0];
+                    longitude = locationList[1];
+                };
+
+                // Get name
+                var name = $(e.relatedTarget).data('name');
+                console.log(name);
+
+                if (!latitude || !longitude) {
+                    // Error on location
+                    return;
+                };
+
+                // Create map
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: new google.maps.LatLng(latitude, longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                var infowindow = new google.maps.InfoWindow();
+
+                var marker, i;
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(latitude, longitude),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function(marker) {
+                    return function() {
+                        // console.log(name);
+                        infowindow.setContent(name);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, 0));
+
+                var currCenter = map.getCenter();
+                google.maps.event.addListenerOnce(map, 'idle', function(){
+                    //loaded fully
+                    google.maps.event.trigger(map, "resize");
+                    map.setCenter(currCenter);
+                });
+            });
+
+            $('#map-modal').on('hidden.bs.modal', function (e) {
+            })
+
+            $('#issued-at').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+            $('#created-at').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+            $('#pe-created-at').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+            $('#parent-filter').change(function(){
+                oldParentFilters = checkSelectedFilters($(this).attr('id'), oldParentFilters);
+            });
+
+            $('#sales-search').click(function(e){
+                e.preventDefault();
+
+                // Make request by ajax
+                getTableInfo('sales');
+            });
+
+            $('#sms-search').click(function(e){
+                e.preventDefault();
+
+                // Make request by ajax
+                getTableInfo('sms-incoming');
+            });
+
+            $('#redeem-search').click(function(e){
+                e.preventDefault();
+
+                // Make request by ajax
+                getTableInfo('prize-exchanges');
+            });
+
+            $('.remove-filters').click(function(e){
+                e.preventDefault();
+
+                // Find for and clear all inputs
+                var $form = $(this).parents('form');
+
+                resetForm($form);
+
+                // Look information without filters
+                var idParent = $form.parents('.staff-info-panel').attr('id');
+                getTableInfo(idParent);
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,85 @@
+AppBundle\Entity\Goal:
+    type: entity
+    table: goal
+    repositoryClass: AppBundle\Repository\GoalRepository
+    indexes:
+        fk_goal_goal_status1:
+            columns:
+                - goal_status_id
+        goal_goal_type_id:
+            columns:
+                - goal_type_id
+        goal_prize_id:
+            columns:
+                - prize_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        start:
+            type: datetime
+            nullable: true
+        end:
+            type: datetime
+            nullable: true
+        points:
+            type: integer
+            nullable: true
+            unsigned: false
+        message:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        quantity:
+            type: integer
+            nullable: false
+            unsigned: false
+    manyToOne:
+        goalStatus:
+            targetEntity: GoalStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_status_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        goalType:
+            targetEntity: GoalType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_type_id:
+                    referencedColumnName: goal_type_id
+            orphanRemoval: false
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

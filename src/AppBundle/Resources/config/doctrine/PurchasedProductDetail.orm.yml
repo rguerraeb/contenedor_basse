@@ -1,0 +1,103 @@
+AppBundle\Entity\PurchasedProductDetail:
+    type: entity
+    table: purchased_product_detail
+    indexes:
+        purchased_product_detail_id:
+            columns:
+                - purchased_product_detail
+        purchased_product_dt_category_idx:
+            columns:
+                - purchased_product_category_id
+        purchased_product_dt_list_idx:
+            columns:
+                - purchased_product_list_id
+        sku_id_idx:
+            columns:
+                - sku_id        
+        purchased_product_dt_sale_idx:
+            columns:
+                - sale_id
+    id:
+        purchasedProductDetailId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: purchased_product_detail_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        amount:
+            type: integer
+            nullable: true
+            unsigned: false
+        value:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            default: '0.00'
+        rewardCriteria:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: reward_criteria
+        totalPoints:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: total_points
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        purchasedProductCategory:
+            targetEntity: AppBundle\Entity\PurchasedProductCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                purchased_product_category_id:
+                    referencedColumnName: purchased_product_category_id
+            orphanRemoval: false
+        purchasedProductList:
+            targetEntity: AppBundle\Entity\PurchasedProductList
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                purchased_product_list_id:
+                    referencedColumnName: purchased_product_list_id
+            orphanRemoval: false
+        registerPending:
+            targetEntity: AppBundle\Entity\RegisterPending
+            cascade:   [ "persist","remove" ]
+            inversedBy: null
+            joinColumns:
+                register_pending_id:
+                    referencedColumnName: register_pending_id
+            orphanRemoval: true
+        sale:
+            targetEntity: AppBundle\Entity\Sale
+            cascade:   { }
+            inversedBy: null
+            mappedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: true
+        sku:
+            targetEntity: AppBundle\Entity\Sku
+            cascade:   { }
+            inversedBy: null
+            mappedBy: null
+            joinColumns:
+                sku_id:
+                    referencedColumnName: sku_id
+            orphanRemoval: true    
+    lifecycleCallbacks: {  }

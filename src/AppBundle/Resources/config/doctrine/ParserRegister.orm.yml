@@ -1,0 +1,50 @@
+AppBundle\Entity\ParserRegister:
+    type: entity
+    table: parser_register
+    indexes:
+        parserregister2parsertype_idx:
+            columns:
+                - parser_type_id
+        fk_parser_register_created_by:
+            columns:
+                - created_by
+    id:
+        parserRegisterId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: parser_register_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        fileName:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+            column: file_name
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        parserType:
+            targetEntity: ParserType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parser_type_id:
+                    referencedColumnName: parser_type_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

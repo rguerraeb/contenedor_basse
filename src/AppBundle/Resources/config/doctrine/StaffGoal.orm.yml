@@ -1,0 +1,81 @@
+AppBundle\Entity\StaffGoal:
+    type: entity
+    table: staff_goal
+    indexes:
+        fk_staff_goal_staff:
+            columns:
+                - staff_id
+        fk_staff_goal_goal1:
+            columns:
+                - goal_id
+        staff_goal_prize_id:
+            columns:
+                - prize_id
+        staff_goal_staff_goal_status_id:
+            columns:
+                - staff_goal_status_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        points:
+            type: integer
+            nullable: true
+            unsigned: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        message:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        phone:
+            type: string
+            nullable: true
+            length: 20
+            fixed: false
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staffGoalStatus:
+            targetEntity: StaffGoalStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_goal_status_id:
+                    referencedColumnName: staff_goal_status_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

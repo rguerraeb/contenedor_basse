@@ -1,0 +1,75 @@
+AppBundle\Entity\Sku:
+    type: entity
+    table: sku
+    repositoryClass: AppBundle\Repository\SkuRepository
+    indexes:
+        sku2category_idx:
+            columns:
+                - sku_category_id
+    id:
+        skuId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sku_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        skuFilterString:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'En el caso de MASESA, los SKUS están compuestos por combinación '
+            column: sku_filter_string
+        rewardPoint:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: reward_point
+        brand:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        model:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        cc:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        year:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        color:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        skuCategory:
+            targetEntity: SkuCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sku_category_id:
+                    referencedColumnName: sku_category_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

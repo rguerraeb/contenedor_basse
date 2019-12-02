@@ -1,0 +1,24 @@
+AppBundle\Entity\PromoCategory:
+    type: entity
+    table: promo_category
+    repositoryClass: AppBundle\Repository\PromoCategoryRepository
+    id:
+        promoCategoryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_category_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

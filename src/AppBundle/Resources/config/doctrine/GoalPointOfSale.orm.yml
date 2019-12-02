@@ -1,0 +1,40 @@
+AppBundle\Entity\GoalPointOfSale:
+    type: entity
+    table: goal_point_of_sale
+    repositoryClass: AppBundle\Repository\GoalPointOfSaleRepository    
+    indexes:
+        goal_point_of_sale_goal_id:
+            columns:
+                - goal_id
+        goal_point_of_sale_point_of_sale_id:
+            columns:
+                - point_of_sale_id
+    id:
+        goalPointOfSaleId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_point_of_sale_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

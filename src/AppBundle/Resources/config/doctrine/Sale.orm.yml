@@ -1,0 +1,166 @@
+AppBundle\Entity\Sale:
+    type: entity
+    table: sale
+    repositoryClass: AppBundle\Repository\SaleRepository    
+    indexes:
+        sale2pos_idx:
+            columns:
+                - point_of_sale_id
+        sale2sku_idx:
+            columns:
+                - sku_id
+        sale2parseRegister_idx:
+            columns:
+                - parser_register_id
+        sale2construction_idx:
+            columns:
+                - construction_category_id
+        sale2filter_idx:
+            columns:
+                - filter_group_id         
+    id:
+        saleId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sale_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        skuCode:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'numero de motor en el caso de masesa.'
+            column: sku_code
+        skuFilterString:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'UNICA RELACION con tabla SKU'
+            column: sku_filter_string
+        price:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        clientName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            column: client_name
+        clientPhone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: client_phone
+        issuedAt:
+            type: datetime
+            nullable: true
+            column: issued_at
+        createdBy:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: created_by
+        invoiceNumber:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: invoice_number
+        quantity:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            default: '0.00'
+        isCancelled:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: is_cancelled
+        cupon:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        constructionCategoryId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: construction_category_id
+        constructionCategoryOther:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+            column: construction_category_other
+        registerPendingId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: register_pending_id
+        filterGroupId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: filter_group_id
+        horcalsaQuantity:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: horcalsa_quantity
+    manyToOne:
+        parserRegister:
+            targetEntity: ParserRegister
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parser_register_id:
+                    referencedColumnName: parser_register_id
+            orphanRemoval: false
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+        constructionCategory:
+            targetEntity: ConstructionCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                construction_category_id:
+                    referencedColumnName: construction_category_id
+            orphanRemoval: false  
+        filterGroup:
+            targetEntity: FilterGroup
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                filter_group_id:
+                    referencedColumnName: filter_group_id
+            orphanRemoval: false        
+        sku:
+            targetEntity: Sku
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sku_id:
+                    referencedColumnName: sku_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

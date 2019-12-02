@@ -1,0 +1,42 @@
+
+<table class="table table-hover dataTable table-responsive no-padding" id="ppdTable">
+	<thead>
+		<tr>
+			<th>Producto</th>
+			<th>Tipo Producto</th>
+			<th>Presentaci&oacute;n</th>			
+			<th>Cantidad</th>			
+			<th>Puntos Otorgados</th>			
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in list %}
+		<tr>
+			<td>{{ item.sku.skuFilterString }}</td>
+			<td>{{ item.sku.model }}</td>
+			<td>
+				{% if item.purchasedProductCategory %}
+			        {{ item.purchasedProductCategory.name }}
+			    {% endif %}
+			</td>
+			<td>{{ item.amount }}</td>						
+			<td>{{ item.totalPoints | number_format(2) }}</td>
+			
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+
+$('#ppdTable')
+.DataTable(
+		{
+			"language" : {
+				"url" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+			},
+			"order" : [ [ 0, "DESC" ] ]
+		});
+	
+</script>

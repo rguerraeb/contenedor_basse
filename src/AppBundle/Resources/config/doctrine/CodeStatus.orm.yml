@@ -1,0 +1,20 @@
+AppBundle\Entity\CodeStatus:
+    type: entity
+    table: code_status
+    id:
+        codeStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: code_status_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: name
+    lifecycleCallbacks: {  }

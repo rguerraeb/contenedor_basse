@@ -1,0 +1,74 @@
+AppBundle\Entity\MessageLog:
+    type: entity
+    table: message_log
+    repositoryClass: AppBundle\Repository\MessageLogRepository
+    indexes:
+        message_log_staff_id:
+            columns:
+                - staff_id
+        message_log_message_id:
+            columns:
+                - message_id
+        fk_message_log_status_id:
+            columns:
+                - message_log_status_id
+        fk_message_bag_id:
+            columns:
+                - message_bag_id
+    id:
+        messageLogId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: message_log_id
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        phone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+        message:
+            targetEntity: Message
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                message_id:
+                    referencedColumnName: message_id
+            orphanRemoval: false
+        messageLogStatus:
+            targetEntity: MessageLogStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                message_log_status_id:
+                    referencedColumnName: message_log_status_id
+            orphanRemoval: false
+        messageBag:
+            targetEntity: MessageBag
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                message_bag_id:
+                    referencedColumnName: message_bag_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

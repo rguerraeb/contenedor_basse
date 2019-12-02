@@ -1,0 +1,159 @@
+<div class="card-header">
+    <h5>Listado de Canjes por Distribuidor</h5>
+	<div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>Nro. Factura</th>
+					<th>C&oacute;digo</th>
+					<th>Fecha de Env&iacute;o</th>
+					<th>Nombre del Cliente</th>
+					<th>DPI</th>
+					<th>Tel&eacute;fono</th>
+					<th>Premio</th>
+
+					<th>Distribuidor</th>
+					<th>Responsable</th>
+					<th>Fecha de Canje</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for obj in list %}
+				<tr>
+					<td>{{ obj.invoice_number }}</td>
+					<td>{{ obj.code }}</td>
+					<td>{{ obj.fechaEnvio|date('Y-m-d H:i:s') }}</td>
+					<td>{{ obj.participant }}</td>
+					<td>{{ obj.citizen_id }}</td>
+					<td>{{ obj.phone }}</td>
+					<td>{{ obj.prize_name }}</td>
+					
+					<td>{{ obj.distributorName }}
+						{% if obj.store %}
+							/ {{ obj.store }}
+						{% endif %}
+					</td>
+					<td>{{ obj.responsable }}</td>
+					<td>{{ obj.fechaCanje|date('Y-m-d H:i:s') }}</td>
+				</tr>
+				
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="myLargeModal" name="myLargeModal" aria-labelledby="myLargeModalLabel" style="display: none; padding-right: 17px;" aria-modal="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title h4 factura" id="myLargeModalLabel">Detalle de Promociones del Canje</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="row text-center" style="padding-bottom: 26px;">
+					<div class="col-sm-4 campaign">
+					
+					</div>	
+					<div class="col-sm-4 invoice">
+					
+					</div>
+					<div class="col-sm-4 code">
+					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 promociones">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="card Application-list">			
+		{{
+			include(
+				'@App/Backend/associate_invoice_modal.html.twig',
+				{
+					'title': '',
+				}
+			)
+		}}
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(function() {
+		$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true,
+			"dom": 'Bfrtip',
+			"buttons": [
+				'csv', 'pdf', 'excel'
+			]
+		});	
+	});
+
+
+function showPromotions(staffCodeId)
+	{
+		var url = "{{ path('backend_report_show_promotions') }}";  
+		$.ajax({   
+				url :  url,
+				data : { staffCodeId : staffCodeId },
+				type : 'POST',	  
+				dataType: 'json',  
+				success : function(json) {
+					$(".modal-body .campaign").html(json.campaign);
+					$(".modal-body .invoice").html(json.invoice);
+					$(".modal-body .code").html(json.code);
+					$(".modal-body .promociones").html(json.table);
+					
+					$("#myLargeModal").modal("show");
+				},
+				error : function(xhr, status) {
+					alert('Disculpe, se presentó un problema al validar los datos');
+				}
+			});
+	}
+
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+	.zoomA {
+        /*width: 600px;*/
+        /*height: auto;*/
+        transition-duration: 1s;
+        transition-timing-function: ease;
+    }
+    .zoomA:hover {
+        transform: scale(3.8);
+		border-radius: 16%;
+    }
+
+	
+
+</style>
+{% endblock %}

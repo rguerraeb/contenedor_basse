@@ -1,0 +1,279 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * SaleMixtoListo
+ */
+class SaleMixtoListo
+{
+    /**
+     * @var integer
+     */
+    private $saleMixtoListoId;
+
+    /**
+     * @var float
+     */
+    private $m3;
+
+    /**
+     * @var string
+     */
+    private $foundryAddress;
+
+    /**
+     * @var \DateTime
+     */
+    private $saleDate;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \AppBundle\Entity\ConcreteType
+     */
+    private $concreteType;
+
+    /**
+     * @var \AppBundle\Entity\Sale
+     */
+    private $sale;
+
+
+    /**
+     * Get saleMixtoListoId
+     *
+     * @return integer 
+     */
+    public function getSaleMixtoListoId()
+    {
+        return $this->saleMixtoListoId;
+    }
+
+    /**
+     * Set m3
+     *
+     * @param float $m3
+     * @return SaleMixtoListo
+     */
+    public function setM3($m3)
+    {
+        $this->m3 = $m3;
+
+        return $this;
+    }
+
+    /**
+     * Get m3
+     *
+     * @return float 
+     */
+    public function getM3()
+    {
+        return $this->m3;
+    }
+
+    /**
+     * Set foundryAddress
+     *
+     * @param string $foundryAddress
+     * @return SaleMixtoListo
+     */
+    public function setFoundryAddress($foundryAddress)
+    {
+        $this->foundryAddress = $foundryAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get foundryAddress
+     *
+     * @return string 
+     */
+    public function getFoundryAddress()
+    {
+        return $this->foundryAddress;
+    }
+
+    /**
+     * Set saleDate
+     *
+     * @param \DateTime $saleDate
+     * @return SaleMixtoListo
+     */
+    public function setSaleDate($saleDate)
+    {
+        $this->saleDate = $saleDate;
+
+        return $this;
+    }
+
+    /**
+     * Get saleDate
+     *
+     * @return \DateTime 
+     */
+    public function getSaleDate()
+    {
+        return $this->saleDate;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return SaleMixtoListo
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set concreteType
+     *
+     * @param \AppBundle\Entity\ConcreteType $concreteType
+     * @return SaleMixtoListo
+     */
+    public function setConcreteType(\AppBundle\Entity\ConcreteType $concreteType = null)
+    {
+        $this->concreteType = $concreteType;
+
+        return $this;
+    }
+
+    /**
+     * Get concreteType
+     *
+     * @return \AppBundle\Entity\ConcreteType 
+     */
+    public function getConcreteType()
+    {
+        return $this->concreteType;
+    }
+
+    /**
+     * Set sale
+     *
+     * @param \AppBundle\Entity\Sale $sale
+     * @return SaleMixtoListo
+     */
+    public function setSale(\AppBundle\Entity\Sale $sale = null)
+    {
+        $this->sale = $sale;
+
+        return $this;
+    }
+
+    /**
+     * Get sale
+     *
+     * @return \AppBundle\Entity\Sale 
+     */
+    public function getSale()
+    {
+        return $this->sale;
+    }
+    /**
+     * @var string
+     */
+    private $clientCode;
+
+
+    /**
+     * Set clientCode
+     *
+     * @param string $clientCode
+     * @return SaleMixtoListo
+     */
+    public function setClientCode($clientCode)
+    {
+        $this->clientCode = $clientCode;
+
+        return $this;
+    }
+
+    /**
+     * Get clientCode
+     *
+     * @return string 
+     */
+    public function getClientCode()
+    {
+        return $this->clientCode;
+    }
+    /**
+     * @var string
+     */
+    private $sellerName;
+
+    /**
+     * @var \AppBundle\Entity\State
+     */
+    private $state;
+
+
+    /**
+     * Set sellerName
+     *
+     * @param string $sellerName
+     * @return SaleMixtoListo
+     */
+    public function setSellerName($sellerName)
+    {
+        $this->sellerName = $sellerName;
+
+        return $this;
+    }
+
+    /**
+     * Get sellerName
+     *
+     * @return string 
+     */
+    public function getSellerName()
+    {
+        return $this->sellerName;
+    }
+
+    /**
+     * Set state
+     *
+     * @param \AppBundle\Entity\State $state
+     * @return SaleMixtoListo
+     */
+    public function setState(\AppBundle\Entity\State $state = null)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return \AppBundle\Entity\State 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+}

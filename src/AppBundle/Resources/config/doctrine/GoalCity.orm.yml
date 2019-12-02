@@ -1,0 +1,40 @@
+AppBundle\Entity\GoalCity:
+    type: entity
+    table: goal_city
+    repositoryClass: AppBundle\Repository\GoalCityRepository
+    indexes:
+        goal_city_goal_id:
+            columns:
+                - goal_id
+        goal_city_city_id:
+            columns:
+                - city_id
+    id:
+        goalCityId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_city_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        city:
+            targetEntity: City
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                city_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

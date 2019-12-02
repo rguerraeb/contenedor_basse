@@ -1,0 +1,172 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-warning collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class='fa fa-search'></i> B&uacute;squeda</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <form class="form-horizontal" method="get">
+                <div class="box-body">
+                      <div class='row'>
+                        <div class="col-md-4">
+                            <input class="form-control" placeholder="Nombre" type="text" name="name">
+                        </div>
+
+                        <div class="col-md-4">
+                            <input class="form-control" id="dpi" placeholder="DPI" type="text" name="dpi">
+                        </div>
+
+                        <div class="col-md-4">
+                            <input class="form-control" id="telefono" placeholder="Télefono" type="number" name="phone">
+                        </div>
+                      </div>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-danger" href="{{ path('backend_staff') }}">
+                        <i class="fa fa-remove"></i> Limpiar búsqueda
+                    </a>
+                    <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i> Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title"><i class='fa fa-list'></i> Listado de Clientes</h3>
+
+        <!-- div class="box-tools">
+            <div class="input-group-btn">
+                <a href="{{ path('backend_staff_upload') }}" class="upload-link btn btn-sm btn-success">
+                    <i class='fa fa-upload'></i> Subir empleados
+                </a>
+            </div>
+        </div-->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover staffs-table">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>                
+                <th>DPI</th>
+                <th>Tel&eacute;fono</th>
+                <th>Email</th>  
+                <th>Estado</th>                
+                <th>Tipo de Usuario</th>
+                <th>Tiendas</th>
+                <th style="width: 15%">Herramientas</th>
+            </tr>
+            {% for staff in entities %}
+                <tr
+                    {% if staff.staff_status_id and staff.staff_status_id == 1 %}
+                        class="inactive"
+                    {% endif %}
+                >
+                    <td>{{ staff.staff_id }}</td>
+                    <td>{{ staff.first_name }} {{ staff.last_name }}</td>
+                    
+                    <td>{{ staff.citizen_id }}</td>
+                    <td>{{ staff.phone_main }}</td>
+                    <td>{{ staff.email }}</td>                    
+                    <td align="center">
+                    {% if staff.staff_status == 'ACTIVO' %}
+                    	<span class="label label-success">{{ staff.staff_status }}</span>
+                    {% else %}
+                    	<span class="label label-warning">{{ staff.staff_status }}</span>
+                    {% endif %}
+                        
+                    </td>
+                    <td align="center">
+                    	 {% if staff.job_position == 'Vendedor' %}
+                        	<span class="label label-success">{{ staff.job_position }}</span>
+                        {% elseif staff.job_position == 'Gerente' %}
+                        	<span class="label label-info">{{ staff.job_position }}</span>
+                        {% else %}
+                            <span class="label label-bartender">{{ staff.job_position }}</span>
+                        {% endif %}                                           
+                    </td>
+                    <td align="center">
+	                    {{ staff.business_names }}
+                    </td>
+                    <td class="list_tools">
+                        {% if permits["rp"] %}
+                        	<a
+                                    href="{{ path(
+                                    'backend_staff_point_of_sale',
+                                    {'staffId': staff.staff_id})
+                                    }}">
+                                <i class="fa  fa-home"></i>
+                            </a>
+                            &nbsp;
+                            <a
+                                    href="{{ path(
+                                    'backend_staff_redeem_points',
+                                    {'staffId': staff.staff_id})
+                                    }}">
+                                <i class="fa  fa-cart-plus"></i>
+                            </a>
+                            &nbsp;
+                            <a
+                                href="{{ path(
+                                    'backend_staff_view',
+                                    {'id': staff.staff_id})
+                                    }}">
+                                <i class="fa fa-fw fa-eye"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if permits["ep"] %}
+                            <a 
+                                href="{{ path(
+                                        'backend_staff_edit',
+                                        {'id': staff.staff_id}
+                                    ) }}">
+                                <i class="fa fa-fw fa-edit"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if permits["rp"] %}
+                            <a
+                                data-action="{{ path(
+                                    'backend_message_send_staff',
+                                    {'id': staff.staff_id})
+                                }}"
+                                data-toggle="modal"
+                                data-phone="{{ staff.phone_main }}"
+                                data-target="#sms-modal"
+                                class="pointer-link">
+                                <i class="fa fa-fw fa-envelope"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if permits["dp"] %}
+                            <a
+                                class="delete-point-of-sale pointer-link"
+                                data-id="{{ staff.staff_id }}" 
+                                data-href="{{ path(
+                                    'backend_staff_delete',
+                                    {'id': staff.staff_id}
+                                ) }}"
+                                data-toggle="modal"
+                                data-target="#confirm-modal">
+                                <i class="fa fa-fw fa-remove"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+    {{ knp_pagination_render(entities) }}
+    </div>
+</div>
+<!-- /.box -->

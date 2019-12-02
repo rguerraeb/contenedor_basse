@@ -1,0 +1,19 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+	href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Cliente',
+            'smallTitle': 'Cliente',
+            'formPath': '@App/Backend/PreInscription/form.html.twig',
+            'form': form,
+            'titleRoute': 'backend_staff'
+        }
+    ) }}
+{% endblock %}

@@ -1,0 +1,92 @@
+<div class="card-header">
+    <h5>Listado de Facturas</h5>
+    <div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Factura</th>
+					<th>Teléfono</th>
+					<th>Recibido</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for invoice in list %}
+					<tr>
+						<td><h6>{{ invoice.whatsappImagesId }}</h6></td>
+						<td><h6><img class="" style="width:100px; border-radius: 10px;" src="{{ asset('uploads/imgs/') ~ invoice.imageName }}"></h6></td>
+						<td><h6>{{ invoice.contactPhone }}</h6></td>
+						<td><h6>{{ invoice.createdAt | date ('Y-m-d H:i:s') }}</h6></td>
+						<td>
+							{% if permits["ep"] %}
+								<a 	class="btn btn-icon btn-rounded theme-bg text-white btn-adj-padding"
+									href="{{ path('backend_invoice_register', {'id': invoice.whatsappImagesId}) }}"  
+									title="Registrar Factura" 
+									
+ 									data-toggle="modal"
+ 									data-target="#exampleModalLive"
+
+									>
+									<i class="fas fa-plus"></i>
+								</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true
+		});	
+		
+		$('table').on('click', '#btn-delete',function(){
+			$('.sweet-multiple').on('click', function() {
+				swal({
+					title: '¿Seguro que desea inactivar al distribuidor "'+ $(this).attr('data-name') +'" ?',
+					icon: "warning",
+					buttons: ["Cancelar",true],
+					dangerMode: true,
+				}).then((willDelete) => {
+					if (willDelete) {
+						swal({
+							text: 'El distribuidor "'+ $(this).attr('data-name') +'" se está inactivando',
+							icon: "info",
+							buttons: false,
+							content: {
+								element: "span",
+								attributes: {
+									className: "spinner-border spinner-border-sm"
+								}
+							}
+						});
+						window.location =  $(this).attr('data-href'); 
+					}
+				});
+			});
+		});
+	});
+
+</script>
+{% endblock %}

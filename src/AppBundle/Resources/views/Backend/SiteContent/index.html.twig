@@ -1,0 +1,40 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Contenido del Sitio</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('backend_main') }}"><i
+				class="fa fa-file-text"></i> Home</a></li>
+		<li class="active">Noticias, Eventos y Promociones</li>
+	</ol>
+</section>
+<section class="content">
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+		
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary {*collapsed-box*}">
+				<div class="box-header with-border">
+					<h3  class="box-title">Agregar Entrada</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>		
+                {{ include('@App/Backend/SiteContent/form.html.twig', { 'form': form }) }}					
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include('@App/Backend/SiteContent/list.html.twig', { 'list': list }) }}	
+		</div>
+	</div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,260 @@
+
+{{ include('@App/Backend/loading_css.html.twig') }}
+
+<form id="register_pending" method="post" action="" class="validate"
+	enctype="multipart/form-data">
+	<!-- /.box-header -->
+	<div class="box-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.firstName, "Nombres") }}
+					{{ form_widget(form.firstName, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.lastName, "Apellidos") }}
+					{{ form_widget(form.lastName, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.birthdate, "Fecha de nacimiento") }}
+					<div class="input-group date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						{{ form_widget(
+							form.birthdate,
+							{
+									'attr':
+									{
+											'class': 'form-control pull-right datepicker date',
+											'id': 'datepicker'
+									}
+							}
+							) }}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{% if staffProfile is defined %}
+					<label>DPI</label> <input type="text" name="citizenId" 
+						value="{{ staffProfile.citizenId }}" class="form-control" />
+					{% else %}
+					{{ form_label(form.citizenId, "DPI") }}
+					{{ form_widget(form.citizenId, {'attr': {'class': 'required form-control', 'minlength':13, 'maxlength':13 }}) }}
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.email, "Email") }}
+					{{ form_widget(form.email, {'attr': {'class': 'form-control email','type':'email' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="pre_inscription_phoneSecondary">Operador</label>
+					{{ form_widget(form.phoneSecondary, {'attr': {'class': 'form-control' }}) }}
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="pre_inscription_phoneMain">N&uacute;mero de
+						tel&eacute;fono celular</label>
+					{% if staffProfile is defined %}
+					<input type="text" name="phoneMain"
+						value="{{ staffProfile.phoneMain }}" class="form-control" />
+					{% else %}
+					{{ form_widget(form.phoneMain, {'attr': {'class': 'required digits form-control', 'minlength':8, 'maxlength':8 }}) }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="pre_inscription_experienceYears" class="required"
+						aria-required="true">Tiempo de Laborar</label>
+					{{ form_widget(form.experienceYears, {'attr': {'class': 'required digits form-control', 'maxlength':2 }}) }}
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{% if staffProfile is defined %}
+					<label>Tipo de Usuario</label> <input type="text"
+						disabled="disabled" value="{{ staffProfile.jobPosition }}"
+						class="form-control" />
+					{% else %}
+					{{ form_label(form.jobPosition, "Tipo de Usuario") }}
+					{{ form_widget(form.jobPosition, {'attr': {'class': 'required form-control' }}) }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{% if staffProfile is not defined %}
+					{{ form_label(form.staffStatus, "Estado") }}
+					{{form_widget(form.staffStatus, {'attr': {'class': 'required form-control' }}) }}
+					{% endif %}
+				</div>
+			</div>
+
+		</div>
+		<div class="row">			
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Im&aacute;gen de Perfil</label> <input type="file"
+						name="profileImage" class="form-control" />
+					{% if form.vars.value.profileImage %}
+					<br/>
+					<img
+						src="{{ asset('uploads/clients/profile_image/'~form.vars.value.profileImage) }}"
+						width="480" class="img-responsive" />
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+
+		<!-- /.row -->
+	</div>
+
+
+	{{ form_widget(form._token) }}
+
+	<div class="box-footer">
+    	{% if form.vars.value.staffId %}	
+    		<button class="btn btn-danger " onclick="window.location='{{ path('backend_staff') }}'"
+    			type="button">Cancelar</button>
+    	{% else %}
+    		<button class="btn btn-danger " onclick="window.location.reload()"
+    			type="button">Cancelar</button>
+    	{% endif %}		
+			
+			
+		<button type="submit" id="aceptado" class="btn btn-primary pull-right">
+			Guardar Datos</button>
+	</div>
+
+</form>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+    
+    	    	
+    	if ($('#pre_inscription_profession').val() == "OTRO") {
+    		$('#pre_inscription_otherProfession').removeAttr("disabled");
+    		$('#pre_inscription_otherProfession').attr("class", "required form-control");
+    	}else{
+    		$('#pre_inscription_otherProfession').attr("disabled", "disabled");
+            $('#pre_inscription_otherProfession').attr("class", "form-control");
+    	}
+
+    	$('#pre_inscription_profession').change(function() {
+           if ($(this).val() != "OTRO") {
+               $('#pre_inscription_otherProfession').val("");
+               $('#pre_inscription_otherProfession').attr("disabled", "disabled");
+               $('#pre_inscription_otherProfession').attr("class", "form-control");
+               $('#pre_inscription_otherProfession-error').html("");
+               
+		   } else {
+               $('#pre_inscription_otherProfession').removeAttr("disabled");
+               $('#pre_inscription_otherProfession').attr("class", "required form-control");
+		   }
+		});
+		
+        
+
+        $('#pre_inscription_childNum').change(function() {
+           if ($(this).val() == 0) {
+               $('#pre_inscription_childAge').val("");
+               $('#pre_inscription_childAge').attr("disabled", "disabled");
+		   } else {
+               $('#pre_inscription_childAge').removeAttr("disabled");
+		   }
+		});
+
+		/*
+        if ($('#pre_inscription_pointOfSale').val() > 0) {
+            var data = {'posId': $('#pre_inscription_pointOfSale').val()}
+            changePos(data);
+		}else{
+			$('#pre_inscription_groupName').val('');
+            $('#pre_inscription_businessName').val('');
+            $('#pre_inscription_businessAddress').val('');
+            $('#pre_inscription_businessZone').val('');
+            $('#pre_inscription_businessZone').val('');
+            $('#pre_inscription_businessCity').val('');
+            $('#pre_inscription_businessState').val('');
+		}
+		*/
+
+		/*
+        $('#pre_inscription_pointOfSale').change(function() {
+            if ($(this).val()) {
+                var data = {'posId': $(this).val()};
+                changePos(data);
+            }
+		});
+		*/
+
+    });
+
+    $('#register_pending').validate({
+    	submitHandler: function(form) {
+    		form.submit();
+   		}
+    });
+
+    /*
+    $('#pre_inscription_birthdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        viewMode: 'years'
+    });
+    */
+
+
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#formSearch').validate();	
+
+		$(document).ajaxStop(function () {
+            $(".loading-animation-panel").hide();
+        });
+        $(document).ajaxStart(function () {
+            $(".loading-animation-panel").show();
+        });	
+
+		$('#pre_inscription_state').change(function () {
+	        if ($(this).val()) {
+                var data = {'stateId': $(this).val(), 'type' : 'html'}
+                $.post("{{ path('backend_load_cities') }}", data, function (res) {
+					$('#pre_inscription_city').html(res);
+                })
+            } else {
+	            return false;
+			}
+        });
+	});
+</script>
+

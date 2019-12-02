@@ -1,0 +1,113 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Listado de Registros</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('backend_main') }}"><i
+                    class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Listado de Registros</li>
+        </ol>
+    </section>
+    <section class="content">
+        
+        {{ include('@App/Backend/flash_message.html.twig') }}
+
+        {% if permits["rp"] %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-info collapsed-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">B&uacute;squeda</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="form-horizontal" method="get">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">
+                                    Tel&eacute;fono
+                                </label>
+
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Tel&eacute;fono" type="text" name="phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">
+                                    DPI
+                                </label>
+
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="DPI" type="text" name="citizen_id">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">
+                                    Nombre
+                                </label>
+
+                                <div class="col-sm-10">
+                                    <input class="form-control" id="inputPassword3" placeholder="Nombre" type="text" name="name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <a class="btn btn-danger" href="{{ path('register_pending') }}">
+                                <i class="fa fa-list-ul"></i> Sin filtro
+                            </a>
+                            <button type="submit" class="btn btn-info pull-right">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                {{ include(
+                    '@App/Backend/RegisterPending/callcenter_list.html.twig',
+                    {
+                        'registerPendings': registerPending1,
+                        'type': 'por confirmar',
+                        'class': ''
+                    }
+                )}}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-xs-12">
+                {{ include(
+                    '@App/Backend/RegisterPending/callcenter_list.html.twig',
+                    {
+                        'registerPendings': registerPending2,
+                        'type': 'aceptados',
+                        'class': 'success'
+                    }
+                )}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                {{ include(
+                    '@App/Backend/RegisterPending/callcenter_list.html.twig',
+                    {
+                        'registerPendings': registerPending3,
+                        'type': 'rechazados',
+                        'class': 'danger'
+                    }
+                )}}
+            </div>
+        </div>
+        {{ include(
+            '@App/Backend/comments_modal.html.twig'
+        ) }}
+    </section>
+{% endblock %}

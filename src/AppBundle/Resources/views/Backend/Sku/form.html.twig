@@ -1,0 +1,39 @@
+{{ form_start(form) }}
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.skuCategory, "Categoría"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.skuCategory, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.skuFilterString, "Nombre SKU"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.skuFilterString, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>            
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.brand, "Código"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.brand, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.model, "Es Premium"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.model, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div class="box-footer">
+        <button type="reset"
+            onclick="window.location='{{ path('backend_sku') }}'"
+            class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+{{ form_end(form) }}

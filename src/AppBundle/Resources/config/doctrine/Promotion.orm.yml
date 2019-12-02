@@ -1,0 +1,89 @@
+AppBundle\Entity\Promotion:
+    type: entity
+    table: promotion
+    repositoryClass: AppBundle\Repository\PromotionRepository
+    indexes:
+        promotion2user_idx:
+            columns:
+                - created_by
+        promotion2user2_idx:
+            columns:
+                - updated_by
+        promotion2campaign_idx:
+            columns:
+                - campaign_id
+    id:
+        promotionId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promotion_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: name
+        imagePath:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: image_path
+            default: ''
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+        promoCode:
+            type: integer
+            nullable: false
+            column: promo_code
+        status:
+            type: string
+            nullable: false
+            length: null
+            fixed: false
+            default: ACTIVO
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        campaign:
+            targetEntity: Campaign
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                campaign_id:
+                    referencedColumnName: campaign_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,123 @@
+AppBundle\Entity\SiteContent:
+    type: entity
+    table: site_content
+    indexes:
+        site2usercreated_idx:
+            columns:
+                - created_by
+        site2userupdated_idx:
+            columns:
+                - updated_by
+    uniqueConstraints:
+        publication_date_UNIQUE:
+            columns:
+                - publication_date
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 256
+            fixed: false
+            default: ''
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+        content:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+        url:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+            default: ''
+        image:
+            type: string
+            nullable: false
+            length: 256
+            fixed: false
+            default: ''
+        keywords:
+            type: string
+            nullable: true
+            length: 512
+            fixed: false
+            default: ''
+        published:
+            type: boolean
+            nullable: true
+            default: '1'
+        countryId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: country_id
+        orderContent:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: order_content
+        isNews:
+            type: boolean
+            nullable: true
+            column: is_news
+        publicationDate:
+            type: datetime
+            nullable: true
+            column: publication_date
+        showContactForm:
+            type: boolean
+            nullable: true
+            column: show_contact_form
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        duration:
+            type: integer
+            nullable: true
+            unsigned: false
+        contentType:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: content_type
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

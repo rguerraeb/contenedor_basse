@@ -1,0 +1,378 @@
+{{ form_start(form) }}
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.name, "Nombre") }}
+                    {{form_widget(form.name, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.taxIdentifier, "Nit") }}
+                    {{form_widget(form.taxIdentifier, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.citizenId, "DPI") }}
+                    {{form_widget(
+                        form.citizenId,
+                        {'attr':
+                            {
+                                'class': 'required form-control',
+                                'maxlength': '13'
+                            }
+                        })
+                    }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.gender, "Género") }}
+                    {{form_widget(form.gender, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.birthdate, "Fecha de nacimiento") }}
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        {{form_widget(
+                            form.birthdate,
+                            {
+                                'attr': {
+                                    'class': 'required form-control pull-right',
+                                    'id': 'datepicker'
+                                }
+                            }
+                        ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.phoneMain, "Número de télefono") }}
+                    {{form_widget(
+                        form.phoneMain,
+                        {
+                            'attr': {
+                                'class': 'required form-control',
+                                'maxlength': 8
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.phoneSecondary, "Número de teléfono de casa") }}
+                    {{form_widget(
+                        form.phoneSecondary,
+                        {
+                            'attr': {
+                                'class': 'required form-control',
+                                'maxlength': 8
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.email, "Email") }}
+                    {{form_widget(
+                        form.email,
+                        {'attr':
+                            {
+                                'class': 'required form-control email'
+                            }
+                        })
+                    }}
+                </div>
+            </div>
+            <div class="col-md-6 states-upper-panel">
+                <div class="form-group">
+                    {{ form_label(form.state, "Departamento") }}
+                    {{form_widget(form.state, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6 cities-panel">
+                <div class="form-group">
+                    {{ form_label(form.city, "Municipio") }}
+                    {{form_widget(form.city, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.country, "País") }}
+                    {{form_widget(form.country, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.address2, "Zona") }}
+                    {{form_widget(form.address2, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-textarea-panel">
+                    {{ form_label(form.address1, "Dirección 1") }}
+                    {{form_widget(form.address1, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.jobPosition, "Puesto") }}
+                    {{form_widget(form.jobPosition, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.staffStatus, "Estado") }}
+                    {{form_widget(form.staffStatus, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+
+            <div class="row col-md-12 points-of-sale-panel"
+                data-prototype="{{ form_widget(form.staffPointsOfSale.vars.prototype)|e }}">
+                {% if form.staffPointsOfSale|length > 0 %}
+                    <div class="points-of-sale-separator"></div>
+                    
+                {% endif %}
+
+                {% for staffPointOfSale in form.staffPointsOfSale %}
+                    <div class="pos-db-outer col-md-6">
+                        <div class="col-md-6 point-of-sale-panel">
+                            <div class="form-group">
+                                {{ form_label(staffPointOfSale.pointOfSale, "Punto de venta") }}
+                                {{form_widget(staffPointOfSale.pointOfSale, {'attr': {'class': 'form-control' }}) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <button type="button"
+            onclick="window.location='{{ path('backend_staff') }}'"
+            class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+
+<script>
+    var statesHtml = '' +
+        '<div class="col-md-3 states-panel">' +
+            '<div class="form-group">' +
+                '{{ form_label(form.posState, "Departamento") }}' +
+                '{{ form_widget(form.posState) }}' +
+            '</div>' +
+        '</div>';
+
+    var citiesHtml = '' +
+        '<div class="col-md-3 cities-panel">' +
+            '<div class="form-group">' +
+                '{{ form_label(form.posCity, "Municipio") }}' +
+                '{{ form_widget(form.posCity) }}' +
+            '</div>' +
+        '</div>';
+</script>
+{{ form_end(form) }}
+
+<script>
+    $(document).ready(function(){
+        // Change cities, and points of sale based on other info
+        $('.states-upper-panel').change(function() {
+            var $state = $(this).find('.form-group').find('select');
+            var stateId = $state.val();
+
+            var $citiesPanel = $('.cities-panel');
+
+            var $cities = $citiesPanel.find('select');
+            $cities.html('');
+
+            $.get( "{{ path('frontend_get_cities')}}", { stateId: stateId }, function(data) {
+                $cities.append('<option value="">- Municipio -</option>');
+                $.each(data, function(key, value) {
+                    $cities.append('<option value="'+value.id+'">'+value.name+'</option>');
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+    $('#staff_birthdate').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    var $collectionHolder;
+
+    var posLinkHtml = '' +
+        '<a href="#" class="btn btn-info add-point-of-sale" id="add-point-of-sale"> ' +
+            '<i class="fa fa-fw fa-plus"></i>' +
+        '</a> ';
+
+    var $addPosLink = $(posLinkHtml);
+    var $newLinkDiv = $('<div class="form-group"></div>').append($addPosLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of pos
+        $collectionHolder = $('div.points-of-sale-panel');
+
+        // add a delete link to all of the existing tag form li elements
+        $collectionHolder.find('div.pos-db-outer').each(function() {
+            addTagFormDeleteLink($(this));
+        });
+
+        // add the "add a tag" anchor and li to the pos ul
+        $newLinkDiv = $('<div class="col-md-12"></div>').append($newLinkDiv);
+        $collectionHolder.append($newLinkDiv);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find('select').length);
+
+        $addPosLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addTagForm($collectionHolder, $newLinkDiv);
+        });
+
+        // Change cities, and points of sale based on other info
+        $('.points-of-sale-panel').on('change', '.states-panel', function() {
+            var $state = $(this).find('.form-group').find('select');
+            var stateId = $state.val();
+
+            var $citiesPanel = $(this).siblings('.cities-panel');
+
+            var $cities = $citiesPanel.find('select');
+            $cities.html('');
+
+            $.get( "{{ path('frontend_get_cities')}}", { stateId: stateId }, function(data) {
+                $cities.append('<option value="">- Municipio -</option>');
+                $.each(data, function(key, value) {
+                    $cities.append('<option value="'+value.id+'">'+value.name+'</option>');
+                });
+            });
+        });
+
+        $('.points-of-sale-panel').on('change', '.cities-panel', function() {
+            var $city = $(this).find('.form-group').find('select');
+            var cityId = $city.val();
+
+            var $statePanel = $(this).siblings('.states-panel');
+            var $state = $statePanel.find('.form-group select');
+            var stateId = $state.val();
+
+            var $posPanel = $(this).siblings('.point-of-sale-panel');
+            var $poss = $posPanel.find('.form-group div div select');
+            $poss.html('');
+            console.log(stateId + "<>" + cityId);
+
+            $.get(
+                "{{ path('frontend-point_of_sale_2')}}",
+                {
+                    stateId: stateId,
+                    cityId: cityId
+                },
+                function(data) {
+                    console.log(data);
+                    $poss.append('<option value="">- Punto de Venta -</option>');
+                    $.each(data, function(key, value) {
+                        $poss.append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                }
+            );
+        });
+    });
+
+    function addTagForm($collectionHolder, $newLinkDiv) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newForm = prototype.replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+
+        // Display the form in the page in an li, before the "Add a tag" link li
+        var $outerPanel = $('<div class="row col-md-12 outer-pos-panel"></div>');
+
+        var posOutsideDivHtml = ' ' +
+            '<div class="col-md-3 point-of-sale-panel"> '
+            '</div>';
+        var $newFormDiv = $('<div class="form-group"></div>').append(newForm);
+
+        var $posOutside = $(posOutsideDivHtml).append($newFormDiv);
+
+        // Add State and Cities
+        var $cities = $(citiesHtml);
+        var $states = $(statesHtml);
+
+        $outerPanel.append('<div class="point-of-sale-separator"></div>');
+        $outerPanel.append($states);
+        $outerPanel.append($cities);
+        $outerPanel.append($posOutside);
+
+        $newLinkDiv.before($outerPanel);
+
+        // add a delete link to the new form
+        addTagFormDeleteLink($outerPanel);
+    }
+
+    function addTagFormDeleteLink($posFormDiv) {
+
+        var removeFormAHtml = '' +
+            '<div class="col-md-3">' +
+                '<div class="form-group">' +
+                    '<a class="btn btn-danger delete-pos" href="#">' +
+                        'Eliminar punto de ventas' +
+                    '</a>' +
+                '</div>' +
+            '</div>'
+        ;
+        var $removeFormA = $(removeFormAHtml);
+
+        $posFormDiv.append($removeFormA);
+
+        $removeFormA.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // Look for separator line
+            var $siblings = $posFormDiv.siblings();
+            var hasClass = false;
+            for (var i = 0; i < $siblings.length; i++) {
+                var sibling = $siblings[i];
+                if ($(sibling).hasClass('point-of-sale-panel')) {
+                    hasClass = true;
+                    break;
+                }
+            }
+
+            if (!hasClass) {
+                var $prev = $posFormDiv.prev();
+                if ($prev.hasClass('points-of-sale-separator')) {
+                    $prev.remove();
+                };
+            };
+
+            // remove the li for the tag form
+            $posFormDiv.remove();
+
+    });
+}
+</script>

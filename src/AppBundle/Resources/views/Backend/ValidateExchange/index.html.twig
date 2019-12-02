@@ -1,0 +1,182 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Validar Canje</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Validar Canje</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+				{{ include('@App/Backend/flash_message.html.twig') }}
+				<div class="card">
+					<div class="card-header">
+						<h5>Validar Código</h5>
+						<p>Es necesario ingresar el teléfono y código envíado al cliente para validar que esté disponible</p>
+					</div>
+					<div class="card-block">
+						<form method="post" action="" id="validateExchangeForm" class="validateForm" autocomplete="false">
+							<div class="row text-center">
+								<div class="col-md-4 col-12">
+									<div class="form-group">
+										<input type="number" id="phone" name="phone" minlength="8" maxlength="10" class="required form-control" placeholder="Teléfono">
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group">
+										<input type="text" id="code" name="code" maxlength="45" class="required form-control" placeholder="Código">
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group">
+										<button id="button-save" type="button" class="btn btn-rounded btn-block btn-success" >Validar</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div id="resultValidate" class="card Application-list" style="display:none;">
+					<div class="card-header">
+						<h5>Resultados de la Búsqueda</h5>
+					</div>
+					<div class="card-block table-border-style">
+						<div id="tableResult" class="table-responsive" style="display:none;">
+							<table class="table table-hover dataTable">
+								<thead class="text-center">
+									<tr>
+										<th>Código</th>
+										<th>Premio</th>
+										<th>Estado</th>
+										<th>Acción</th>
+									</tr>
+								</thead>
+								<tbody class="text-center">
+									<tr>
+										<th id="codeValue"></th>
+										<td id="prizeValue"></td>
+										<td id="codeStatus"></td>
+										<td id="link"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+
+	<script>
+
+		$("#resultValidate").hide();
+		/*$('#validateExchangeForm').validate({
+			submitHandler: function(form) {
+				//$('#submit-form').show();
+				form.submit();
+                $("#validateExchangeForm :input").prop("disabled", true);
+                $("#button-save").prop("disabled", true);
+                $('#button-save').html("<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...");
+			}
+		});*/
+
+
+		$("#button-save").click(function(e){
+
+			var url = "{{ path('backend_validate_exchange_result') }}";
+			var formStatus = $('#validateExchangeForm').validate().form();
+
+			if(true == formStatus){
+
+				var form_data = new FormData($('#validateExchangeForm')[0]);
+
+				$.ajax({
+					url: url,
+					type: 'post',
+					data: form_data,
+					processData: false,
+    				contentType: false,
+					beforeSend: function () {
+						$("#validateExchangeForm :input").prop("disabled", true);
+						$('#button-save').html("<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...");
+						$('#resultValidate').hide();
+						$('#tableResult').hide();
+					},
+					success: function(response) {
+						if (response.status == 'success') {
+							if(response.responseType==0){
+								$('#resultValidate').show();
+								$('#tableResult').show();
+								$("#validateExchangeForm :input").prop("disabled", false);
+								$('#button-save').html("Validar"); 
+								$('#codeValue').html(response.codeValue);
+								$('#prizeValue').html(response.prizeName);
+								var urlInvoice = "{{ path('backend_validate_exchange_invoice', {'codeId': 'code_id'}) }}"; 
+								urlInvoice = urlInvoice.replace("code_id", response.codeId);
+								if (response.codeStatus == 2) {
+									$('#codeStatus').html("<span class='label bg-c-green f-12 text-white'>Disponible</span>");
+									if(response.userRole == 5 && response.prizeType == "BASIC"){
+										
+										$('#link').html("<a class='btn btn-rounded theme-bg text-white' href='"+urlInvoice+"'>Canjear</a>");
+									}else if(response.userRole == 4 && response.prizeType == "PREMIUM"){
+										$('#link').html("<a class='btn btn-rounded theme-bg text-white' href='"+urlInvoice+"'>Canjear</a>");
+									}
+								} else if (response.codeStatus == 3) {
+									$('#codeStatus').html("<span class='label bg-c-yellow f-12 text-white'>Canjeado</span>");
+									$('#link').html("");
+								}  else if (response.codeStatus == 4) {
+									$('#codeStatus').html("<span class='label bg-c-red f-12 text-white'>Eliminado</span>");
+									$('#link').html("");
+								}
+							}else if(response.responseType==1){
+								new PNotify( {
+									title: '¡Error!', text: 'El cliente no existe', type: 'error'
+								});
+								$("#validateExchangeForm :input").prop("disabled", false);
+								$('#button-save').html("Validar");
+							} else if(response.responseType==2) {
+								new PNotify( {
+									title: '¡Error!', text: 'El código no existe', type: 'error'
+								});
+								$("#validateExchangeForm :input").prop("disabled", false);
+								$('#button-save').html("Validar");
+							}
+						}
+					},
+					error: function(){
+						new PNotify( {
+							title: '¡Error!', text: '¡Ha ocurrido un error!', type: 'error'
+						});
+						$("#validateExchangeForm :input").prop("disabled", false);
+						$('#button-save').html("Validar");
+					}           
+				});
+			}
+
+		});
+
+
+
+	</script>
+
+{% endblock %}

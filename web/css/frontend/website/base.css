@@ -1,0 +1,93 @@
+
+
+.gray-panel {
+    min-height: calc(100vh - 300px);
+    background: url('../../../images/frontend/background_white.jpg') no-repeat center top;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 20px;
+}
+
+.gray-body {
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+
+.gray-panel a.green,
+.gray-panel button.green {
+    background-color: #017538;
+    color: white;
+    min-width: 180px;
+    font-size: 1.1em;
+    padding: 10px 0;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+input, textarea, select {
+    width: 96%;
+    border: solid 5px #017538;
+    margin: 5px;
+    font-size:1.1em;
+    padding: 10px;
+    font-family: arial;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+label.error {
+    font-size: 13px;
+    color: #017538;
+    font-weight: bold;
+}
+
+.input-panel {
+    text-align: center;
+}
+
+#loginError {
+    font-size: 17px;
+    color: #017538;
+    font-weight: bold;
+    text-align: center;
+}
+
+.logos-home {
+	position: absolute;
+	width: 100%;
+	top: 30%;	
+	text-align: center;
+	left: 0;
+	right: 0;
+}
+
+.logos-home img {
+	max-width: 800px;
+}
+
+
+.bottom-bottle {
+	width: 100%;
+	position: absolute;
+	bottom: 25px;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+.bottom-logo {
+	position: absolute;
+	left: 25px;
+	bottom: 25px;	
+}
+
+.bottom-logo img {
+	max-width: 383px;
+}

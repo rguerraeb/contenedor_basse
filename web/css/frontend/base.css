@@ -1,0 +1,401 @@
+.spinner {
+	text-align: center;
+}
+
+
+@font-face {
+    font-family: Museo Sans;
+    src: url("../../fonts/museo_sans_ssv/MuseoSans500/MuseoSans_500.otf") format("opentype");
+}
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.alert .close {
+	display: none;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+#frontendNavigation {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+#frontendNavigation .col-sm {
+	text-align: center;
+}
+
+.pt-50 {
+	padding-top: 50px;
+}
+
+.pt-100 {
+	padding-top: 100px;
+}
+
+label.error {
+	color: #d44950;
+}
+
+input.error, select.error {
+	border-color: #d44950;
+}
+
+.bg-home {
+	background: url("../../images/frontend/bg-home.jpg") no-repeat center center fixed ;
+}
+
+.bg-int {
+	background: url("../../images/frontend/bg-interna.jpg") no-repeat center center fixed ;
+}
+
+.bg-cont {	
+	/* Full height */
+	height: 100%;
+	width: 100%;
+	/* Center and scale the image nicely */
+	background-size: cover;
+	-webkit-background-size: 100%; 
+    -moz-background-size: 100%; 
+    -o-background-size: 100%; 
+    background-size: 100%; 
+    -webkit-background-size: cover; 
+    -moz-background-size: cover; 
+    -o-background-size: cover; 
+    background-size: cover;
+    background-attachment: fixed;
+    
+}
+
+
+
+#frontendNavigation a {
+	color: #FFF;
+	text-shadow: 2px 2px 10px #FFF;
+	font-size: 1.2em;
+}
+
+#social{
+	width: 60px;
+	height:60px;
+	text-align: center;
+	color: #ffffff;
+	border: 2px solid #ffffff;
+    border-radius: 50%;
+    font-size: 35px;
+}
+
+#social i {
+	color: #ffffff;
+}
+#social:hover {
+	background-color: #ffffff;
+	color: #0067ac;
+}
+#social:hover i {
+	color: #0067ac;
+}
+
+#socialhref{
+    text-decoration: none;
+}
+
+#fontWeb{
+	font-size: 36px;
+	color: #ffffff;
+	font-family: "Museo Sans";
+    text-align: center;
+    margin-top: 60px;
+}
+
+#followUs{
+	font-size: 27px;
+	color: #ffffff;
+	font-family: "Museo Sans";
+	text-align: center;
+}
+
+.div_button {
+	border-radius: 15px;
+	background-color: #0067ac;
+	font-weight: 700;
+	text-decoration: none!important;
+	padding: 20px;
+}
+
+.div_button:hover {
+	background-color: #60A5E6;
+	color: #ffffff;
+}
+
+.button{
+	-webkit-transition: none;
+	transition: none;
+}
+
+#wrapper > .main.accent2 .div_button .button {
+	background-color: transparent;
+}
+
+.h1_text {
+	font-family: Museo Sans;
+	font-size: 1.4rem!important;
+	margin-bottom:0;
+	line-height: initial;
+	height: 100%;
+	padding: 0;
+}
+
+.div_about {
+	/*background: linear-gradient(0.25turn, #fdfdfd,  #c7c7c7, #fdfdfd);*/
+	background: #0EB6CF !important;		 	
+}
+
+.section_promociones {
+	padding: 15px; 
+	bottom: 0; 
+	left: 0; 
+	overflow: hidden; 
+	width: 100%; 
+	text-align: center;
+	margin-bottom: 5px; 
+	color:#fff !important;
+	/*background: linear-gradient(0.25turn, #0067ac, #68c0ff, #0067ac);*/
+}
+
+.restrictions{
+	margin: 0 auto 3rem auto;
+	font-size: 37px;
+	/*color: #ffffff;*/
+	color: #0067ac !important;
+	font-family: "Museo Sans";
+	text-align: center;
+}
+
+.headerRestrictiones{
+	font-size: 37px;
+	color: #0067ac !important;
+	font-family: "Museo Sans";
+	text-align: center;
+}
+
+#restrictionSection {
+	padding: 6rem 0 6rem 0;
+}
+
+.background{
+	height: 660px;
+	/*background: linear-gradient(0.25turn, #0067ac, #68c0ff, #0067ac);*/
+	background-color: #edeff178;
+}
+
+.p_formumlario{
+	margin: 0;
+}
+
+.input_formulario {
+	/*margin: 0 0 2rem 0;
+	color: #777 !important;
+	font-size: x-large;*/
+	
+}
+
+.row {
+    margin-right: 0 !important;
+}
+
+.card-img-top {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+	border-top-left-radius: calc(.25rem - -25px);
+	border-top-right-radius: calc(.25rem - 100px);
+	border-bottom-right-radius: calc(.25rem - -25px);
+}
+
+#header.reveal {
+	padding-top: 15px;
+}
+
+#banner {
+	max-height: 400px !important;
+}
+
+
+
+#cintillol {
+	position: absolute; 
+	background: url("../../images/cintillo_l.png") repeat-y;
+	top: 0;
+	z-index: 1000;
+	height: 100%;
+	width: 15px;
+	left: 10px;
+}
+
+#cintillor {
+	position: absolute; 
+	background: url("../../images/cintillo_r.png") repeat-y;
+	top: 0;
+	z-index: 1000;
+	height: 100%;
+	width: 15px;
+	right: 10px;
+}
+
+#aboutSection {
+	padding-top: 2rem !important;
+}
+
+.ptext {
+	font-weight: lighter !important; 
+	font-size: 2.25rem !important;
+}
+
+@media (max-width: 1150px) {
+	#fontWeb{
+		font-size: 26px;
+		margin-top: 58px;
+	}
+	ul.icons li {
+		padding: 0 0.4rem 0 0;
+	}
+
+	#social {
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		color: #ffffff;
+		border: 2px solid #ffffff;
+		border-radius: 50%;
+		font-size: 28px;
+	}
+}
+
+.black_h2 {
+	color: #000 !important;
+	font-weight: bold;
+	font-size: 3.5em;
+	text-align: center;
+}
+
+.black_text {
+	color: #000 !important;	
+	font-size: 1em;
+	text-align: center;
+	font-weight: lighter;
+}
+
+.black_text_footer {
+	font-size: 3em;
+	font-weight: bold;
+}
+
+.header-logo {
+	height: 60px;
+}
+
+#bannerImgSmall {
+	display: none;
+}
+
+.btnTotto {
+	border: none !important;
+	background: url("../../images/bg-button.png") no-repeat;
+	width: 220px;
+	height: 60px;
+	color: #000 !important;
+	font-size: 18px;
+}
+
+.btnTottoSmall {	
+	font-size: 15px;
+}
+
+.swal2-confirm, .swal2-styled, .swal2-styled {
+	border-color: inherit !important;
+  	-webkit-box-shadow: none !important;
+  	box-shadow: none !important;	
+}
+
+.btnTotto:hover, .swal2-styled, .swal2-styled:hover  {
+	border: none !important;
+	background: url("../../images/bg-button-over.png") no-repeat !important;
+	color: #000 !important;	
+	width: 220px !important;
+	height: 60px !important;
+}
+
+@media (max-width: 880px) {
+	#fontWeb{
+		font-size: 22px;
+		margin-top: 52px;
+	}
+	#social {
+		width: 40px;
+		height: 40px;
+		text-align: center;
+		color: #ffffff;
+		border: 2px solid #ffffff;
+		border-radius: 50%;
+		font-size: 22px;
+	}
+}
+
+
+@media (max-width: 768px) {
+	#fontWeb{
+		font-size: 22px;
+		margin-top: 0px;
+		margin-bottom: 75px;
+	}
+	#social {
+		width: 40px;
+		height: 40px;
+		text-align: center;
+		color: #ffffff;
+		border: 2px solid #ffffff;
+		border-radius: 50%;
+		font-size: 22px;
+	}
+	
+	.hide-xs {
+		visibility: hidden;
+	}
+	
+	.ptext {
+		font-weight: lighter !important; 
+		font-size: 1.5rem !important;
+	}
+	
+	#bannerImg {
+		display: none;
+	}
+	
+	#bannerImgSmall {
+		display: inline;
+	}
+}
+	
+
+
+

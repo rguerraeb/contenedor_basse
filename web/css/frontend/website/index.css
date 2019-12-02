@@ -1,0 +1,38 @@
+.gray-body .buttons-panel {
+    text-align: center;
+}
+
+.gray-body .buttons-panel .login {
+    margin: 0 35px;
+}
+
+.gray-body .main-panel {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.gray-body .main-panel .images-panel {
+    margin: auto;
+    height: 300px;
+    display: inline-block;
+}
+
+.gray-body .main-panel .images-panel img {
+    height: 300px;
+}
+
+.gray-body .main-panel .images-panel .bag-text {
+    float: left;
+}
+
+.gray-body .main-panel .images-panel .bag {
+    float: right;
+    position: relative;
+    left: -20px;
+}
+
+.gray-body .lower-button-panel {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}

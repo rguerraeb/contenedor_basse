@@ -1,0 +1,19 @@
+AppBundle\Entity\SkuCategory:
+    type: entity
+    table: sku_category
+    id:
+        skuCategoryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sku_category_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

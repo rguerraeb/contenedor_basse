@@ -1,0 +1,165 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Listado de Metas
+                </h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>CORRELATIVO</th>
+                        <th>N&uacute;mero de Motor</th>
+                        <th>Estado</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Herramientas</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in list %}
+                    <tr>
+                        <td>
+                            {{ item.saleReverseId }}
+                        </td>
+                        <td>
+                            {{ item.skuCode }}
+                        </td>
+                        <td>
+                            {% if item.status == 'INGRESADO' %}
+                                <span class="label label-warning">{{ item.status }}</span>
+                            {% elseif item.status == 'APLICADO' %}
+                                <span class="label label-success">{{ item.status }}</span>
+                            {% endif %}
+
+
+                        </td>
+
+                        <td>
+                            {{ item.createdAt|date('d-m-Y h:m') }}
+                        </td>
+
+                        <td class="list_tools align-left">
+
+                            {% if  item.status == 'INGRESADO'%}
+
+                            {% if permits["ep"] %}
+                                <a  data-id="{{ item.skuCode }}"
+                                    data-toggle="modal"
+                                    data-target="#confirm-modal-apply"
+                                    data-href="{{ path('backend_sale_cancell', {'smsString': item.skuCode}) }}"
+                                    href="javascript:;"
+                                >
+                                    <i class="fa fa-fw fa-check-square-o"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if permits["dp"] %}
+                                <a
+                                    data-id="{{ item.saleReverseId }}"
+                                    data-href="{{ path(
+                                        'backend_sale_reverse_delete',
+                                        {'id': item.saleReverseId}
+                                    ) }}"
+                                    href="javascript:;"
+                                    data-toggle="modal"
+                                    data-target="#confirm-modal">
+                                    <i class="fa fa-fw fa-remove"></i>
+                                </a>
+                            {% endif %}
+
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                {{ knp_pagination_render(list) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal modal-warning" id="confirm-modal-apply" data-show='false'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Advertencia</h4>
+            </div>
+            <div class="modal-body">
+                <p id="question-p" class="question">
+                    Si continua con esta operaci&oacute;n se aplicar&aacute; la reversa de la venta con No. de motor [ID],
+                    todos los puntos dados al vendedor y su linea jear&aacute;quica por esta venta seran revertidos.
+                    <br/>
+                    Presione << Aceptar >> para continuar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+                    Cancelar
+                </button>
+                <a class="btn btn-outline btn-ok" id="btn-ok-apply" href="javacript:;" data-href="" data-sku="">
+                    Aceptar
+                </a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $('#confirm-modal-apply').modal();
+
+    $('#confirm-modal-apply').on('show.bs.modal', function(e) {
+        $(this).find('#btn-ok-apply').attr('data-href', $(e.relatedTarget).data('href'));
+        $(this).find('#btn-ok-apply').attr('data-sku', $(e.relatedTarget).data('id'));
+
+        // Get the question text
+        var text = $(this).find('#question-p').text();
+
+        // Replace [ID] with the data 'id'
+        var replaceText = "<span class='delete-id'>" + $(e.relatedTarget).data('id') + "</span>";
+        text = text.replace('[ID]', replaceText);
+        $(this).find('#question-p').html(text);
+    });
+
+    $('#confirm-modal-apply').on('hidden.bs.modal', function (e) {
+        // Switch back to [ID]
+        $(this).find('#question-p').find('span.delete-id').replaceWith('[ID]');
+    })
+
+
+    $('#btn-ok-apply').click(function(e) {
+        e.preventDefault();
+
+        $.post(
+            $(this).attr("data-href"),
+            function(response){
+
+                if (response.status == 200) {
+
+                }
+                else {
+
+                }
+
+                window.location = '{{ path('backend_sale_reverse') }}'
+            }
+        ).fail(function(){
+            alert('Ocurrio un error al ejecutar la reversa, por favor intentalo nuevamente.');
+        });
+    });
+
+
+
+</script>

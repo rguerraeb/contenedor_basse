@@ -1,0 +1,125 @@
+AppBundle\Entity\StaffPromotion:
+    type: entity
+    table: staff_promotion
+    repositoryClass: AppBundle\Repository\StaffPromotionRepository
+    indexes:
+        staffpromo2staff_idx:
+            columns:
+                - staff_id
+        staffpromo2promo_idx:
+            columns:
+                - promotion_id
+        staffpromo2campaign_idx:
+            columns:
+                - campaign_id
+        staffpromo2code_idx:
+            columns:
+                - code_id
+        staffpromo2distro_idx:
+            columns:
+                - distributor_id
+        staffpromo2user_idx:
+            columns:
+                - created_by
+        staffpromo2user2_idx:
+            columns:
+                - updated_by
+    id:
+        staffPromotionId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_promotion_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        quantityTaken:
+            type: integer
+            nullable: true
+            column: quantity_taken
+        invoiceNumber:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: invoice_number
+        invoiceImg:
+            type: string
+            nullable: true
+            length: 300
+            fixed: false
+            column: invoice_img
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+        promotion:
+            targetEntity: Promotion
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promotion_id:
+                    referencedColumnName: promotion_id
+            orphanRemoval: false
+        campaign:
+            targetEntity: Campaign
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                campaign_id:
+                    referencedColumnName: campaign_id
+            orphanRemoval: false
+        staffCode:
+            targetEntity: StaffCode
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                code_id:
+                    referencedColumnName: staff_code_id
+            orphanRemoval: false
+        distributor:
+            targetEntity: Distributor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                distributor_id:
+                    referencedColumnName: distributor_id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

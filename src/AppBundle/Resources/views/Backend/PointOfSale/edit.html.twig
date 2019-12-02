@@ -1,0 +1,14 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Punto de venta',
+            'smallTitle': 'Punto de venta',
+            'formPath': '@App/Backend/PointOfSale/form.html.twig',
+            'form': form,
+            'titleRoute': 'backend_point_of_sale'
+        }
+    ) }}
+{% endblock %}

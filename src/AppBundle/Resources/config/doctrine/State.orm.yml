@@ -1,0 +1,33 @@
+AppBundle\Entity\State:
+    type: entity
+    table: state
+    indexes:
+        state2country_idx:
+            columns:
+                - country_id
+    id:
+        stateId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: state_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    manyToOne:
+        country:
+            targetEntity: Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

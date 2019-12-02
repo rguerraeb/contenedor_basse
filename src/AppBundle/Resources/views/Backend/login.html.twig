@@ -1,0 +1,65 @@
+{% extends '@App/Backend/base_login.html.twig' %}
+
+{% block body %}
+<div class="auth-wrapper">
+	<div class="auth-content">
+		<div class="auth-bg">
+			<span class="r" style="background: linear-gradient(-135deg,#46b5ff 0%,#0067AC 100%) !important"></span>
+			<span class="r s" style="background: linear-gradient(-135deg,#fca89f 0%,#DD5040 100%) !important"></span>
+			<span class="r s" style="background: linear-gradient(-135deg,#46b5ff 0%,#0067AC 100%) !important"></span>
+			<span class="r" style="background: linear-gradient(-135deg,#fca89f 0%,#DD5040 100%) !important"></span>
+		</div>
+
+		
+		<div class="card" style="opacity:0.9; border-radius:50px">
+			<div class="card-body text-center">
+				<div class="">
+					<img class="logo-login" src="{{ asset('images/totto.jpg') }}">
+				</div>
+
+				<p class="mb-4">Inicie sesi&oacute;n</p>
+				{% for flashMessage in app.session.flashbag.get('login_error') %}
+					<div class="alert alert-danger" role="alert">{{ flashMessage | raw }}</div>
+		        {% endfor %}
+		        {% if error %}
+		            <div>{{ error.messageKey|trans({}, 'security') }}</div>
+		        {% endif %}
+		
+				{{ form_start(
+					form,
+					{
+						'attr': {
+							'id': 'loginForm'
+						}
+					}
+				) }}
+
+				<form action="{{ path('backend_login') }}" method="post" id="loginForm">
+					<div class="input-group mb-3">
+						<input type="email" class="form-control required email" placeholder="Email" name="_username">
+					</div>
+					<div class="input-group mb-4">
+						<input type="password" class="form-control required" placeholder="Password" name="_password">
+					</div>
+					<button type="submit" class="btn btn-primary shadow-2 mb-4">Ingresar</button>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+
+<script>
+  $(function () {
+
+    $('#loginForm').validate({
+    	errorPlacement: function(error, element) {}
+    });
+    
+  });
+</script>
+{% endblock %}

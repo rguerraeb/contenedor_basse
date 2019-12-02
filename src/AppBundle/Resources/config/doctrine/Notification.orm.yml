@@ -1,0 +1,28 @@
+AppBundle\Entity\Notification:
+    type: entity
+    table: notification
+    id:
+        notificationId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: notification_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        percentage:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+        message:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

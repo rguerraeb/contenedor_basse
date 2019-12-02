@@ -1,0 +1,56 @@
+AppBundle\Entity\Promo:
+    type: entity
+    table: promo
+    repositoryClass: AppBundle\Repository\PromoRepository
+    indexes:
+        promo_promo_category_id:
+            columns:
+                - promo_category_id
+    id:
+        promoId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 128
+            fixed: false
+        status:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            default: ACTIVE
+        startDate:
+            type: datetime
+            nullable: false
+            column: start_date
+        endDate:
+            type: datetime
+            nullable: false
+            column: end_date
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        promoCategory:
+            targetEntity: PromoCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_category_id:
+                    referencedColumnName: promo_category_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

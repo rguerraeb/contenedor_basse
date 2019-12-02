@@ -1,0 +1,41 @@
+<div class="card">
+    <div class="card-header">
+        <h5>Subir Archivo de Excel</h5>
+    </div>
+    <div class="card-block">
+        {{ form_start(
+            form,
+            {
+                'action': path,
+                'attr': {
+                    'id': id
+                }
+            }
+        ) }}
+        <div class="card">
+            <div class="card-header">
+                <p>Seleccione el archivo que desea subir. El sistema notificar&aacute; si existen errores.</p>
+            </div>
+            <div class="card-body">
+                <table class="">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-group">
+                                    {{ form_row(form.file) }}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                    
+                <div class="formButtons">
+                    {{ form_row(form.save) }}
+                </div>
+            </div>
+        </div>
+        {{ form_errors(form) }}
+        
+        {{ form_end(form) }}
+    </div>
+</div>

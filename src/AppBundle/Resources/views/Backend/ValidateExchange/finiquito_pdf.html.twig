@@ -1,0 +1,139 @@
+
+        <style>
+        
+            .promotions {
+                border-collapse: collapse;
+            }
+
+            .promotions td {
+                border: 1px solid #0067ac;
+                padding: 4px;
+            }
+
+            .promotions th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .promotions th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #0067ac;
+                color: white;
+            }
+
+            .promotions .td-center {
+                text-align: center;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            .text-right {
+                text-align: right;
+            }
+
+            .justify {
+                text-align: justify;
+                text-justify: inter-word;
+            }
+
+            .left {
+                margin-left: 12px;
+            }
+
+            .logo {
+                width:150px;
+            }
+
+            h4 {
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .h3-padding {
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .wrap {
+                word-wrap: break-word;
+            }
+
+        </style>
+
+{% if dateCreated|date("n") == 1 %}
+    {% set month = "Enero" %}
+{% elseif dateCreated|date("n") == 2 %}
+    {% set month = "Febrero" %}
+{% elseif dateCreated|date("n") == 3 %}
+    {% set month = "Marzo" %}
+{% elseif dateCreated|date("n") == 4 %}
+    {% set month = "Abril" %}
+{% elseif dateCreated|date("n") == 5 %}
+    {% set month = "Mayo" %}
+{% elseif dateCreated|date("n") == 6 %}
+    {% set month = "Junio" %}
+{% elseif dateCreated|date("n") == 7 %}
+    {% set month = "Julio" %}
+{% elseif dateCreated|date("n") == 8 %}
+    {% set month = "Agosto" %}
+{% elseif dateCreated|date("n") == 9 %}
+    {% set month = "Septiembre" %}
+{% elseif dateCreated|date("n") == 10 %}
+    {% set month = "Octubre" %}
+{% elseif dateCreated|date("n") == 11 %}
+    {% set month = "Noviembre" %}
+{% elseif dateCreated|date("n") == 12 %}
+    {% set month = "Diciembre" %}
+{% endif %}
+
+<page backtop="10mm" backbottom="20mm" backleft="20mm" backright="20mm" style="font-size: 11pt">
+    <img class="logo" src="images/totto.jpg">
+    <br>
+    <h3 class="text-right h3-padding">No. {{ invoice }}</h3>
+    <h3 class="center">Finiquito Promo<br>Totto</h3>
+    <br>
+    <div class="justify">
+        En la ciudad de Guatemala, el {{ dateCreated|date("d") }} de {{ month }} de {{ dateCreated|date("Y") }}, YO, {{ staff.name|upper }}, me identifico con Documento Personal de Identificación número de Código Único de Identificación: {{ staff.citizenId }}, extendido por el Registro Nacional de las Personas de la República de Guatemala.
+    </div>
+    <br>
+    <div class="justify">
+        DECLARO: expresamente que el día de hoy, participe en la promoción de Totto adquiriendo productos participantes. A continuación, el detalle de las promociones a las que aplico:
+    </div>
+    <br>
+    <div>
+    Ganador de {{ staffCode.prize.name }}    
+    </div>
+    <br>
+    <div class="justify">
+        Por lo anterior, manifiesto que otorgo el más completo, total y eficaz finiquito, en virtud de no tener nada que pedir ni reclamar en contra de la promoción “Totto”, Ebclosion S.A.
+    </div>
+    <page_footer>
+        <table>
+            <tr>
+                <td style="width: 30px"></td>
+                <td class="center" style="width: 260px">
+                    <h4>{{ distributor }}
+                        {% if store.storeName %}
+							 {{ store.storeName }}
+						{% endif %}
+                    </h4>
+                    <hr>
+                    <h4>Distributor</h4>
+                </td>
+                <td style="width: 140px"></td>
+                <td class="center" style="width: 260px">
+                    <h4>{{ staff.name }}</h4>
+                    <hr>
+                    <h4>Cliente</h4>
+                </td>
+                <td style="width: 40px"></td>
+            </tr>
+        </table>
+    </page_footer>
+
+</page>
+

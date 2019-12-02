@@ -1,0 +1,66 @@
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title">Lista de Promociones</h3>
+    </div>
+
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover" id="cpw-table">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tel&eacute;fono</th>
+                <th>No. Venta</th>
+                <th>Estado</th>
+                <th>Herramientas</th>
+            </tr>
+            {% for cpw in cpws %}
+            <tr
+                data-id="{{ cpw.clientPreWinnerId }}">
+                <td>
+                    {{ cpw.clientPreWinnerId }}
+                </td>
+                <td>
+                    {{ cpw.clientName }}
+                </td>
+                <td>
+                    {{ cpw.clientPhone }}
+                </td>
+                <td>
+                    {{ cpw.sale.saleId }}
+                </td>
+                <td
+                    class="status-column">
+                    {{ cpw.clientPreWinnerStatus }}
+                </td>
+                <td>
+                    {% set class = '' %}
+                    {% if not winner or cpw.clientPreWinnerId != winner.clientPreWinnerId %}
+                        <a
+                            class="btn btn-primary confirm-link pointer-link"
+                            data-id="{{ cpw.clientPreWinnerId }}"
+                            data-name="{{ cpw.clientName }}"
+                            data-phone="{{ cpw.clientPhone }}"
+                            data-toggle="modal"
+                            data-target="#confirm-client-modal">
+                            Confirmar
+                        </a>
+                        {% set class = 'no-show' %}
+                    {% endif %}
+
+                    <button
+                        class="{{ class }} send-prize btn btn-success"
+                        {% if prizeGiven %}
+                            disabled
+                        {% endif %}>
+                        {% if prizeGiven %}
+                            Premio entregado
+                        {% else %}
+                            Enviar premio
+                        {% endif %}
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

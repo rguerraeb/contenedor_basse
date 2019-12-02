@@ -1,0 +1,30 @@
+AppBundle\Entity\SaleReverse:
+    type: entity
+    table: sale_reverse
+    id:
+        saleReverseId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sale_reverse_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        skuCode:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            column: sku_code
+        status:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            default: INGRESADO
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

@@ -1,0 +1,1080 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    <section class="content-header">
+    	<ol class="breadcrumb">
+    		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    		<li class="active">Ver Mis Ventas</li>
+    	</ol>
+    </section>
+
+    <br>
+    <section class="content">
+        <div class="alerts-panel" id="alerts-panel">
+        </div>
+
+    	{{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+    	<div class="row">
+            {% if staff.jobPosition.id != 5 and staff.jobPosition.id != 6 %}
+                {% set dashboardWidth = 5 %}
+                <div class="col-md-4 heriarchy-tree">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                &Aacute;rbol
+                            </h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool"
+                                    data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            {{ include(
+                                '@App/Backend/loading_css.html.twig',
+                                {'id': 'loading-tree'}
+                            ) }}
+                            <form
+                                action="{{ path('staff_sku_sale_sumary') }}"
+                                class="tree-form" id="tree-form">
+                                <div class="tree-panel" id="tree-panel">
+                                    <ul class="">
+                                        <li class="branch branch-0">
+                                            <div class="branch-panel">
+                                                {% if tree|length == 0 %}
+                                                    {% set class = 'fa-minus-circle' %}
+                                                {% else %}
+                                                    {% set class = 'fa-minus' %}
+                                                {% endif %}
+                                                <a
+                                                    href="#"
+                                                    id="branch-{{ staff.staffId }}"
+                                                    data-branch = "0"
+                                                    data-id="{{ staff.staffId }}"
+                                                    data-branch-status="open">
+                                                    <i class="fa {{ class }}"></i>
+                                                    {{ staff.name }}
+                                                    <small>
+                                                        <strong>
+                                                            ({{ staff.jobPosition }})
+                                                        </strong>
+                                                    </small>
+                                                </a>
+                                                <div class="input-panel">
+                                                    <input
+                                                        name="staff[]"
+                                                        type="checkbox"
+                                                        class='staff-sale-check'
+                                                        value="{{ staff.staffId }}"
+                                                        data-branch = "0"
+                                                        checked>
+                                                </div>
+                                            </div>
+                                            {% for staff in tree %}
+                                                <ul>
+                                                    <li class="branch branch-1">
+                                                        <div class="branch-panel">
+                                                            <a
+                                                                href="#"
+                                                                id="branch-{{ staff.staffId }}"
+                                                                data-branch="1"
+                                                                data-id="{{ staff.staffId }}"
+                                                                data-status="{{ staff.status }}"
+                                                                data-branch-status="closed">
+                                                                {% if staff.status == 'MOVED' %}
+                                                                    <i class="fa fa-minus-circle"></i>
+                                                                {% else %}
+                                                                    <i class="fa fa-plus"></i>
+                                                                {% endif %}
+                                                                {{ staff.name }}
+                                                                <small>
+                                                                    <strong>
+                                                                        ({{ staff.jpName }})
+                                                                    </strong>
+                                                                </small>
+                                                            </a>
+                                                            <div class="input-panel">
+                                                                <input
+                                                                    class='staff-sale-check'
+                                                                    name="staff[]"
+                                                                    type="checkbox"
+                                                                    data-branch = "1"
+                                                                    value="{{ staff.staffId }}">
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            {% endfor %}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="button-panel">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        id="update-sales">
+                                        Actualizar Ventas
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {% set dashboardWidth = 9 %}
+                    <div class="hide">
+                        <form action="{{ path('staff_sku_sale_sumary') }}" id="tree-form">
+                            <input
+                                class='staff-sale-check'
+                                name="staff[]"
+                                type="checkbox"
+                                data-branch = "0"
+                                value="{{ staff.staffId }}" checked>
+                        </form>
+                    </div>
+            {% endif %}
+
+            
+    		<div class="col-md-{{ dashboardWidth }} sales-graphs-panel">
+    			<div class="box box-primary">
+    				<div class="box-header with-border">
+    					<h3 class="box-title">
+                            Dashboard de Ventas
+                        </h3>
+    					<div class="box-tools pull-right">
+    						<button type="button" class="btn btn-box-tool"
+    							data-widget="collapse">
+    							<i class="fa fa-minus"></i>
+    						</button>
+    					</div>
+    				</div>
+
+    				<div class="box-body">
+                        {{ include(
+                            '@App/Backend/loading_css.html.twig',
+                            {'id': 'loading-bar-graph'}
+                        ) }}
+    					<div class="row margin" style="width: 80%; margin: auto;" id="monthSlider">
+    						<input type="text" value="" class="slider form-control"
+                                id="slider-input"
+    							data-slider-ticks="[1,2,3,4,5,6,7,8,9,10,11,12]"
+    							data-slider-ticks-labels='["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]'
+    							data-slider-min="1" data-slider-max="12" data-slider-step="1"
+    							data-slider-value="[1,12]" data-slider-orientation="horizontal"
+    							data-slider-selection="before" data-slider-tooltip="hide"
+    							data-slider-id="blue">
+    					</div>
+    					<div class="row margin" id="plotArea">
+    						<br />
+                            <br />
+    						<div id="bar-chart" style="height: 300px;"></div>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+
+    		<div class="col-md-3" id="dashboard-sku-points">
+                <div class="box-body">
+                    {{ include(
+                        '@App/Backend/loading_css.html.twig',
+                        {'id': 'loading-cc-info'}
+                    ) }}
+                    <div class="sku-summary-panel" id="sku-summary-panel">
+            			{%  for item in skuSaleSummary %}
+                			{{ include(
+                                '@App/Frontend/Staff/_sku_sale_summary_cc.html.twig',
+                                {'item': item}
+                            ) }}
+            			{% endfor %}
+                    </div>
+        			<div
+                        class="info-box pointer-link"
+                        id="promotional-points-panel"
+                        data-toggle="modal"
+                        data-target="#promo-modal">
+        				<span class="info-box-icon bg-purple">
+                            <i class="fa fa-star-o"></i>
+                        </span>
+
+        				<div class="info-box-content">
+        					<span class="info-box-text" >
+                                Bono
+                            </span>
+                            <span class="info-box-number">
+                                <span id="promotional-points">
+                                    {{ pointDetail[0].promotional }}
+                                </span> pts
+                            </span>
+        				</div>
+        			</div>
+                </div>
+    		</div>
+    	</div>
+
+        {% if goal != NULL %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box-body goal-info-boxes">
+                        <div class="info-box goal-info-box">
+                            <span class="info-box-icon bg-navy">
+                                <i class="fa fa-flag-checkered"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text" >
+                                    Premio: {{ goal.goalType }}
+                                </span>
+                                <span class="info-box-number">
+                                    <span>
+                                        {% if goal.goalType.goalTypeId == 1 %}
+                                            {{ goal.points }} pts
+                                        {% elseif goal.goalType.goalTypeId == 2 %}
+                                            {{ goal.prize.displayName }}
+                                        {% elseif goal.goalType.goalTypeId == 3 %}
+                                            {{ goal.message }}
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-box goal-info-box">
+                            <span class="info-box-icon bg-navy">
+                                <i class="fa fa-flag-checkered"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text" >
+                                    Meta: "{{ goal }}"
+                                </span>
+                                <span class="info-box-number">
+                                    Vender
+                                    <span>
+                                        {{ goal.quantity }}
+                                    </span>
+                                    {% transchoice goal.quantity %}
+                                        ]-Inf,0] motos
+                                        |{1} moto
+                                        |]1,Inf[ motos
+                                    {% endtranschoice %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-box goal-info-box">
+                            <span class="info-box-icon bg-navy">
+                                <i class="fa fa-flag-checkered"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text" >
+                                    Progreso
+                                </span>
+                                <span class="info-box-number">
+                                    <span id="promotional-points">
+                                        {{ progress }}
+                                    </span>
+                                    {% transchoice progress %}
+                                        ]-Inf,0] motos vendidas
+                                        |{1} moto vendida
+                                        |]1,Inf[ motos vendidas
+                                    {% endtranschoice %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-box goal-info-box">
+                            <span class="info-box-icon bg-navy">
+                                <i class="fa fa-flag-checkered"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text" >
+                                    Duraci&oacute;n
+                                </span>
+                                <span class="info-box-number">
+                                    <span>
+                                        {{ goal.start|date('Y-m-d') }}
+                                        a
+                                        {{ goal.end|date('Y-m-d') }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 goal-panel">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                Meta: "{{ goal.name }}"
+                            </h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool"
+                                    data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="goal-graph" id="goal-graph"  style="height:300px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="modal modal-info" id="promo-modal" data-show='false'>
+            {{ include(
+                '@App/Backend/loading_css.html.twig',
+                {'id': 'loading-modal-promo'}
+            ) }}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Detalle puntos promocionales</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="promo-detail-table">
+                            <thead>
+                                <th>Puntos</th>
+                                <th>Promoci&oacute;n</th>
+                                <th>Fecha</th>
+                            </thead>
+                            <tbody id="promo-detail">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-outline" data-dismiss="modal">
+                            Aceptar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+    	href="{{ asset('bundles/adminLTE/plugins/bootstrap-slider/slider.css') }}">
+
+        <link rel="stylesheet"
+        href="{{ asset('bundles/adminLTE/plugins/iCheck/all.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+{% block extra_scripts %}
+    <script
+    	src="{{ asset('bundles/adminLTE/plugins/bootstrap-slider/bootstrap-slider.js') }}"
+    	type="text/javascript"></script>
+        <script
+        src="{{ asset('bundles/adminLTE/plugins/iCheck/icheck.min.js') }}"
+        type="text/javascript"></script>
+    <script
+    	src="{{ asset('bundles/adminLTE/plugins/flot/jquery.flot.min.js') }}"></script>
+    <script
+    	src="{{ asset('bundles/adminLTE/plugins/flot/jquery.flot.resize.min.js') }}"></script>
+    <script
+    	src="{{ asset('bundles/adminLTE/plugins/flot/jquery.flot.categories.min.js') }}"></script>
+
+    <script
+        src="{{ asset('js/create_alert.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            function changeFaInnerI($context, oldI, newI) {
+                // Change icon to close one
+                var $i = $context.find('i');
+
+                // Remove plus icon if necessary
+                if ($i.hasClass(oldI)) {
+                    $i.removeClass(oldI);
+                };
+
+                // Add minus icon
+                $i.addClass(newI);
+            }
+
+            function uncheckParentBranch(branchNo, context) {
+                // Current branch
+                var cBranch = parseInt(branchNo);
+
+                // Parent branch number
+                var pBranch = (cBranch-1).toString();
+
+                $(context).parents('.branch-' + pBranch).each(function(){
+                    $(this).find("input.staff-sale-check").each(function(){
+                        var branch = parseInt($(this).data('branch'));
+                        if (branch < cBranch) {
+                            // Uncheck
+                            $(this).iCheck('uncheck');
+
+                            // Get context
+                            // Keep recursion going
+                            if (branch >= 0) {
+                                uncheckParentBranch(branch, this);
+                            };
+                        };
+                    })
+                });
+            }
+
+            function uncheckChildrenBranch(branchNo, context) {
+                // Current branch
+                var cBranch = parseInt(branchNo);
+
+                // Children branch number
+                var chBranch = (cBranch+1).toString();
+
+                $(context).closest('.branch-' + cBranch).find('.branch-' + chBranch).each(function(){
+                    $(this).find("input.staff-sale-check").each(function(){
+                        var branch = parseInt($(this).data('branch'));
+                        if (branch > cBranch) {
+                            // Uncheck
+                            $(this).iCheck('uncheck');
+
+                            // Get context
+                            // Keep recursion going
+                            if (branch >= 0) {
+                                uncheckChildrenBranch(branch, this);
+                            };
+                        };
+                    })
+                });
+            }
+
+            function getRootId(idForm) {
+                var $form = $('#' + idForm);
+
+                var value = $form
+                    .find('#tree-panel li.branch-0 .branch-panel a[data-branch=0]')
+                    .data('id');
+
+                if (value !== undefined) {
+                    return value;
+                };
+
+                return -1;
+            }
+
+            function getCheckedInfo(idForm) {
+                var $form = $('#' + idForm);
+                var info = [];
+
+                $form.find('input[name="staff[]"]:checked').each(function(){
+                    // Get parent branch value
+                    var parent = getParent($(this));
+
+                    // Add to info that this value, has found parents
+                    info.push({
+                        parent: parent,
+                        value: $(this).val()
+                    });
+                });
+
+                return info;
+            }
+
+            function getParent($input) {
+                var ids = [];
+                var branch = $input.data('branch');
+
+                // 0 branch already included
+                if (branch !== null) {
+                    var parentBranch = branch - 1;
+
+                    // Don't use branch 0, it's obvius it will always be a parent
+                    if (parentBranch >= 0) {
+                        var $parentBranch = $input.parents('li.branch-' + parentBranch);
+
+                        // From the parent branch find the id with same branch number
+                        var id = $parentBranch
+                            .find('.branch-panel a[data-branch="' + parentBranch + '"]')
+                            .data('id');
+
+                        // Get input to get parent of the parent input
+                        var $pInput = $parentBranch
+                            .find('.branch-panel .input-panel input[data-branch='
+                                + parentBranch + ']');
+
+                        return {
+                            parent: getParent($pInput),
+                            value: id
+                        }
+                    };
+                };
+
+                return null;
+            }
+
+            function groupChildrenWithParent(data) {
+                var groupedInfo = [];
+                for (var i = 0; i < data.length; i++) {
+                    var info = data[i];
+
+                    var parentIndex = indexByParent(info.parent, groupedInfo);
+
+                    if (parentIndex == -1) {
+                        // Parents not found, create new object for them
+                        groupedInfo.push({
+                            parent: info.parent,
+                            children: [info.value]
+                        });
+                    }
+                    else {
+                        // Add to this group of parents the child who has them as parents
+                        groupedInfo[parentIndex].children.push(info.value);
+                    }
+                };
+
+                return groupedInfo;
+            }
+
+            function indexByParent(parent, groupedInfo) {
+                if (parent == null) {
+                    return -1;
+                };
+
+                for (var i = 0; i < groupedInfo.length; i++) {
+                    var groupParent = groupedInfo[i].parent;
+
+                    if (groupParent && parent.value == groupParent.value) {
+                        // This index is the same parents
+                        return i;
+                    };
+                };
+
+                return -1;
+            }
+
+            function postData(idForm){
+                var $form = $('#' + idForm);
+                var data = $form.serializeArray();
+
+                // Add slider values
+                var valStr = $('#slider-input').val();
+                var values = valStr.split(',');
+
+                // Get root value
+                var root = getRootId(idForm);
+
+                // Get checked values mapped with their parent values
+                var checkedInfo = getCheckedInfo(idForm);
+
+                // Group children with the same parents
+                var groupedInfo = groupChildrenWithParent(checkedInfo);
+
+                // Get max, min values
+                var max = 1;
+                var min = 1;
+                if (values.length > 1) {
+                    // Has max min value
+                    max = values[1];
+                    min = values[0];
+                };
+
+                // Add data to form
+                return JSON.stringify({
+                    minMonth: min,
+                    maxMonth: max,
+                    root: root,
+                    staffInfo: groupedInfo
+                });
+            }
+
+            function rePlot(info, plot) {
+                // Create new plot data
+                var data = [];
+
+                for (var i = 0; i < info.length; i++) {
+                    var monthInfo = info[i];
+
+                    var monthAmount = monthInfo.total_ventas;
+
+                    if (! isNaN(monthAmount)) {
+                        data.push([
+                            monthInfo.mes,
+                            parseInt(monthInfo.total_ventas)
+                        ]);
+                    };
+                };
+
+                // Set new plot data
+                var newData = {
+                    data: data,
+                    color: barColor
+                };
+
+                // Change plot data
+                plot.setData([newData]);
+                plot.setupGrid();
+                plot.draw();
+            }
+
+            function postUpdates(idForm, plot) {
+                postUpdateForm(idForm, plot);
+
+                postCcForm(idForm);
+            }
+
+            function postUpdateForm(idForm, plot) {
+                $('#loading-bar-graph').show();
+
+                var $form = $('#' + idForm);
+
+                // Post form
+                var url = $form.attr('action');
+                var data = postData(idForm);
+
+                $.post(
+                    url,
+                    data,
+                    function(response){
+                        // With response data replot area
+                        rePlot(response, plot);
+
+                        // Hide loading div
+                        $('#loading-bar-graph').hide();
+                    }
+                );
+            }
+
+            function postCcForm(idForm) {
+                $('#loading-cc-info').show();
+
+                var $form = $('#' + idForm);
+
+                // Post form
+                var url = '{{ path("staff_sku_sale_sumary_cc") }}';
+                var data = postData(idForm);
+
+                $.post(
+                    url,
+                    data,
+                    function(response){
+                        // Repopulate cc info panel
+                        // Empty old cc box
+                        $('#sku-summary-panel').empty();
+
+                        // For every sku sales create a new ccBox
+                        for (var i = 0; i < response.skuSales.length; i++) {
+                            var skuSale = response.skuSales[i];
+
+                            var ccBoxHtml = `{{ include(
+                                "@App/Frontend/Staff/_sku_sale_summary_cc.html.twig"
+                            ) }}`;
+
+                            // Replace data
+                            var $ccBox = $(ccBoxHtml);
+                            $ccBox.find('#item-cc').html(skuSale.cc);
+                            $ccBox.find('#item-total-sale').html(skuSale.total_venta);
+                            $ccBox.find('#total-points').html(unitText(skuSale.total_venta));
+
+                            // Append to correct div
+                            $('#sku-summary-panel').append($ccBox);
+                        };
+
+                        // Replace total promotional points
+                        var newPoints = 0.00;
+                        var newPointsArray = response.pointDetail;
+                        if (newPointsArray.length > 0) {
+                            newPoints = newPointsArray[0].promotional;
+                        };
+
+                        $('#promotional-points').html(newPoints);
+
+                        // Hide loading div
+                        $('#loading-cc-info').hide();
+                    }
+                );
+            }
+
+            function unitText(amount) {
+                if (amount < -1 || amount > 1) {
+                    return 'unidades';
+                }
+
+                return 'unidad';
+            }
+
+            // Start up plot area
+            var barColor = "#3c8dbc";
+            var bar_data = {
+                data: [
+                    {% set cont = 0 %}
+                    {% for pair in data %}
+                        {% if cont > 0 %}
+                            ,
+                        {% endif %}
+                        [
+                            "{{ pair.mes }}",
+                            {{ pair.total_ventas }}
+                        ]
+                        {% set cont = cont + 1 %}
+                    {% endfor %}
+                ],
+                color: barColor
+            };
+
+            var plot = $.plot("#bar-chart", [bar_data], {
+              grid: {
+                borderWidth: 1,
+                borderColor: "#f3f3f3",
+                tickColor: "#f3f3f3"
+              },
+              series: {
+                bars: {
+                  show: true,
+                  barWidth: 0.5,
+                  align: "center"
+                }
+              },
+              xaxis: {
+                mode: "categories",
+                tickLength: 0
+              }
+            });
+
+            // Start up slider
+            $('#slider-input').slider();
+
+            $("#slider-input").on("slideStop", function(slideEvt) {
+                postUpdates('tree-form', plot);
+
+                var data = postData('tree-form');
+
+                // Change global last used form
+                lastUsedTreeForm = data;
+            });
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            });
+
+            // Tree javascript
+            $('#tree-panel').on('click', 'li.branch a', function(e){
+                e.preventDefault();
+
+                // If the branch is MOVED, means it can't be seen
+                if ($(this).data('status') == 'MOVED') {
+                    // exit
+                    return;
+                };
+
+                // 'data-branch-status' tell us if open or close branch
+                var dataLabel = 'branch-status';
+                var brStatus = $(this).data(dataLabel);
+                var sId = $(this).data('id');
+
+                if (brStatus == 'open') {
+                    // Change icon to close one
+                    changeFaInnerI($(this), 'fa-minus', '');
+                    changeFaInnerI($(this), 'fa-minus-circle', 'fa-plus');
+
+                    // Hide children
+                    $(this).parent().siblings('ul').hide();
+
+                    // Change status
+                    $(this).data(dataLabel, 'closed');
+                }
+                else if (brStatus == 'closed') {
+                    // Request new set of children
+                    $("#loading-tree").show();
+
+                    var $parent = $(this).parent().parent();
+                    var branch = $(this).data('branch');
+                    var $this = $(this);
+
+                    $.get("{{ path('staff_sale_job_position_children') }}/" + sId, function(response){
+                        // With reponse create new list and show
+                        // Delete old uls
+                        $parent.find('ul').remove();
+
+                        // Create new uls
+                        var i = 0;
+                        if (Array.isArray(response)) {
+                            for (i = 0; i < response.length; i++) {
+                                var staff = response[i];
+
+                                // Get branch number
+                                var newBranch = parseInt(branch) + 1;
+
+                                // If necessary put class in branch-panel
+                                var isClass = 'fa-plus';
+                                if (staff.status == 'MOVED') {
+                                    isClass = 'fa-minus-circle';
+                                }
+
+                                // For each staff append new ul
+                                var ulHtml = '' +
+                                    '<ul>' +
+                                        '<li class="branch branch-' + newBranch + '">' +
+                                            '<div class="branch-panel">' +
+                                                '<a ' +
+                                                    'href="#"' +
+                                                    'id="branch-' + staff.staffId + '"' +
+                                                    'data-branch="' + newBranch + '"' +
+                                                    'data-id="' + staff.staffId + '"' +
+                                                    'data-status="' + staff.status + '"' +
+                                                    'data-branch-status="closed">' +
+                                                    '<i class="fa ' + isClass + '"></i> ' +
+                                                    staff.name +
+                                                    '<small>' +
+                                                        '<strong>' +
+                                                            ' (' + staff.jpName + ')' +
+                                                        '</strong>' +
+                                                    '</small>' +
+                                                '</a> ' +
+                                                '<div class="input-panel">' +
+                                                    '<input ' +
+                                                        'name="staff[]" ' +
+                                                        'type="checkbox" ' +
+                                                        'data-branch = "' + newBranch + '" ' +
+                                                        'class="staff-sale-check" ' +
+                                                        'value="' + staff.staffId + '"' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</li>' +
+                                    '</ul>'
+                                ;
+
+                                // Add input style
+                                var $ulHtml = $(ulHtml);
+                                $ulHtml.find('input').iCheck({
+                                    checkboxClass: 'icheckbox_flat-green',
+                                    radioClass: 'iradio_flat-green'
+                                });
+
+                                // Append to parent
+                                $parent.append($ulHtml);
+                            };
+                        };
+
+                        // Change icon to open one
+                        if (i == 0) {
+                            // No results found change icon
+                            changeFaInnerI($this, 'fa-minus', 'fa-minus-circle');
+                        }
+
+                        $("#loading-tree").hide();
+                    });
+
+                    changeFaInnerI($this, 'fa-plus', 'fa-minus');
+
+                    // Change status
+                    $(this).data(dataLabel, 'open');
+                };
+            });
+
+            // On start up uncheck children
+            $('#tree-panel').find('li.branch.branch-0 .branch-panel .input-panel .staff-sale-check').each(function(){
+                // Check super parent
+                if ($(this).data('branch') == '0') {
+                    $(this).iCheck('check');
+                    uncheckChildrenBranch($(this).data('branch'), this);
+                };
+            });
+
+            $('#tree-panel').on(
+                'ifChecked',
+                'li.branch .branch-panel .input-panel .staff-sale-check',
+                function(){
+                    uncheckChildrenBranch($(this).data('branch'), this);
+                    uncheckParentBranch($(this).data('branch'), this);
+                }
+            );
+
+            // Variable to hold the last posted tree form
+            var lastUsedTreeForm = postData('tree-form');
+
+            $('#update-sales').click(function(e){
+                e.preventDefault();
+
+                postUpdates('tree-form', plot);
+
+                var data = postData('tree-form');
+
+                // Change global last used form
+                lastUsedTreeForm = data;
+            });
+
+            $('#promo-modal').modal();
+
+            $('#promo-modal').on('show.bs.modal', function(e) {
+                $('#loading-modal-promo').show();
+                var $form = $('#tree-form');
+
+                // Post form
+                var url = "{{ path('staff_promo_detail') }}";
+
+                // Data comes from last used data
+                var data = lastUsedTreeForm;
+
+                $.post(
+                    url,
+                    data,
+                    function(response){
+                        if (response.status == 200) {
+                            var $promoDetail = $('#promo-detail');
+                            for (var i = 0; i < response.promoDetail.length; i++) {
+                                var promoDetail = response.promoDetail[i];
+
+                                // Check what to put on date
+                                var date = promoDetail.created_at;
+                                if (date == null) {
+                                    date = 'N/A';
+                                }
+                                else {
+                                    date = moment(date).format('DD-MM-YYYY hh:mm:ss');
+                                }
+
+                                $promoDetail.append(`
+                                    <tr>
+                                        <td>
+                                            ` + promoDetail.points + `
+                                        </td>
+                                        <td>
+                                            ` + promoDetail.name + `
+                                        </td>
+                                        <td>
+                                            ` + date + `
+                                        </td>
+                                    </tr>
+                                `);
+                            };
+                        };
+
+                        $('#loading-modal-promo').hide();
+                    }
+                )
+                .fail(function(){
+                    $('#loading-modal-promo').hide();
+                    $('#promo-modal').modal('hide');
+                    createAlert('danger', 'Error al buscar detalle', 'Error!', '#alerts-panel');
+                });
+            });
+
+            $('#promo-modal').on('hidden.bs.modal', function (e) {
+                $(this).find('#promo-detail').empty();
+            })
+
+            {% if goal != NULL %}
+                // Graph for goal
+                var gData = [
+                    [0, {{ progress }}],
+                    [1, {{ goal.quantity }}]
+                ];
+
+                var gDataset = [
+                    {
+                        label: "Motos vendidas",
+                        data: gData,
+                        color: barColor
+                    }
+                ];
+
+                var gTicks = [
+                    [0, "Progreso"],
+                    [1, "Meta"]
+                ];
+
+                var gOptions = {
+                    series: {
+                        bars: {
+                            show: true
+                        }
+                    },
+                    bars: {
+                        align: "center",
+                        barWidth: 0.5
+                    },
+                    xaxis: {
+                        axisLabel: false,
+                        axisLabelUseCanvas: true,
+                        axisLabelFontSizePixels: 12,
+                        axisLabelPadding: 10,
+                        ticks: gTicks
+                    },
+                    yaxis: {
+                        axisLabel: "No. Motos Vendidas",
+                        axisLabelUseCanvas: true,
+                        axisLabelFontFamily: 'Verdana, Arial',
+                        axisLabelPadding: 3
+                    },
+                    legend: {
+                        noColumns: 0,
+                        labelBoxBorderColor: "#000000",
+                        position: "nw"
+                    },
+                    grid: {
+                        hoverable: true,
+                        borderWidth: 1,
+                        borderColor: "#f3f3f3",
+                        tickColor: "#f3f3f3"
+                    }
+                };
+
+                var previousPoint = null, previousLabel = null;
+
+                $.fn.UseTooltip = function () {
+                    $(this).bind("plothover", function (event, pos, item) {
+                        if (item) {
+                            if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                                previousPoint = item.dataIndex;
+                                previousLabel = item.series.label;
+                                $("#tooltip").remove();
+
+                                var x = item.datapoint[0];
+                                var y = item.datapoint[1];
+
+                                var color = item.series.color;
+
+                                showTooltip(item.pageX,
+                                item.pageY,
+                                color,
+                                item.series.xaxis.ticks[x].label + " : <strong>" + y + "</strong>");
+                            }
+                        } else {
+                            $("#tooltip").remove();
+                            previousPoint = null;
+                        }
+                    });
+                };
+                
+                function showTooltip(x, y, color, contents) {
+                    $('<div id="tooltip">' + contents + '</div>').css({
+                        position: 'absolute',
+                        display: 'none',
+                        top: y - 40,
+                        left: x - 120,
+                        border: '2px solid ' + color,
+                        padding: '3px',
+                        'font-size': '9px',
+                        'border-radius': '5px',
+                        'background-color': '#fff',
+                        'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                        opacity: 0.9
+                    }).appendTo("body").fadeIn(200);
+                }
+
+                $.plot($("#goal-graph"), gDataset, gOptions);
+                $("#goal-graph").UseTooltip();
+            {% endif %}
+        });
+    </script>
+{% endblock %}

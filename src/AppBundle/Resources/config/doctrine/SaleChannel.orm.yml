@@ -1,0 +1,31 @@
+AppBundle\Entity\SaleChannel:
+    type: entity
+    table: sale_channel
+    id:
+        saleChannelId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sale_channel_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        createdAt:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: created_at
+        createdBy:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: created_by
+    lifecycleCallbacks: {  }

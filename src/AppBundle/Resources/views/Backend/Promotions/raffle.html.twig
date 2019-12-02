@@ -1,0 +1,214 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+{% block firstInBody %}
+    {{ include('@App/Backend/loading_css.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Sorteo Promoci&oacute;n #{{ promo.promoId }}</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('backend_promotion') }}">
+                    Promociones
+                </a>
+            </li>
+            <li class="active">
+                Sorteo de Promoci&oacute;n # {{ promo.promoId }}
+            </li>
+        </ol>
+    </section>
+    <section class="content">
+        {{ include('@App/Backend/flash_message.html.twig') }}
+
+        <div id="alert-panel">
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ include(
+                    '@App/Backend/Promotions/promo_info.html.twig',
+                    {'promo': promo}
+                ) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                {{ include(
+                    '@App/Backend/Promotions/pre_winners_list.html.twig',
+                    {'cpws': cpws, 'winner': winner, 'prizeGive': prizeGiven}
+                ) }}
+            </div>
+        </div>
+    </section>
+
+    <div class="modal modal-info" id="confirm-client-modal" data-show='false'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="close confirm-modal-close"
+                        aria-label="Close"
+                        data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Confirmar Informaci&oacute;n</h4>
+                </div>
+                <div class="modal-body" id="cancel-modal-body">
+                    <form
+                        action="{{ path(
+                            'backend_promo_confirm_raffle',
+                            {id: promo.promoId}
+                        ) }}"
+                        class="col-md-12" id="modal-form">
+                        <div class="form-group">
+                            {{form_widget(
+                                form.clientPreWinnerId
+                            ) }}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.clientPhone, "Teléfono") }}
+                                {{form_widget(
+                                    form.clientPhone,
+                                    {'attr': {
+                                        'class': 'form-control'
+                                    }}
+                                ) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.clientName, "Nombre") }}
+                                {{form_widget(
+                                    form.clientName,
+                                    {'attr': {
+                                        'class': 'form-control'
+                                    }}
+                                ) }}
+                            </div>
+                        </div>
+                        {{ form_widget(form._token) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline pull-left"
+                        data-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <a class="pointer-link">
+                        <button
+                            class="btn btn-outline btn-ok"
+                            id="confirm-client-winner">
+                            Confirmar
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ asset('js/create_alert.js') }}"></script>
+    <script>
+        jQuery(function ($){
+            $(document).ajaxStop(function(){
+                $(".loading-animation-panel").hide();
+            });
+            $(document).ajaxStart(function(){
+                $(".loading-animation-panel").show();
+            });
+        });
+
+        $(document).ready(function(){
+            $('#confirm-client-modal').modal();
+
+            $('#confirm-client-modal').on('show.bs.modal', function(e) {
+                // Change info of form
+                var id = $(e.relatedTarget).data('id');
+                var phone = $(e.relatedTarget).data('phone');
+                var name = $(e.relatedTarget).data('name');
+
+                $('#client_pre_winner_clientPreWinnerId').val(id);
+                $('#client_pre_winner_clientPhone').val(phone);
+                $('#client_pre_winner_clientName').val(name);
+            });
+
+            $('#confirm-client-winner').click(function(e){
+                e.preventDefault();
+
+                // Post info by ajax
+                var $form = $('#modal-form');
+                $.post(
+                    $form.attr('action'),
+                    $form.serialize(),
+                    function(response) {
+                        if (response.status == 500) {
+                            // Error found
+                            createAlert('danger', response.message, 'Error!', '#alert-panel');
+                        }
+                        else if (response.status == 200) {
+                            createAlert('success', response.message, 'Éxito!', '#alert-panel');
+
+                            // Hide confirm links and show the correct send prize button
+                            $('#cpw-table .confirm-link').hide();
+
+                            var $tr = $('#cpw-table tr[data-id=' + response.id + ']');
+                            $tr.find('.status-column')
+                                .html(response.newStatus);
+
+                            $tr.find('.send-prize').show();
+                        };
+
+                        // Hide modal
+                        $('#confirm-client-modal').modal('hide');
+                    }
+                )
+                .fail(function(){
+                    createAlert('danger', '', 'Error!', '#alert-panel');
+
+                    // Hide modal
+                    $('#confirm-client-modal').modal('hide');
+                });
+            });
+
+            $('.send-prize').click(function(e){
+                e.preventDefault();
+
+                var url = '{{ path('backend_promo_give_prize', {id: promo.promoId}) }}';
+                $.get(url, function(response){
+                    if (response.status == 200) {
+                        createAlert('success', response.message, 'Éxito!', '#alert-panel');
+
+                        // Disable button and change text
+                        $('.send-prize').prop('disabled', true);
+                        $('.send-prize').html('Premio entregado');
+                    }
+                    else {
+                        createAlert('danger', response.message, 'Error!', '#alert-panel');
+                    }
+                })
+                .fail(function(){
+                    createAlert('danger', '', 'Error!', '#alert-panel');
+                });
+            });
+        });
+    </script>
+{% endblock %}

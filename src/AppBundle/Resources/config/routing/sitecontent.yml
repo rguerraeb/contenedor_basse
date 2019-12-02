@@ -1,0 +1,24 @@
+site-content_index:
+    path:     /
+    defaults: { _controller: "AppBundle:SiteContent:index" }
+    methods:  GET
+
+site-content_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:SiteContent:show" }
+    methods:  GET
+
+site-content_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:SiteContent:new" }
+    methods:  [GET, POST]
+
+site-content_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:SiteContent:edit" }
+    methods:  [GET, POST]
+
+site-content_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:SiteContent:delete" }
+    methods:  DELETE

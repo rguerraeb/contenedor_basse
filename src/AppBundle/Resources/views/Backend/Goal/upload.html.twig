@@ -1,0 +1,114 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Subir
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Metas</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('backend_goal') }}">
+                    Metas
+                </a>
+            </li>
+            <li class="active">
+                Subir Meta #{{ goal.id }}
+            </li>
+        </ol>
+    </section>
+    <section class="content">
+        {{ include('@App/Backend/flash_message.html.twig') }}
+
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Ejemplo</h3>
+            </div>
+
+            <div class="box-body goal-box-body table-responsive">
+                <div class='row'>
+                    <div class='col-md-12'>
+                        Asegúrese que el archivo a subir tenga los campos del siguiente ejemplo, en el formato que se muestra.
+                    </div>
+                </div>
+                <br>
+                <div class='row goal-table-panel'>
+                    <div class='col-md-12'>
+                        <table class="table table-hover">
+                            <tr style='background-color:#eee'>
+                                <th>No. Telefono</th>
+                                <th>Nombre</th>
+                                <th>Puesto</th>
+                                <th>Promedio de Ventas</th>
+                                <th>Metas</th>
+                                <th>Puntos de Premio</th>
+                            </tr>
+                            <tr>
+                                <td>12345678</td>
+                                <td>Nombre 1</td>
+                                <td>Gerente</td>
+                                <td>30</td>
+                                <td>0.2</td>
+                                <td>50</td>
+                            </tr>
+                            <tr>
+                                <td>23456789</td>
+                                <td>Nombre 2</td>
+                                <td>Vendedor</td>
+                                <td>10</td>
+                                <td>5</td>
+                                <td>20</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr>
+                    <div class='col-md-6'>
+                        Descargar XLS con promedio de ventas desde
+                        {{ "this month"|date_modify('-' ~ goal.months ~ ' Month')|date('Y-m-01') }}
+                        hasta
+                        {{ "this month"|date_modify('-1 Month')|date('Y-m-t') }}
+                        <a
+                            href="{{ path(
+                                'backend_goal_example_xls',
+                                {'id': goal.id}
+                            ) }}"
+                            class="btn btn-primary pull-right">
+                            Descargar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    {{
+                        include(
+                            '@App/Backend/_file_form.html.twig',
+                            {
+                                'path': '',
+                                'form': form,
+                                'id': 'goal-upload-form'
+                            }
+                        )
+                    }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <script
+        type="text/javascript"
+        src="{{ asset('js/block_submit_button.js') }}">
+    </script>
+{% endblock %}

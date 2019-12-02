@@ -1,0 +1,65 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * FilterGroup
+ */
+class FilterGroup
+{
+    /**
+     * @var integer
+     */
+    private $filterGroupId;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+
+    /**
+     * Get filterGroupId
+     *
+     * @return integer 
+     */
+    public function getFilterGroupId()
+    {
+        return $this->filterGroupId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return FilterGroup
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+}

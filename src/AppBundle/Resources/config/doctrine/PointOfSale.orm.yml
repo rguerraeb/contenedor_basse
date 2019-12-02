@@ -1,0 +1,195 @@
+AppBundle\Entity\PointOfSale:
+    type: entity
+    table: point_of_sale
+    repositoryClass: AppBundle\Repository\PointOfSaleRepository    
+    indexes:
+        pos2channel_idx:
+            columns:
+                - sale_channel_id
+        pos2type_idx:
+            columns:
+                - point_of_sale_type_id
+        pos2region_idx:
+            columns:
+                - region_id
+        pos2state_idx:
+            columns:
+                - state_id
+        pos2city_idx:
+            columns:
+                - city_id
+        pos2country_idx:
+            columns:
+                - country_id
+        parser_register_id:
+            columns:
+                - parser_register_id
+    id:
+        pointOfSaleId:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Codigo de 10 digitos numerico'
+            id: true
+            column: point_of_sale_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        businessName:
+            type: text
+            nullable: true
+            length: 16777215
+            fixed: false
+            column: business_name
+        taxIdentifier:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: tax_identifier
+        homePhone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: home_phone
+        cellPhone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: cell_phone
+        email:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        geolocation:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        address1:
+            type: text
+            nullable: true
+            length: 16777215
+            fixed: false
+            column: address_1
+        address2:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: address_2
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: created_by
+        pointOfSaleInnerId:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: point_of_sale_inner_id
+        status:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '1'
+        groupName:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+            column: group_name
+        deviceUUID:
+            type: string
+            nullable: true
+            length: 20
+            fixed: false
+            column: device_uuid
+        battery:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        version:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        latestStatus:
+            type: datetime
+            nullable: true
+            column: latest_status
+    manyToOne:
+        parserRegister:
+            targetEntity: ParserRegister
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parser_register_id:
+                    referencedColumnName: parser_register_id
+            orphanRemoval: false
+        saleChannel:
+            targetEntity: SaleChannel
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_channel_id:
+                    referencedColumnName: sale_channel_id
+            orphanRemoval: false
+        city:
+            targetEntity: City
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                city_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        country:
+            targetEntity: Country
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        region:
+            targetEntity: Region
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                region_id:
+                    referencedColumnName: region_id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+        pointOfSaleType:
+            targetEntity: PointOfSaleType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

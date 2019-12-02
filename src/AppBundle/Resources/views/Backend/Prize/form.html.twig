@@ -1,0 +1,72 @@
+{{ form_start(form) }}
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.displayName, "Nombre de premio"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.displayName, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.amount, "Cantidad"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.amount, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.value, "Valor en puntos"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.value, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.smsResponse, "Sms respuesta"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.smsResponse, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.instructions, "Instrucciones"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.instructions, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+			<div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.isActive, "Estado del premio"| convert_encoding('UTF-8', 'iso-8859-1')) }}
+                    {{form_widget(form.isActive, {'attr': {'class': 'required form-control' }}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+				<div class="form-group">
+					
+					
+					{{ form_label(form.imagePath, "Imagen") }}
+					{% if form_errors(form.imagePath)|length > 0 %}
+						<div class="image-error alert alert-danger">
+							{{ form_errors(form.imagePath ) }}
+						</div>
+					{% endif %}
+					{{ form_widget(form.imagePath, {'attr': {'class': 'required form-control' }}) }}
+					{% if (form.vars.value.imagePath) %}
+						<img src="{{ asset('images/prize/'~form.vars.value.imagePath) }}" alt="" width="320" />
+					{% endif %}
+
+				</div>
+			</div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <button type="reset"
+            onclick="window.location='{{ path('backend_prize') }}'"
+            class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+{{ form_end(form) }}

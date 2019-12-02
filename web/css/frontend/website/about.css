@@ -1,0 +1,37 @@
+.what-panel {
+    width: 100%;
+    margin: 60px auto 0 auto;
+    text-align: center;
+}
+
+.what-panel .info-panels .info-col {
+    display: inline-block;
+    width: 30%;
+    min-width: 190px;
+    padding: 0 1%;
+}
+
+.what-panel .info-panels .info-col img {
+    width: 80px;
+}
+
+.what-panel .info-panels .info-col .description {
+    text-align: justify;
+}
+
+.what-panel .info-panels .info-col .title-panel .title {
+    font-size: 2em;
+}
+
+.what-panel .button-footer-panel {
+    margin-top: 30px;
+}
+
+.what-panel .button-footer-panel .login {
+    margin-right: 60px;
+}
+
+.info-panels img {
+    max-width: 400px;
+
+}

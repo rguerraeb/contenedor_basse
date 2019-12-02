@@ -1,0 +1,57 @@
+AppBundle\Entity\StaffGoalNotification:
+    type: entity
+    table: staff_goal_notification
+    repositoryClass: AppBundle\Repository\StaffGoalNotificationRepository
+    indexes:
+        staff_goal_notification_goal_id:
+            columns:
+                - goal_id
+        staff_goal_notification_notification_id:
+            columns:
+                - notification_id
+        staff_goal_notification_staff_id:
+            columns:
+                - staff_id
+    id:
+        staffGoalNotificationId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_goal_notification_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        notification:
+            targetEntity: Notification
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                notification_id:
+                    referencedColumnName: notification_id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

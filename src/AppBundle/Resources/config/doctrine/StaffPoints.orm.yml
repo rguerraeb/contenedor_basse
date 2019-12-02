@@ -1,0 +1,51 @@
+AppBundle\Entity\StaffPoints:
+    type: entity
+    table: staff_points
+    repositoryClass: AppBundle\Repository\StaffPointsRepository
+    indexes:
+        fk_staff_id01_idx:
+            columns:
+                - staff_id
+    id:
+        staffPointsId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_points_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        point:
+            type: float
+            nullable: false
+            precision: 11
+            scale: 2
+            default: '0.00'
+        exchangeChannel:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            column: exchange_channel
+        code:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+            default: ''
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

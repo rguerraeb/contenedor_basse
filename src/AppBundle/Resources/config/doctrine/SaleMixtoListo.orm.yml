@@ -1,0 +1,83 @@
+AppBundle\Entity\SaleMixtoListo:
+    type: entity
+    table: sale_mixto_listo
+    indexes:
+        fk_sale_id65_idx:
+            columns:
+                - sale_id
+        fk_concrete_type_id65_idx:
+            columns:
+                - concrete_type_id
+        fk_state_id_idx:
+            columns:
+                - state_id
+    id:
+        saleMixtoListoId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sale_mixto_listo_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        clientCode:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: client_code
+        m3:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+        sellerName:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: seller_name
+        foundryAddress:
+            type: string
+            nullable: true
+            length: 512
+            fixed: false
+            column: foundry_address
+        saleDate:
+            type: datetime
+            nullable: true
+            column: sale_date
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        concreteType:
+            targetEntity: ConcreteType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                concrete_type_id:
+                    referencedColumnName: concrete_type_id
+            orphanRemoval: false
+        sale:
+            targetEntity: Sale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_id:
+                    referencedColumnName: sale_id
+            orphanRemoval: false
+        state:
+            targetEntity: State
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_id:
+                    referencedColumnName: state_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,59 @@
+<div class="row" id="headerPoints">
+	<div class="col-md-4 col-sm-6 col-xs-12">
+		<div class="info-box">
+			<span class="info-box-icon bg-aqua"><i class="fa fa-plus"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Q. Acumulados</span> <span
+					class="info-box-number">{{ pointDetail.acumulados }}</span>
+			</div>
+		</div>
+	</div>
+	<!-- div class="col-md-3 col-sm-6 col-xs-12">
+		<div class="info-box">
+			<span class="info-box-icon bg-teal"><i class="fa fa-plus"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Puntos Promocionales</span> <span
+					class="info-box-number">{{ pointDetail.promocionales }}</span>
+			</div>
+		
+		</div>
+		
+	</div-->
+	<div class="col-md-4 col-sm-6 col-xs-12">
+		<div class="info-box">
+			<span class="info-box-icon bg-green"><i class="fa fa-minus"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Q. Canjeados</span> <span
+					class="info-box-number">{{ pointDetail.canjeados }}</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-6 col-xs-12">
+		<div class="info-box available-points">
+			<span class="info-box-icon bg-yellow">
+				<i class="fa fa fa-pause" id='equal'></i>
+			</span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">
+					Q. Disponibles
+				</span>
+				<span class="info-box-number">
+					{{ pointDetail.disponibles }}
+				</span>
+				{#
+				<!--p class="promo-detail">
+					<span class="promo-points-label">
+						Q. promocionales disponibles:
+					</span>
+					<span class="promo-points">
+						{{ pointDetail.promocionales - pointDetail.promocionales_canjeados }}
+					</span>
+				</p-->#}
+			</div>
+		</div>
+	</div>
+</div>

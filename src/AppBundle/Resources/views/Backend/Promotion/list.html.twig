@@ -1,0 +1,137 @@
+<div class="card-header">
+    <h5>Listado de Promociones</h5>
+		<span  title="Agregar Promoción" data-toggle="tooltip">
+			<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+		</span>
+    <div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Código de Promo</th>
+					<th>Nombre</th>
+					<th>Descripción</th>
+					<th>Imagen</th>
+					<th>Estado</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for promotion in list %}
+					<tr>
+						<td>{{ promotion.promotionId }}</td>
+						<td>{{ promotion.promoCode }}</td>
+						<td>{{ promotion.name }}</td>
+						<td>
+							{% set brand = promotion.description|split('|') %}
+							{% if brand and brand|length > 2 %}
+								{{ brand[3] }}
+							{% else %}
+								{{ brand[0] }}
+							{% endif %}	
+						</td>
+						<td>
+							{% if promotion.imagePath | length > 0 %}
+								<img class="image-rounded zoomA" src="{{ asset('uploads/promotions/'~promotion.imagePath) }}"/>
+							{% endif %}
+						</td>
+						<td>
+							{% if promotion.status == 'ACTIVO'%}
+								<span class="label bg-c-green f-12 text-white" href="#!">{{ promotion.status }}</span>
+							{% else %}
+								<span class="label bg-c-red f-12 text-white" href="#!">{{ promotion.status }}</span>
+							{% endif %}
+						</td>
+						<td>
+							<a class="btn btn-icon btn-rounded theme-bg2 text-white" href="{{ path('backend_promotion_edit', {'promotionId': promotion.promotionId | md5, 'campaignId': promotion.campaign.campaignId | md5}) }}"  title="Editar Promoción" data-toggle="tooltip">
+								<i class="feather icon-edit-1"></i>
+							</a>
+						
+                            {% if promotion.status == 'ACTIVO'%}
+                                <span  title="Inactivar Promoción" data-toggle="tooltip">
+                                    <a id="btn-delete"
+                                        class="btn btn-icon btn-rounded btn-danger text-white sweet-multiple"
+                                        data-id="{{ promotion.promotionId }}" 
+                                        data-name="{{ promotion.name }}" 
+                                        data-href="{{ path(
+                                            'backend_promotion_delete',
+                                            {'promotionId': promotion.promotionId | md5, 'campaignId': promotion.campaign.campaignId | md5}
+                                        ) }}">
+                                        <i class="feather icon-trash-2"></i>
+                                    </a>
+                                </span>
+                            {% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true
+		});	
+
+		$('table').on('click', '#btn-delete',function(){
+			$('.sweet-multiple').on('click', function() {
+				swal({
+					title: '¿Seguro que desea inactivar la promoción "'+ $(this).attr('data-name') +'" ?',
+					icon: "warning",
+					buttons: ["Cancelar",true],
+					dangerMode: true,
+				}).then((willDelete) => {
+					if (willDelete) {
+						swal({
+							text: 'La promoción "'+ $(this).attr('data-name') +'" se está inactivando',
+							icon: "info",
+							buttons: false,
+							content: {
+								element: "span",
+								attributes: {
+									className: "spinner-border spinner-border-sm"
+								}
+							}
+						});
+						window.location =  $(this).attr('data-href'); 
+					}
+				});
+			});
+		});
+	});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+	.zoomA {
+        /*width: 600px;*/
+        /*height: auto;*/
+        transition-duration: 1s;
+        transition-timing-function: ease;
+    }
+    .zoomA:hover {
+        transform: scale(3.0);
+		border-radius: 16%;
+		margin-left: -75px;
+    }
+</style>
+{% endblock %}

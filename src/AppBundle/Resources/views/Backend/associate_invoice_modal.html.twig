@@ -1,0 +1,99 @@
+<div id="associateInvoice" class="modal fade" data-show='false' tabindex="-1" role="dialog" aria-labelledby="associateInvoiceLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header theme-bg">
+				<h5 class="modal-title text-white" id="associateInvoiceLabel">Cargar Factura</h5>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="avatar-wrapper">
+						<img class="profile-pic" id='profile-pic' src="{{ asset('images/frontend/bg_maderas.png') }}" />
+						<div class="upload-button">
+							<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+						</div>
+						<input type="file" id="report_invoiceImg" name="report_invoiceImg" class="file-upload" src="{{ asset('images/frontend/bg_maderas.png') }}" style='opacity:0'>							
+						<script>
+																								
+						</script>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-6 d-flex justify-content-center">
+						<button type="reset" data-dismiss="modal" class="btn btn-rounded btn-danger">Cancelar</button>
+					</div>
+					<div class="col-md-6 col-6 d-flex justify-content-center">
+						<a class="btn btn-rounded btn-outline-light btn-ok" id="btn-ok" name="btn-ok">Aceptar</a>
+						<input name="codeId" id="codeId" type ="hidden"/>
+						<input name="userApp" id="userApp" type ="hidden" value="{{ app.user.id }}"/>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+
+    $(document).ready(function() {
+		$('#associateInvoice').modal();
+
+		$('#associateInvoice').on('show.bs.modal', function(e) { 
+			document.getElementById('codeId').value =  $(e.relatedTarget).data('id');
+		});
+
+	}); 
+	
+	
+	var readURL = function(input) {
+	    	if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	
+	            reader.onload = function (e) {
+	                $('.profile-pic').attr('src', e.target.result);
+	            }
+	    
+	            reader.readAsDataURL(input.files[0]);
+	            $('#avatar_notice').show();
+	        }
+	    }
+
+		$(".btn-ok").on('click', function() {
+			
+			var url = "{{ path('backend_upload') }}";  
+			
+			var file_data = $("#report_invoiceImg").prop("files")[0];   
+			var form_data = new FormData();
+			form_data.append("invoiceImg", file_data);
+			form_data.append("codeId", $('#codeId').val());
+			form_data.append("idUser", $('#userApp').val());
+			
+			$.ajax({   
+				url :  url,
+				data : form_data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				type : 'POST',	  
+				dataType: 'script',  
+				success : function(json) {
+					console.log(json);
+					window.location = '{{ path('backend_report_campaings') }}'
+				},
+				error : function(xhr, status) {
+					alert('Disculpe, se presentó un problema al validar los datos');
+				}
+			});
+		});
+	   
+	    $(".file-upload").on('change', function(){
+	        readURL(this);
+	    });
+	    
+	    $(".upload-button").on('click', function() {
+	       $(".file-upload").click();
+	    });
+		
+</script>
+{% endblock %}

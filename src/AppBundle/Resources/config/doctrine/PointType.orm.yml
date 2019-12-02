@@ -1,0 +1,29 @@
+AppBundle\Entity\PointType:
+    type: entity
+    table: point_type
+    id:
+        pointTypeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: point_type_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        pointType:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: point_type
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+    lifecycleCallbacks: {  }

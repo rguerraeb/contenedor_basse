@@ -1,0 +1,126 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<!-- Content Header (Page header) -->
+
+<!-- Main content -->
+<section class="content">
+
+	{{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+	{% if staff.jobPosition.id == 3 %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Subir Facturas</h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<form action="" method="post" enctype="multipart/form-data"
+						id="registerInvoiceForm">
+						<div class='row'>
+							<div class="col-md-12">
+								<h3 align="center">Selecciona las imagenes de las facturas
+									que deseas registrar</h3>
+								<br>
+							</div>
+						</div>
+						<div class="row">
+							<div class='col-md-3'></div>
+							<div class='col-md-6'>
+								{{ include('@App/Backend/flash_message.html.twig') }}
+							</div>
+							<div class='col-md-3'></div>
+						</div>
+						<div class="row">
+							<div class='col-md-3'></div>
+							<div class='col-md-6' id="file-container">
+								<div class="row">
+									<div class="col-xs-10">
+										<input type="file" name="invoice[0]"
+											class="form-control required" />
+									</div>
+									<div class="col-xs-2">
+										<a class="btn btn-primary big-plus" href="javascript:;"
+											id="addInvoice"> <i class="fa fa-plus-square"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class='col-md-3'></div>
+						</div>
+						<br>
+						<div class='row'>
+							<div class='col-md-12' style='text-align: center'>
+								<button type="submit" id='register_sale'
+									class='btn btn-primary btn-lg'>Registrar Factura(s)</button>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-md-12'>
+								<h3>Instrucciones</h3>
+								<ul>
+									<li>Selecciona la imagen de la factura.</li>
+									<li>Presiona el bot&oacute;n con signo + para agregar mas
+										facturas.</li>
+									<li>Presiona el boton llamado "Registrar Factura(s)"</li>
+								</ul>
+
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+	{% endif %}
+	
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include('@App/Frontend/Staff/invoice_list.html.twig', { 'list': list }) }}
+		</div>
+	</div>
+
+</section>
+
+<script type="text/javascript">
+	$(function() {
+		$('#registerInvoiceForm').validate();
+
+		var inputCont = 1;
+		$('#addInvoice').click(function() {
+			var input = '<div class="row margin5" id="rowFile_'+inputCont+'"><div class="col-xs-10">'
+					+ '<input type="file" name="invoice['+inputCont+']" class="form-control required" /></div>'
+					+ '<div class="col-xs-2"><a class="btn btn-danger big-plus" href="javascript:removeRow('+inputCont+');">'
+					+  '<i class="fa fa-minus-square"></i></a></div></div>';
+			$('#file-container').append(input);
+			inputCont++;
+		});
+	});
+
+	function removeRow(inputCont) {
+		$('#rowFile_'+inputCont).fadeOut();
+	}
+
+	
+	
+</script>
+
+
+
+
+
+
+<!-- /.content -->
+{% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock %}

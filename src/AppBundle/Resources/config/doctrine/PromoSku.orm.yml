@@ -1,0 +1,40 @@
+AppBundle\Entity\PromoSku:
+    type: entity
+    table: promo_sku
+    repositoryClass: AppBundle\Repository\PromoSkuRepository
+    indexes:
+        fk_sku_id06_idx:
+            columns:
+                - sku_id
+        fk_promo_id98_idx:
+            columns:
+                - promo_id
+    id:
+        promoSkuId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_sku_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        sku:
+            targetEntity: Sku
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sku_id:
+                    referencedColumnName: sku_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

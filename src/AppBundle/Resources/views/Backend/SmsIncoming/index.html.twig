@@ -1,0 +1,22 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Mensajes
+{% endblock %}
+
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Backend/SmsIncoming/list.html.twig',
+                'entities': smsIncomings,
+                'title': 'Mensajes',
+                'singleTitle': 'Mensajes',
+                'deleteQuestion': '',
+                'form': NULL
+            }
+        )
+    }}
+{% endblock %}

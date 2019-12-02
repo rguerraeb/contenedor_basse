@@ -1,0 +1,33 @@
+AppBundle\Entity\FilterGroup:
+    type: entity
+    table: filter_group
+    indexes:
+        fk_ppl_id5_idx:
+            columns:
+                - ppl_id
+    id:
+        filterGroupId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: filter_group_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+    manyToOne:
+        ppl:
+            targetEntity: PurchasedProductList
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ppl_id:
+                    referencedColumnName: purchased_product_list_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

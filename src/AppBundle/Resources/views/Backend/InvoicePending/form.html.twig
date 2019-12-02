@@ -1,0 +1,245 @@
+
+{{ include('@App/Backend/loading_css.html.twig') }}
+
+<form id="invoice_pending_form" method="post" action="">
+	<!-- /.box-header -->
+	<div class="box-body">
+		<div class="row">
+			<div class="col-md-6">
+				<label>Bar / Restaurante</label> <input type="text"
+					disabled="disabled" value="{{ pos.pointOfSale.businessName }}"
+					class="form-control" />
+			</div>
+
+			<div class="col-md-6">
+				<label>Mesero / Bartender</label> <input type="text"
+					disabled="disabled" value="{{ form.vars.value.staff.firstName }} {{ form.vars.value.staff.lastName }}"
+					class="form-control" />
+			</div>
+
+			<div class="col-md-6">
+				<label>DPI</label> <input type="text" disabled="disabled"
+					value="{{ form.vars.value.staff.citizenId }}" class="form-control" />
+			</div>
+
+			<div class="col-md-6">
+				<label>Tel&eacute;fono</label> <input type="text"
+					disabled="disabled" value="{{ form.vars.value.staff.phoneMain }}"
+					class="form-control" />
+			</div>
+
+		</div>
+		<hr>
+		<h4>Informaci&oacute;n del Bar / Restarurante</h4>
+		<hr>
+		<div class="row">
+			<div class="col-md-3">
+
+				<div class="form-group">
+					<label>Im&aacute;gen de Factura</label>
+					{% if  form.vars.value.invoiceImage %}
+					<a
+						href="{{ asset("uploads/clients/invoice_image/" ~ form.vars.value.invoiceImage) }}"
+						target="_blank"> <img
+						src="{{ asset("uploads/clients/invoice_image/" ~ form.vars.value.invoiceImage) }}"
+						alt="" title="" class="img-responsive" width="200px" /></a> <input
+						type="hidden" value="{{ form.vars.value.invoiceImage }}"
+						name="appbundle_invoicepending[invoiceImage]" />
+					{% else %}
+					<div class="callout callout-danger">
+						<h4>&iexcl;Atenci&oacute;n!</h4>
+						<p>No se encontro la im&aacute;gen de &eacute;sta factura, por
+							favor rechazarla.</p>
+					</div>
+					{% endif %}
+				</div>
+
+			</div>
+		</div>
+		<hr>
+		<h4>Informaci&oacute;n de la factura</h4>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-2">
+				{{ form_label(form.invoiceNumber, "No. de Factura") }}
+				{{form_widget(form.invoiceNumber, {'attr': {'class': 'required form-control' }}) }}
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					{{ form_label(form.invoiceDate, "Fecha de Factura") }}
+					<div class="input-group date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						{{ form_widget(
+							form.invoiceDate,
+							{
+									'attr':
+									{
+											'class': 'form-control pull-right datepicker date',
+											'id': 'invoiceDate'
+									}
+							}
+							) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-md-12" id="productRowContainer">
+				<div class="row" id="productRow0">
+					<div class="col-md-1"></div>
+					<div class="col-md-4">
+						<label>Producto</label> <select name="prod[0][sku]"
+							onchange="loadProductType($(this), 0)"
+							class="form-control required select2">
+							<option value="">- Seleccione -</option>
+							{% for item in skuList %}
+							<option value="{{ item.skuId }}">{{ item.skuFilterString }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-md-2">
+						<label>Tipo</label> <input type="text" disabled="disabled"
+							value="" class="form-control" id="prodType0" />
+					</div>
+					<div class="col-md-2">
+						<label>Presentaci&oacute;n</label> <select
+							name="prod[0][presentation]" class="form-control required">
+							<option value="">- Seleccione -</option>
+							<option value="1">TRAGO</option>
+							<option value="2">BOTELLA</option>
+						</select>
+					</div>
+					<div class="col-md-1">
+						<label>Cantidad</label> <input type="text" value=""
+							name="prod[0][quantity]" class="required form-control digits" />
+					</div>
+					<div class="col-md-1" style="padding-top: 25px">
+						<a class="btn btn-primary big-plus"
+							href="javascript:newProductRow();" id="addInvoice"> <i
+							class="fa fa-plus-square"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="display: none;">
+		{{ include('@App/Backend/loading_css.html.twig') }}
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">Rechazar Solucitud</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						{{ form_label(form.comments, "Comentario de rechazo") }}
+						{{ form_widget(form.comments, {'attr': {'class': 'required form-control' }}) }}
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button id="rechazar" type="button" class="btn btn-primary">
+						Guardar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	{{ form_widget(form._token) }}
+	{{ form_widget(form.invoiceStatus, {'attr': {'class': 'required form-control' }}) }}
+
+	<div class="box-footer">
+		<button class="btn btn-danger " data-toggle="modal" type="button"
+			data-target="#myModal">Rechazar</button>
+		<button type="submit" id="aceptado" class="btn btn-primary pull-right">
+			Aprobado</button>
+	</div>
+
+</form>
+
+
+
+
+<script type="text/javascript">
+
+    function loadProductType(obj, index) {
+    	if (obj.val()) {
+    		$('#prodType'+index).val("Cargando datos...");
+            var data = {'sid': obj.val()}
+        	$.post("{{ path('backend_invoice_pending_load_type') }}", data, function (res) {
+                                     
+                $('#prodType'+index).val(res.brand);
+    
+          	});
+    	}
+    }
+
+    var row = 1;
+    function newProductRow() {        
+        var productRow = '<div class="row padding5" id="productRow'+row+'">';
+        productRow += '<div class="col-md-1"></div>';
+        productRow += '<div class="col-md-4"><label>Producto</label>';;
+        productRow += ' <select id="productList'+row+'" name="prod['+row+'][sku]" onchange="loadProductType($(this), '+row+')" class="form-control required select2">';
+        productRow += ' <option value="">- Seleccione -</option>';
+        {% for item in skuList %}
+        	productRow += '<option value="{{ item.skuId }}">{{ item.skuFilterString }}</option>';
+		{% endfor %}
+		productRow += '</select></div>';
+		productRow += '<div class="col-md-2"><label>Tipo</label><input type="text" disabled="disabled" value="" class="form-control" id="prodType'+row+'" /></div>';
+		productRow += '<div class="col-md-2"><label>Presentaci&oacute;n</label>';
+		productRow += '<select name="prod['+row+'][presentation]" class="form-control required"><option value="">- Seleccione -</option><option value="1">TRAGO</option><option value="2">BOTELLA</option></select>';
+		productRow += '</div>';
+		productRow += '<div class="col-md-1"><label>Cantidad</label> <input type="text" value="" name="prod['+row+'][quantity]" class="required form-control digits" />';
+		productRow += '</div><div class="col-md-1" style="padding-top: 25px"><a class="btn btn-danger big-plus" href="javascript:deleteProductRow('+row+');"> <i class="fa fa-minus-square"></i></a></div>';	
+			
+        $('#productRowContainer').append(productRow);
+        $('#productList'+row).select2();
+        row++;
+    }
+
+    function deleteProductRow(row) {
+        $('#productRow'+row).fadeOut();
+    }
+
+
+    $(function () {
+
+    	$('#invoice_pending_form').validate({
+        	submitHandler: function(form) {
+        		$(".loading-animation-panel").show();
+        		form.submit();
+        	 }
+        });
+
+    	$("#rechazar").click(function () {
+    		$(".loading-animation-panel").show();
+            $('#appbundle_invoicepending_invoiceStatus').val('RECHAZADO');
+            document.getElementById("invoice_pending_form").submit();
+        });
+	
+    	
+	});
+
+    $(document).ajaxStop(function () {
+        $(".loading-animation-panel").hide();
+    });
+    $(document).ajaxStart(function () {
+        $(".loading-animation-panel").show();
+    });
+
+    
+
+</script>
+

@@ -1,0 +1,29 @@
+		{% for flash_message in app.session.flashbag.get('success_message') %}
+			<script type="text/javascript">
+				$(function(){
+					new PNotify( {
+						title: '¡Éxito!', text: '{{ flash_message|raw }}', type: 'success'
+					});
+				});
+			</script>
+		{% endfor %}
+
+		{% for flash_message in app.session.flashbag.get('error_message') %}
+			<script type="text/javascript">
+				$(function(){
+					new PNotify( {
+						title: '¡Error!', text: '{{ flash_message|raw }}', type: 'error'
+					});
+				});
+			</script>
+		{% endfor %}
+
+		{% for flash_message in app.session.flashbag.get('alert_message') %}
+			<script type="text/javascript">
+				$(function(){
+					new PNotify( {
+						title: '¡Atención!', text: '{{ flash_message|raw }}', type: 'primary'
+					});
+				});
+			</script>
+		{% endfor %}

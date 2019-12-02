@@ -1,0 +1,65 @@
+{% extends '@App/Frontend/base_blank.html.twig' %}
+
+{% block body %}
+
+<h3>Datos Personales</h3>
+<p>
+	Nombres:
+	{{ data.first_name }}
+	, Apellidos:
+	{{ data.last_name }}
+</p>
+<p>
+	G&eacute;nero:
+	{{ data.gender }}
+</p>
+<p>
+	Fecha de Nacimiento:
+	{{ data.birthdate }}
+</p>
+<p>
+	N&uacute;mero de DPI:
+	{{ data.dpi }}
+</p>
+<p>
+	N&uacute;mero de NIT:
+	{{ data.nit }}
+</p>
+<p>
+	N&uacute;mero de celular:
+	{{ data.phone_number }}
+</p>
+<p>
+	N&uacute;mero de tel&eacute;fono alterno:
+	{{ data.secundary_phone_number }}
+</p>
+<p>
+	Correo electr&oacute;nico:
+	{{ data.email }}
+</p>
+<h3>Direcci&oacute;n de residencia</h3>
+<p>
+	Departamento:
+	{{ data.state }}
+	, Ciudad:
+	{{ data.city }}
+	, Zona:
+	{{ data.zone }}
+</p>
+<p>
+	Direcci&oacute;n:
+	{{ data.address }}
+</p>
+<h3>Datos de la empresa</h3>
+<p>
+	Empresa:
+	{{ data.groupName }}
+	
+</p>
+<p>
+	Puesto que ocupa:
+	{{ data.job_position }}
+</p>
+{% endblock %}
+
+

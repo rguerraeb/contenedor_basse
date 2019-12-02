@@ -1,0 +1,15 @@
+{% extends '@App/Frontend/base.html.twig' %}
+
+{% block extra_css %}
+    <link href="{{ asset("css/frontend/website/base.css") }}"
+        rel="stylesheet" type="text/css" />
+    <link href="{{ asset("css/frontend/website/header.css") }}"
+        rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block header %}
+    {{ include('@App/Frontend/Website/_header.html.twig') }}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

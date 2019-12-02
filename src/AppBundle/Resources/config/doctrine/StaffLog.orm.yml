@@ -1,0 +1,43 @@
+AppBundle\Entity\StaffLog:
+    type: entity
+    table: staff_log
+    indexes:
+        staffLog2staff_idx:
+            columns:
+                - staff_id
+    id:
+        staffLogId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_log_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        log:
+            type: json_array
+            nullable: true
+            length: 65535
+            fixed: false
+            column: log
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

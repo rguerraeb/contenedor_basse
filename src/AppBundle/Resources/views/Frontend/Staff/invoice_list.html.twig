@@ -1,0 +1,131 @@
+<div class="box box-success">
+	<div class="box-header">
+        {% if staff.jobPosition.id == 1 or staff.jobPosition.id == 2 %}
+			<h3 class="box-title">Historial de Puntos</h3>
+		{% else %}
+			<h3 class="box-title">Mis Facturas Ingresadas</h3>
+		{% endif %}	
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-hover dataTable table-responsive no-padding">
+			<thead>
+				<tr>
+					<th># Correlativo</th>
+					<th>Fecha de Ingreso</th>
+					{% if staff.jobPosition.id == 3 %}
+						<th width="15%">Imagen de Factura</th>
+					{% endif %}	
+					<th>Estatus</th>
+					<th>Comentario Call Center</th>
+					<th>Puntos Acumulados</th>
+					{% if staff.jobPosition.id == 2 %}
+						<th>Detalle de Factura</th>
+					{% endif %}	
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in list %}
+				<tr>
+					<td>{{ item.invoicePendingId }}</td>
+					<td>{{ item.createdAt | date('d-m-Y h:i:s') }}</td>
+					{% if staff.jobPosition.id == 3 %}
+					<td align="center">{% if item.invoiceImage %} <a
+						href="{{ asset("uploads/clients/invoice_image/" ~ item.invoiceImage) }}"
+						target="_blank"><img
+							src="{{ asset("uploads/clients/invoice_image/" ~ item.invoiceImage) }}"
+							alt="" title="" class="img-responsive" /></a> {% endif %}</td>
+					{% endif %}		
+					<td align="center">{% if item.invoiceStatus == 'PENDIENTE' %}
+						<h4>
+							<span class="label label-warning">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'ACEPTADO' %}
+						<h4>
+							<span class="label label-success">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'RECHAZADO' %}
+						<h4>
+							<span class="label label-danger">{{ item.invoiceStatus }}</span>
+						</h4> {% endif %}</td>
+					<td>{{ item.comments }}</td>
+					<td>{{ item.points }}</td>
+					{% if staff.jobPosition.id == 2 %}
+					<td align="center">
+						{% if item.invoiceStatus == 'ACEPTADO' %}
+						<h3>
+							<a href="javascript:;" onclick="showDetail('{{ item.invoiceNumber }}')">
+                                <i class="fa fa-search-plus"></i>
+                            </a>
+                         </h3>   
+						{% endif %}
+					</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-body -->
+</div>
+
+<div class="modal confirm-modal message-modal"
+	id="detail-modal" data-show='false'>	
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close confirm-modal-close"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">Detalle de Factura</h4>
+			</div>
+			<div class="modal-body" id="confirm-modal-body">
+				<h4>Cargando datos...</h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button"
+					class="confirm-modal-close btn btn-danger pull-left">
+					Cerrar Ventana</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% block extra_scripts %}
+<script type="text/javascript">
+
+    function showDetail(invoiceNumber) {
+    	var xres = '<h4>Cargando datos...</h4>';
+    	$('#confirm-modal-body').html(xres);     
+        if (invoiceNumber) {
+        	$('#detail-modal').modal('show');
+        	var data = {'invoiceNumber': invoiceNumber};
+       		$.post('{{ path('staff_invoice_detail') }}', data, function(response) {
+       			$('#confirm-modal-body').html(response);
+            }).fail(function(e){
+                var xres = '<p>Ocurrio un error al cargar los datos, por favor intentalo de nuevo.</p>';
+            	$('#confirm-modal-body').html(xres);     
+            });
+        }
+    }
+
+    
+
+	$(function() {
+		$('.dataTable')
+				.DataTable(
+						{
+							"language" : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+							},
+							"order" : [ [ 0, "DESC" ] ]
+						});
+
+		$('.confirm-modal-close').click(function(e){
+            // Hide modal
+            $('#detail-modal').modal('hide');
+        });
+
+	});
+</script>
+{% endblock %}

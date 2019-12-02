@@ -1,0 +1,25 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('bundles/bootstrap-select/css/boostrap-select.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Meta',
+            'smallTitle': 'Meta',
+            'formPath': '@App/Backend/Goal/form.html.twig',
+            'form': form,
+            'titleRoute': 'backend_goal'
+        }
+    ) }}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ asset('bundles/bootstrap-select/js/bootstrap-select.js') }}"></script>
+{% endblock %}

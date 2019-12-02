@@ -1,0 +1,240 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Meta #{{ goal.id }}</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('backend_goal') }}">
+                    Metas
+                </a>
+            </li>
+            <li class="active">
+                Meta #{{ goal.id }}
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <h3 class="profile-username text-center">
+                            {{ goal }}
+                        </h3>
+
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Estado</b>
+                                <a class="pull-right">
+                                    {{ goal.goalStatus }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Fecha inicio</b>
+                                <a class="pull-right">
+                                    {% if goal.start %}
+                                        {{ goal.start|date('Y-m-d H:i') }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Fecha fin</b>
+                                <a class="pull-right">
+                                    {% if goal.end %}
+                                        {{ goal.end|date('Y-m-d H:i') }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Objetivo</b>
+                                <a class="pull-right">
+                                    {{ goal.quantity }}
+                                    {% transchoice goal.quantity %}
+                                        ]-Inf,0] ventas
+                                        |{1} venta
+                                        |]1,Inf[ ventas
+                                    {% endtranschoice %}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {% if states %}
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <h3 class="profile-username text-center">
+                                Departamentos
+                            </h3>
+
+                            <ul class="list-group list-group-unbordered">
+                                {% for state in states %}
+                                    <li class="list-group-item">
+                                        <p>
+                                            {{ state }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if cities %}
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <h3 class="profile-username text-center">
+                                Municipios
+                            </h3>
+
+                            <ul class="list-group list-group-unbordered">
+                                {% for city in cities %}
+                                    <li class="list-group-item">
+                                        <p>
+                                            {{ city }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if saleChannels %}
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <h3 class="profile-username text-center">
+                                Canales de venta
+                            </h3>
+
+                            <ul class="list-group list-group-unbordered">
+                                {% for saleChannel in saleChannels %}
+                                    <li class="list-group-item">
+                                        <p>
+                                            {{ saleChannel }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if pointsOfSale %}
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <h3 class="profile-username text-center">
+                                Puntos de Venta
+                            </h3>
+
+                            <ul class="list-group list-group-unbordered">
+                                {% for pointOfSale in pointsOfSale %}
+                                    <li class="list-group-item">
+                                        <p>
+                                            {{ pointOfSale }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if jobPositions %}
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <h3 class="profile-username text-center">
+                                Puestos
+                            </h3>
+
+                            <ul class="list-group list-group-unbordered">
+                                {% for jobPosition in jobPositions %}
+                                    <li class="list-group-item">
+                                        <p>
+                                            {{ jobPosition }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="text-center">
+                            {{ goal }}
+                        </h3>
+                        <p class="text-muted text-center">
+                            {{ goal.goalType }}
+                        </p>
+                    </div>
+                    <div class="box-body">
+                        <p class="text-muted long-text">
+                            {% if goal.goalType.goalTypeId == 1 %}
+                                {{ goal.points }} puntos
+                            {% elseif goal.goalType.goalTypeId == 2 %}
+                                {{ goal.prize.displayName }}
+                            {% elseif goal.goalType.goalTypeId == 3 %}
+                                {{ goal.message }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="text-center">
+                            {{ goal }}
+                        </h3>
+                        <p class="text-muted text-center">
+                            Descripci&oacute;n
+                        </p>
+                    </div>
+                    <div class="box-body">
+                        <p class="text-muted long-text">
+                            {{ goal.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{
+            include(
+                '@App/Backend/Goal/staff_list.html.twig',
+                {
+                    'entities': staffs
+                }
+            )
+        }}
+    </section>
+{% endblock %}

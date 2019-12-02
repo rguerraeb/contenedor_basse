@@ -1,0 +1,168 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+LoyaltyV2 | Backend | Empleados
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+	href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<section class="content-header">
+	<h1>
+		Clientes
+		{% if staff is defined %}
+		<small> >> {{ staff.name }}</small>
+		{% endif %}
+
+	</h1>
+
+	{% if staff is not defined %}
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> Home</li>
+		<li class="active">Clientes</li>
+	</ol>
+	{% endif %}
+</section>
+
+
+
+<section class="content">
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+
+	{% if permits["wp"] %}
+	{% if form %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary collapsed-box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Agregar un Cliente</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							onclick="window.location = '{{ path('backend_pre_inscription') }}'">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+
+	{% if permits["rp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include("@App/Backend/Staff/list.html.twig", { 'entities': staffs }) }}
+		</div>
+		{% if staff is defined %}
+		<div class="col-xs-12" align="right">
+			<a class="upload-link btn btn-primary"
+				href="{{ path('backend_staff') }}"> << Regresar </a>
+		</div>
+		{% endif %}
+	</div>
+	{% endif %}
+
+
+</section>
+
+<!-- The Modal -->
+<div class="modal modal-info sms-modal" id="sms-modal" data-show='false'>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			{{ form_start(smsForm) }}
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">
+					Enviar Mensaje de Texto a: <strong id="staff-phone-sms"></strong>
+				</h4>
+			</div>
+			<div class="modal-body sms-input-panel">
+				{{ form_label(
+                                smsForm.sms,
+                                "Mensaje"
+                            ) }}
+				{{ form_widget(
+                                smsForm.sms,
+                                {'attr':
+                                    {
+                                        'class': 'required form-control sms-input',
+                                        'rows': 1,
+                                        'maxlength': message_max_length
+                                    }
+                                }
+                            ) }}
+				<div class="characters-left-panel">
+					<label for="" class="characters-left-lbl"> Caracteres
+						disponibles </label>
+					<p class="characters-left" id="characters-left"></p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-left"
+					data-dismiss="modal">Cancelar</button>
+				<button class="btn btn-outline btn-ok" id="sms-send-btn">
+					Enviar</button>
+			</div>
+			{{ form_end(smsForm) }}
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<script src="{{ asset('js/clean_speacial_characters.js') }}"></script>
+
+<script>
+        var availableCharacters = {{ message_max_length }};
+        $('#sms-modal').modal();
+
+        $('#sms-modal').on('show.bs.modal', function(e) {
+            $(this).find('form').attr('action', $(e.relatedTarget).data('action'));
+
+            // Empty phone number
+            $(this).find('#staff-phone-sms').html($(e.relatedTarget).data('phone'));
+
+            // Empty text area
+            $(this).find('#message_sms').val('');
+            $(this).find('#characters-left').html(availableCharacters);
+        });
+
+        $('#sms-modal').on('shown.bs.modal', function () {
+            $('#message_sms').focus();
+        })
+
+        $('#sms-modal').on('hidden.bs.modal', function (e) {
+        })
+
+        // Characters left function
+        $('#message_sms').keyup(function(e){
+            var value = $(this).val();
+
+            // Clean string
+            value = cleanValue(value);
+            $(this).val(value);
+
+            var totalCharacters = availableCharacters - value.length;
+
+
+            if (totalCharacters < 10) {
+                $('#characters-left').css('color', 'red');
+                $('#characters-left').css('font-weight', 'bold');
+            }
+            else {
+                $('#characters-left').css('color', 'white');
+                $('#characters-left').css('font-weight', 'normal');
+            }
+            $('#characters-left').html(totalCharacters);
+        })
+    </script>
+{% endblock %}

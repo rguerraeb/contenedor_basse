@@ -1,0 +1,49 @@
+AppBundle\Entity\StaffRedeemPromoPoints:
+    type: entity
+    table: staff_redeem_promo_points
+    indexes:
+        fk_staff_id010_idx:
+            columns:
+                - staff_id
+        fk_prize_exchange_id010_idx:
+            columns:
+                - prize_exchange_id
+    id:
+        staffRedeemPromoPointsId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_redeem_promo_points_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        points:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+    manyToOne:
+        prizeExchange:
+            targetEntity: PrizeExchange
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_exchange_id:
+                    referencedColumnName: prize_exchange_id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

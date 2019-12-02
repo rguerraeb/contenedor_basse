@@ -1,0 +1,95 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Canje Confirmado</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_validate_exchange') }}">Validar Canje</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Canje Confirmado</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+
+                {{ include('@App/Backend/flash_message.html.twig') }}
+
+                <div class="card Application-list">
+                    <div class="card-header">
+                        <h5>Canje Confirmado</h5>
+                        <div class="card-header-right">
+                            <div class="btn-group card-option">
+                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="feather icon-more-horizontal"></i>
+                                </button>
+                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-block table-border-style">
+                        <div class="row text-center">
+                            <div class="col-md-4 col-12">
+                                <b>Nombre Cliente:</b><br>{{ staff.name }}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <b>DPI Cliente:</b><br>{{ staff.citizenId }}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <b>Teléfono Cliente:</b><br>{{ staff.phone }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row text-center">
+                            <div class="col-md-4 col-12">
+                                <b>Código del Cliente:</b><br>{{ staffCode }}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <b>Estatus del Código:</b><br>
+                                <b class="text-yellow">
+                                    {{ staffCode.codeStatus }}
+                                </b>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <b>Factura:</b><br>{{ invoice }}
+                            </div>
+                        </div>
+                        <br> 
+                        <div class="row text-center">
+                            <div class="col-md-4 col-12">
+                                <b>Responsable del Canje:</b><br>{{ staffCode.responsable }}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <b>Tienda de Compra:</b><br>{{ staffCode.store.storeName }}
+                            </div>
+							<div class="col-md-4 col-12">
+                                <b>Premio:</b><br>{{ staffCode.prize.name }}
+                            </div>
+                        </div>
+                        
+                        
+
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

@@ -1,0 +1,40 @@
+AppBundle\Entity\PromoCity:
+    type: entity
+    table: promo_city
+    repositoryClass: AppBundle\Repository\PromoCityRepository
+    indexes:
+        promo_city_promo_id:
+            columns:
+                - promo_id
+        promo_city_city_id:
+            columns:
+                - city_id
+    id:
+        promoCityId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_city_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        city:
+            targetEntity: City
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                city_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

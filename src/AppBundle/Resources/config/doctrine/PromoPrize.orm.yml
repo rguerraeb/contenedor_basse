@@ -1,0 +1,98 @@
+AppBundle\Entity\PromoPrize:
+    type: entity
+    table: promo_prize
+    indexes:
+        promo_prize_promo_prize_type_id:
+            columns:
+                - promo_prize_type_id
+        promo_prize_promo_id:
+            columns:
+                - promo_id
+        promo_prize_prize_id:
+            columns:
+                - prize_id
+        promo_prize_promo_prize_status_id:
+            columns:
+                - promo_prize_status_id
+    id:
+        promoPrizeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_prize_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        points:
+            type: integer
+            nullable: true
+            unsigned: false
+        factor:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        probability:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+        maxQuantity:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: max_quantity
+        notificationMessage:
+            type: string
+            nullable: true
+            length: 250
+            fixed: false
+            column: notification_message
+    manyToOne:
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        promoPrizeStatus:
+            targetEntity: PromoPrizeStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_prize_status_id:
+                    referencedColumnName: promo_prize_status_id
+            orphanRemoval: false
+        promoPrizeType:
+            targetEntity: PromoPrizeType
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_prize_type_id:
+                    referencedColumnName: promo_prize_type_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

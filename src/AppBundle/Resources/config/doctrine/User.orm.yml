@@ -1,0 +1,104 @@
+AppBundle\Entity\User:
+    type: entity
+    table: user
+    repositoryClass: AppBundle\Repository\UserRepository
+    indexes:
+        user2user_rol_idx:
+            columns:
+                - user_role_id
+        user2user_idx:
+            columns:
+                - created_by
+        user2user2_idx:
+            columns:
+                - updated_by
+        user2distro_idx:
+            columns:
+                - distributor_id
+    uniqueConstraints:
+        email:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        firstName:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+            column: first_name
+        lastName:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+            column: last_name
+        email:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 72
+            fixed: false
+        status:
+            type: string
+            nullable: false
+            length: null
+            fixed: false
+            default: ACTIVO
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        userRole:
+            targetEntity: UserRole
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_role_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        distributor:
+            targetEntity: Distributor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                distributor_id:
+                    referencedColumnName: distributor_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

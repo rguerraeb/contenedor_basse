@@ -1,0 +1,168 @@
+{% extends '@App/Backend/base.html.twig' %}
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Premios
+{% endblock %}
+
+
+{% block body %}
+
+    <section class="content">
+        {{ include('@App/Backend/loading_css.html.twig') }}
+
+        {{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+        {% if staff is defined %}
+
+                <h3>Detalle de Premio
+                    <small> >> {{ staff.name }}</small>
+                </h3>
+
+        {% endif %}
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Confirmar canje</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+
+
+                        <div class='row'>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+                                <div class="col-md-2 col-sm-2">
+                                </div>
+                                <div class="col-md-8 col-sm-8" style="text-align:left">
+                                    <!-- Widget: user widget style 1 -->
+                                    <div class="">
+
+
+                                        <div class="col-md-3 col-sm-12" style="height:121px;padding-top:20px;">
+                                            <img alt="Avatar" src="{{ asset('images/') }}{{ staffs.imagePath }}"
+                                                 style="height:inherit;border-radius:5px;box-shadow:2px 2px 2px 2px #343"/>
+                                        </div>
+                                        <div class="col-md-1 col-sm-0">
+                                        </div>
+                                        <div class="widget-user-header  col-md-8 col-sm-12">
+                                            <h3 class="widget-user-username">{{ staffs.name }}</h3>
+                                            <h5 class="widget-user-desc">Q. {{ staffs.amount }}</h5>
+
+
+                                            <a data-toggle="modal"
+                                               href="{{ path('staff_get_prize',{'id': staffs.id,'channel':'WEB'}) }}"
+                                               data-target="#myModal">
+                                                <button class="btn btn-primary">Canjear</button>
+                                            </a>
+
+
+                                            {% if staffs.typeExchange == 'RECARGA' %}
+                                                <div id="telcos-icons">
+                                                    <img src="{{ asset('images/frontend/claro.png') }}" height="30"/>
+                                                    <img src="{{ asset('images/frontend/tigo.gif') }}" height="30"/>
+                                                    <img src="{{ asset('images/frontend/movistar.jpg') }}" height="30"/>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-sm-12" style="padding-top: 55px">
+                                                    <div class="description-block">
+                                                        <span class="description-text">{{ staffs.instructions }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-1 col-sm-1"></div>
+                                <div class="col-md-10 col-sm-10">
+
+                                    <h3>Instrucciones para reclamar tu premio:</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-1 col-sm-1"></div>
+                                <div class="col-md-10 col-sm-10">
+                                    {% set stepLength = prizeSteps|length %}
+                                    {% if stepLength > 0 %}
+                                        {% set colPercent = 12/stepLength %}
+                                    {% endif %}
+                                    {% set counter = 0 %}
+                                    {% for test in prizeSteps %}
+                                        {% set counter = counter + 1 %}
+                                        <div class="col-md-{{ colPercent }} col-sm-{{ colPercent }}">
+                                            <h4><b>Paso {{ counter }}</b></h4>
+                                            {{ test.step.step }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-1 col-sm-1">
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+
+                    </div>
+
+
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        {% if staff is not defined %}
+                        $("#myModal").on("hidden.bs.modal", function () {
+                            window.location.replace("{{ path('backend_staff_redeem') }}");
+                        });
+                        {% else %}
+                            $("#myModal").on("hidden.bs.modal", function () {
+                                window.location.replace("{{ path('backend_staff_redeem_points', {'staffId': staff.staffId}) }}");
+                            });
+                        {% endif %}
+                    </script>
+
+
+                    <!-- /.box-body -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        jQuery(function ($) {
+            $(document).ajaxStop(function () {
+                $(".loading-animation-panel").hide();
+            });
+            $(document).ajaxStart(function () {
+                $(".loading-animation-panel").show();
+            });
+        });
+    </script>
+
+
+    <!-- /.box -->
+{% endblock %}
+

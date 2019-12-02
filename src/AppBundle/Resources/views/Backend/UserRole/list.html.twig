@@ -1,0 +1,101 @@
+<div class="card-header">
+    <h5>Listado de Roles</h5>
+	<span  title="Agregar Rol" data-toggle="tooltip">
+		<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+	</span>
+    <div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Descripci&oacute;n</th>
+					<th>Activo</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for userRole in list %}
+				<tr>
+					<td>{{ userRole.id }}</td>
+					<td>{{ userRole.name }}</td>
+					<td>{{ userRole.description }}</td>
+					<td>
+						{% if userRole.active %}
+							<span class="label bg-c-green f-12 text-white" href="#!">Si</span>
+						{% else %}
+							<span class="label bg-c-red f-12 text-white" href="#!">No</span>
+						{% endif %}
+					</td>
+					<td>					
+						<a class="btn btn-icon btn-rounded btn-info text-white" href="{{ path('backend_user_role_permission', {'roleId': userRole.id|md5}) }}" title="Permisos" data-toggle="tooltip">
+							<i class="feather icon-list"></i>
+						</a>
+																					
+						<a class="btn btn-icon btn-rounded theme-bg2 text-white" href="{{ path('backend_user_roles_edit', {'roleId': userRole.id|md5}) }}" title="Editar Rol" data-toggle="tooltip">
+							<i class="feather icon-edit-1"></i>
+						</a>
+
+						<span  title="Eliminar Rol" data-toggle="tooltip">
+							<a id="btn-delete" class="btn btn-icon btn-rounded btn-danger text-white sweet-multiple" data-href="{{ path('backend_user_roles_delete', {'roleId': userRole.id|md5} )}}" data-name="{{ userRole.name }}" href="javascript:;">
+								<i class="feather icon-trash-2"></i>
+							</a>
+						</span>				
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true
+		});
+
+		$('table').on('click', '#btn-delete',function(){
+			$('.sweet-multiple').on('click', function() {
+				swal({
+					title: '¿Seguro que desea eliminar al rol "'+ $(this).attr('data-name') +'" ?',
+					icon: "warning",
+					buttons: ["Cancelar",true],
+					dangerMode: true,
+				}).then((willDelete) => {
+					if (willDelete) {
+						swal({
+							text: 'El rol "'+ $(this).attr('data-name') +'" se está eliminando',
+							icon: "info",
+							buttons: false,
+							content: {
+								element: "span",
+								attributes: {
+									className: "spinner-border spinner-border-sm"
+								}
+							}
+						});
+						window.location =  $(this).attr('data-href'); 
+					}
+				});
+			});
+		});
+	});
+</script>
+{% endblock %}

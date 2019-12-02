@@ -1,0 +1,116 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Reversa de Ventas
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('bundles/bootstrap-select/css/boostrap-select.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Reversa de Ventas</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li class="active">Reversa de Ventas</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        {{ include('@App/Backend/flash_message.html.twig') }}
+
+        {% if permits["wp"] %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary collapsed-box">
+                        <div class="box-header with-border">
+                            <h3  class="box-title">Agregar una reversa</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool"
+                                    data-widget="collapse">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {{ include(
+                            '@App/Backend/SaleReverse/form.html.twig', {
+                            'form': form
+                        } ) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if permits["rp"] %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-warning collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <i class='fa fa-search'></i>
+                                B&uacute;squeda
+                            </h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="get">
+                            <div class="box-body">
+                                    <div class='row'>
+                                        <div class="col-md-4">
+                                            <input class="form-control" placeholder="N&uacute;nero de Motor" type="text" name="skuCode">
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="box-footer">
+                                <a class="btn btn-danger" href="{{ path('backend_sale_reverse') }}">
+                                    <i class="fa fa-remove"></i> Limpiar búsqueda
+                                </a>
+                                <button type="submit" class="btn btn-info pull-right">
+                                    <i class="fa fa-search"></i>
+                                    Buscar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ include(
+                        '@App/Backend/SaleReverse/list.html.twig',
+                        { 'list': list }
+                    ) }}
+                </div>
+            </div>
+        {% endif %}
+        
+        {{ include(
+            '@App/Backend/confirm_modal.html.twig',
+            {
+                'confirmQuestion': '¿Desea eliminar la reversa #[ID]?'
+            }
+        ) }}
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ asset('bundles/bootstrap-select/js/bootstrap-select.js') }}"></script>
+{% endblock %}

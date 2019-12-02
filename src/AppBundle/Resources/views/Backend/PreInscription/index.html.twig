@@ -1,0 +1,145 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+	<link rel="stylesheet"
+		href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}		
+
+{% block body %}
+<section class="content-header">
+	<h1>Pre-Inscripci&oacute;n de Clientes</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('backend_main') }}"><i
+				class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Pre-Inscripci&oacute;n de Clientes</li>
+	</ol>
+</section>
+<section class="content">
+
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	{% if permits["rp"] %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-warning collapsed-box">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						<i class='fa fa-search'></i> B&uacute;squeda
+					</h3>
+
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<form class="form-horizontal validate" method="get" id="formSearch"
+					name="formSearch">
+					<div class="box-body">
+						<div class='row'>
+							<div class="col-md-4">
+								<input class="form-control" placeholder="NIT" type="text"
+									name="search[nit]">
+							</div>
+
+							<div class="col-md-4">
+								<input class="form-control digits" id="dpi" placeholder="DPI"
+									type="text" name="search[dpi]">
+							</div>
+
+							<div class="col-md-4">
+								<input class="form-control digits" id="telefono"
+									placeholder="Tel&eacute;fono" type="text" name="search[phone]">
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<a class="btn btn-danger"
+							href="{{ path('backend_pre_inscription') }}"> <i
+							class="fa fa-remove"></i> Limpiar b&uacute;squeda
+						</a>
+						<button type="submit" class="btn btn-info pull-right">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	{% if findStaff %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-danger">
+				<div class="box-header with-border">
+					<h3 class="box-title">Clientes Encontrados</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body table-responsive">
+					<table class="table table-hover dataTable">
+						<tr>
+							<th>ID</th>
+							<th>Nombres</th>
+							<th>DPI</th>
+							<th>NIT</th>
+							<th>Tel&eacute;fono</th>							
+							<th>Estado</th>
+							
+						</tr>
+						{% for item in findStaff %}
+						{% if loop.index <= 10 %}
+						<tr>
+							<td>{{ item.staffId }}</td>
+							<td>{{ item.name }}</td>
+							<td>{{ item.citizenId }}</td>
+							<td>{{ item.taxIdentifier }}</td>
+							<td>{{ item.phoneMain }}</td>
+							<td>{{ item.staffStatus }}</td>							
+						</tr>
+						{% endif %}
+						{% endfor %}
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+	{% endif %}
+
+	{% if permits["wp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Agregar un Cliente</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				{{ include(
+                            '@App/Backend/PreInscription/form.html.twig', {
+                            'form': form
+                        } ) }}
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock %}

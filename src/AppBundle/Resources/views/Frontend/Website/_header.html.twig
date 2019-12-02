@@ -1,0 +1,95 @@
+<header id="header" class="alt">
+	<!-- Logo -->
+	<div class="logo">
+		<a href="#top" class="scrolly">
+			<img src="{{ asset('images/logo.jpg') }}" alt="" title="" class="header-logo" />
+		</a>
+	</div>
+
+	<!-- Nav -->
+	
+	<nav id="nav">
+		<ul>
+			{% if homepage is defined %}
+    			<li class="current"><a href="#banner" class="more scrolly mainMenu">PROMOCIONES</a></li>
+				<li style="white-space: nowrap;border-right: ridge;padding-right: 19px;"></li>
+    			<li><a href="#aboutSection" class="more scrolly mainMenu">REGISTRAR C&Oacute;DIGO</a></li>
+				<li style="white-space: nowrap;border-right: ridge;padding-right: 19px;"></li>
+    			<li><a href="#restrictionSection" class="more scrolly mainMenu">RESTRICCIONES</a></li>
+			{% endif %}					
+		</ul>
+	</nav>	
+ 
+</header>
+
+<script src="{{ asset('js/jquery-2.2.4.min.js') }}"></script>
+
+{% block extra_scripts %}
+<script>
+	
+		$('.mainMenu').click(function() {
+			$('#nav li').removeClass('current');
+			$(this).parent().addClass('current');
+		});
+	
+</script>
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+#header{
+	background-color : #1C1C1B !important;
+  	height: 6rem;
+  	top: 0;
+  	left: 0;
+  	margin-bottom: 7.05rem;
+	color: #fff;
+}
+
+#header > nav {
+    top: 22px;
+	list-style: none;
+    padding: 0 0.75rem 0 0;
+    margin: 0;
+}
+#header.reveal a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.header-logo {
+	width: 100%;
+}
+
+#header.alt > nav {
+    top: 1.4rem !important;
+}
+
+@media screen and (max-width: 980px){
+	#header > .navPanelToggle {
+		top: 22px !important;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.header-logo {
+		padding-top: 10px;
+		width: 200px;
+	}
+}
+
+@media screen and (max-width: 312px) {
+	.header-logo {
+		padding-top: 10px;
+		width: 160px;
+	}
+
+	#header.alt > .navPanelToggle {
+		right: 2rem;
+	}
+}
+
+</style>
+
+{% endblock %}

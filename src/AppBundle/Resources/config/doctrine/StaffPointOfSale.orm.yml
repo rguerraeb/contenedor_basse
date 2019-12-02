@@ -1,0 +1,68 @@
+AppBundle\Entity\StaffPointOfSale:
+    type: entity
+    table: staff_point_of_sale
+    indexes:
+        staffpos2staff_idx:
+            columns:
+                - staff_id
+        staffpos2pos_idx:
+            columns:
+                - point_of_sale_id
+    id:
+        idStaffPointOfSale:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: id_staff_point_of_sale
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at    
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        updatedBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: updated_by    
+        status:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            default: ACTIVE
+        movedDate:
+            type: datetime
+            nullable: true
+            column: moved_date
+    manyToOne:
+        pointOfSale:
+            targetEntity: PointOfSale
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_of_sale_id:
+                    referencedColumnName: point_of_sale_id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,42 @@
+AppBundle\Entity\PurchasedProductList:
+    type: entity
+    table: purchased_product_list
+    indexes:
+        purchased_product_list_pk_idx:
+            columns:
+                - purchased_product_list_id
+    id:
+        purchasedProductListId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: purchased_product_list_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        description:
+            type: string
+            nullable: true
+            length: 250
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    manyToOne:
+        purchasedProductCategory:
+            targetEntity: AppBundle\Entity\PurchasedProductCategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                purchased_product_category_id:
+                    referencedColumnName: purchased_product_category_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

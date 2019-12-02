@@ -1,0 +1,40 @@
+AppBundle\Entity\GoalSaleChannel:
+    type: entity
+    table: goal_sale_channel
+    repositoryClass: AppBundle\Repository\GoalSaleChannelRepository    
+    indexes:
+        goal_sale_channel_goal_id:
+            columns:
+                - goal_id
+        goal_sale_channel_sale_channel_id:
+            columns:
+                - sale_channel_id
+    id:
+        goalSaleChannelId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_sale_channel_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        saleChannel:
+            targetEntity: SaleChannel
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_channel_id:
+                    referencedColumnName: sale_channel_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

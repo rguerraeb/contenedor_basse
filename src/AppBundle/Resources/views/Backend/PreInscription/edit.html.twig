@@ -1,0 +1,48 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block extra_css %}
+	<link rel="stylesheet"
+		href="{{ asset('css/backend/loading_animation.css') }}">
+	<link rel="stylesheet"
+		  href="{{ asset('bundles/adminLTE/plugins/datepicker/datepicker3.css') }}">
+
+{% endblock %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Registro Pendiente</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="{{ path('backend_main') }}">
+				<i class="fa fa-dashboard"></i>
+				Home
+			</a>
+		</li>
+		<li><a href="{{ path('register_pending')}}">Registro Pendiente</a></li>
+		<li class="active">Editar</li>
+	</ol>
+</section>
+<section class="content">
+
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Editar registro pendiente</h3>
+				</div>
+				{{ include('@App/Backend/RegisterPending/form.html.twig', { 'form': form }) }}
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+	
+
+{% endblock %}
+

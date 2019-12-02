@@ -1,0 +1,153 @@
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">Listado de facturas pendientes de aprobaci&oacute;n</h3>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-hover dataTable table-responsive no-padding">
+			<thead>
+				<tr>
+					<th># Correlativo</th>
+					<th>DPI</th>
+					<th>Tel&eacute;fono</th>
+					<th>Nombre</th>
+					<th>Fecha de Ingreso</th>					
+					<th>Estatus</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in list %}
+				<tr>
+					<td>{{ item.invoicePendingId }}</td>
+					<td>{{ item.staff.citizenId }}</td>
+					<td>{{ item.staff.phoneMain }}</td>
+					<td>{{ item.staff.firstName }} {{ item.staff.lastName }}</td>
+					<td>{{ item.createdAt | date('d-m-Y h:i:s') }}</td>					
+					<td align="center">{% if item.invoiceStatus == 'PENDIENTE' %}
+						<h4>
+							<span class="label label-warning">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'ACEPTADO' %}
+						<h4>
+							<span class="label label-success">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'RECHAZADO' %}
+						<h4>
+							<span class="label label-danger">{{ item.invoiceStatus }}</span>
+						</h4> {% endif %}</td>
+						<td class="list_tools">{% if permits["ep"] %} <a
+						href="{{ path('backend_invoice_pending_review', {'id': item.invoicePendingId | md5}) }}">
+							<i class="fa fa-fw fa-edit"></i>
+					</a> {% endif %}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-body -->
+</div>
+
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">Historial de Facturas Aprobadas</h3>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-hover dataTable table-responsive no-padding">
+			<thead>
+				<tr>
+					<th># Correlativo</th>
+					<th>DPI</th>
+					<th>Tel&eacute;fono</th>
+					<th>Nombre</th>
+					<th>Fecha de Aprobaci&oacute;n</th>
+					<th>Puntos Otorgados</th>					
+					<th>Estatus</th>					
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in listAceptado %}
+				<tr>
+					<td>{{ item.invoicePendingId }}</td>
+					<td>{{ item.staff.citizenId }}</td>
+					<td>{{ item.staff.phoneMain }}</td>
+					<td>{{ item.staff.firstName }} {{ item.staff.lastName }}</td>
+					<td>{{ item.updatedAt | date('d-m-Y h:i:s') }}</td>
+					<td>{{ item.points | number_format(2) }}</td>	
+					<td align="center">{% if item.invoiceStatus == 'PENDIENTE' %}
+						<h4>
+							<span class="label label-warning">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'ACEPTADO' %}
+						<h4>
+							<span class="label label-success">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'RECHAZADO' %}
+						<h4>
+							<span class="label label-danger">{{ item.invoiceStatus }}</span>
+						</h4> {% endif %}</td>									
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-body -->
+</div>
+
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">Historial de Facturas Rechazadas</h3>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+		<table class="table table-hover dataTable table-responsive no-padding">
+			<thead>
+				<tr>
+					<th># Correlativo</th>
+					<th>DPI</th>
+					<th>Tel&eacute;fono</th>
+					<th>Nombre</th>
+					<th>Fecha de Rechazo</th>
+					<th>Comentario Callcenter</th>					
+					<th>Estatus</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in listRechazado %}
+				<tr>
+					<td>{{ item.invoicePendingId }}</td>
+					<td>{{ item.staff.citizenId }}</td>
+					<td>{{ item.staff.phoneMain }}</td>
+					<td>{{ item.staff.firstName }} {{ item.staff.lastName }}</td>
+					<td>{{ item.createdAt | date('d-m-Y h:i:s') }}</td>		
+					<td>{{ item.comments }}</td>
+					<td align="center">{% if item.invoiceStatus == 'PENDIENTE' %}
+						<h4>
+							<span class="label label-warning">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'ACEPTADO' %}
+						<h4>
+							<span class="label label-success">{{ item.invoiceStatus }}</span>
+						</h4> {% elseif item.invoiceStatus == 'RECHAZADO' %}
+						<h4>
+							<span class="label label-danger">{{ item.invoiceStatus }}</span>
+						</h4> {% endif %}</td>								
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-body -->
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(function() {
+		$('.dataTable')
+				.DataTable(
+						{
+							"language" : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+							},
+							"order" : [ [ 0, "DESC" ] ]
+						});
+
+	});
+</script>
+{% endblock %}

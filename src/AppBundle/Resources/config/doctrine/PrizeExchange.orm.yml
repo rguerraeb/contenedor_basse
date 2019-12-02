@@ -1,0 +1,65 @@
+AppBundle\Entity\PrizeExchange:
+    type: entity
+    table: prize_exchange
+    repositoryClass: AppBundle\Repository\PrizeExchangeRepository
+    indexes:
+        fk_prize_id02_idx:
+            columns:
+                - prize_id
+        fk_staff_id02_idx:
+            columns:
+                - staff_id
+    id:
+        prizeExchangeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: prize_exchange_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        redeemPoints:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: redeem_points
+        channelExchange:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            column: channel_exchange
+        capturePointsAvailable:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            default: '0.00'
+            column: capture_points_available    
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+    manyToOne:
+        prize:
+            targetEntity: Prize
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prize_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

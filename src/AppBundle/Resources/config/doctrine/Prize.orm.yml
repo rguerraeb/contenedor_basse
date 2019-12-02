@@ -1,0 +1,67 @@
+AppBundle\Entity\Prize:
+    type: entity
+    table: prize
+    repositoryClass: AppBundle\Repository\PrizeRepository
+    indexes:
+        country_id:
+            columns:
+                - country_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        prizeType:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: prize_type
+        probability:
+            type: float
+            nullable: false
+            precision: 11
+            scale: 2
+        amount:
+            type: integer
+            nullable: false
+            unsigned: false
+        alreadyGiven:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: already_given
+        message:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        countryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '1'
+            column: country_id
+        quantity:
+            type: integer
+            nullable: false
+            unsigned: false
+        alreadyTaken:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: already_taken
+        activateDate:
+            type: date
+            nullable: true
+            column: activate_date
+    lifecycleCallbacks: {  }

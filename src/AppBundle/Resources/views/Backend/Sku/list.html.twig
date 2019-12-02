@@ -1,0 +1,63 @@
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title">Listado de {{ title }}</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Categor&iacute;a</th>
+                <th>C&oacute;digo</th>
+                <th>Nombre SKU</th>                                
+                <th>Tipo</th>
+                <th>Herramientas</th>
+            </tr>
+            {% for sku in entities %}
+            <tr>
+                <td>{{ sku.skuId }}</td>
+                <td>{{ sku.skuCategory }}</td>
+                <td>{{ sku.brand }}</td>
+                <td>{{ sku.skuFilterString }}</td>                
+                <td>
+                	{% if sku.model == 'PREMIUM' %}
+                		<span class="label label-primary">{{ sku.model }}</span>
+                	{% else %}
+                		<span class="label label-warning">{{ sku.model }}</span>
+                	{% endif %}
+                </td>
+                <td class="list_tools">
+                	{% if permits["ep"] %}
+                    <a 
+                        href="{{ path(
+                                'backend_sku_edit',
+                                {'id': sku.skuId}
+                            ) }}">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if permits["dp"] %}
+                    <a
+                        class="delete-point-of-sale"
+                        data-id="{{ sku.skuId }}" 
+                        data-href="{{ path(
+                            'backend_sku_delete',
+                            {'id': sku.skuId}
+                        ) }}"
+                        data-toggle="modal"
+                        data-target="#confirm-modal">
+                        <i class="fa fa-fw fa-remove"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+    {{ knp_pagination_render(entities) }}
+    </div>
+</div>
+<!-- /.box -->

@@ -1,0 +1,195 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * StaffGoal
+ */
+class StaffGoal
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $points;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $message;
+
+    /**
+     * @var \AppBundle\Entity\Goal
+     */
+    private $goal;
+
+    /**
+     * @var \AppBundle\Entity\Staff
+     */
+    private $staff;
+
+    /**
+     * @var \AppBundle\Entity\Prize
+     */
+    private $prize;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set points
+     *
+     * @param integer $points
+     * @return StaffGoal
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    /**
+     * Get points
+     *
+     * @return integer 
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return StaffGoal
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set message
+     *
+     * @param string $message
+     * @return StaffGoal
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return string 
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Set goal
+     *
+     * @param \AppBundle\Entity\Goal $goal
+     * @return StaffGoal
+     */
+    public function setGoal(\AppBundle\Entity\Goal $goal = null)
+    {
+        $this->goal = $goal;
+
+        return $this;
+    }
+
+    /**
+     * Get goal
+     *
+     * @return \AppBundle\Entity\Goal 
+     */
+    public function getGoal()
+    {
+        return $this->goal;
+    }
+
+    /**
+     * Set staff
+     *
+     * @param \AppBundle\Entity\Staff $staff
+     * @return StaffGoal
+     */
+    public function setStaff(\AppBundle\Entity\Staff $staff = null)
+    {
+        $this->staff = $staff;
+
+        return $this;
+    }
+
+    /**
+     * Get staff
+     *
+     * @return \AppBundle\Entity\Staff 
+     */
+    public function getStaff()
+    {
+        return $this->staff;
+    }
+
+    /**
+     * Set prize
+     *
+     * @param \AppBundle\Entity\Prize $prize
+     * @return StaffGoal
+     */
+    public function setPrize(\AppBundle\Entity\Prize $prize = null)
+    {
+        $this->prize = $prize;
+
+        return $this;
+    }
+
+    /**
+     * Get prize
+     *
+     * @return \AppBundle\Entity\Prize 
+     */
+    public function getPrize()
+    {
+        return $this->prize;
+    }
+}

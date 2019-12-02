@@ -1,0 +1,29 @@
+AppBundle\Entity\ErrorLog:
+    type: entity
+    table: error_log
+    id:
+        errorLogId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: error_log_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        errorDescription:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+            column: error_description
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+    lifecycleCallbacks: {  }

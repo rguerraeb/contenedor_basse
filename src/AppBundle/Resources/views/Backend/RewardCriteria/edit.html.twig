@@ -1,0 +1,14 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+    {{ include(
+        '@App/Backend/_edit.html.twig',
+        {
+            'editTitle': 'Criterio de Recompenza',
+            'smallTitle': 'Criterio de Recompenza',
+            'formPath': '@App/Backend/RewardCriteria/form.html.twig',
+            'form': form,
+            'titleRoute': 'backend_reward_criteria'
+        }
+    ) }}
+{% endblock %}

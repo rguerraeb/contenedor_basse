@@ -1,0 +1,19 @@
+AppBundle\Entity\ClientPromoPrizeStatus:
+    type: entity
+    table: client_promo_prize_status
+    id:
+        clientPromoPrizeStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: client_promo_prize_status_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+    lifecycleCallbacks: {  }

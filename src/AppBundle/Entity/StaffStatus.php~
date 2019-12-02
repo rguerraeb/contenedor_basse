@@ -1,0 +1,21 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * StaffStatus
+ */
+class StaffStatus
+{
+    /**
+     * Get string version
+     *
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+}

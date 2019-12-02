@@ -1,0 +1,99 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+LoyaltyV2 | Backend | Cargar Ventas
+{% endblock %}
+
+{% set id = 'sale-upload-form' %}
+
+{% block body %}
+
+<section class="content-header">
+	<h1>Cargar Ventas</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('backend_main') }}"> <i
+				class="fa fa-dashboard"></i> Home
+		</a></li>
+		<li class="active">Cargar Ventas</li>
+
+	</ol>
+</section>
+
+<section class="content">
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-success **collapsed-box">
+				<div class="box-header">
+					<h3 class="box-title">Ejemplo</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body table-responsive no-padding">
+					<div class='col-md-12'>
+						<p>Aseg&uacute;rese que el archivo a subir tenga los campos del
+							siguiente ejemplo, en el formato que se muestra.</p>
+					</div>
+
+					<div class='col-md-12'>
+						<table class="table table-hover">
+							<tr style='background-color: #eee'>
+								<th>Fecha Factura</th>																																							
+								<th>N&uacute;mero de Factura</th>
+								<th>C&oacute;digo Interno de Restaurate</th>																																							
+								<th>Total Venta</th>
+							</tr>
+							<tr>
+								<td>2018-02-23</td>								
+								<td>123456789</td>
+								<td>50000001</td>								
+								<td>1500.85</td>
+							</tr>
+						</table>																	
+					</div>							
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Subir Archivo de Excel</h3>
+				</div>
+				<form action="{{ path('backend_sale_save_upload') }}" method="post" enctype="multipart/form-data">
+					<div class="box-body">
+						<p>Seleccione el archivo que desea subir. El sistema
+							notificar&aacute; si existen errores.</p>
+						<div class='well'>
+							<table class="tableForm ">
+								<tbody>
+									<tr>
+										<td colspan="2">
+											<div class="form-group">
+												{{ form_row(form.file) }}
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="formButtons">
+								{{ form_row(form.save) }}
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="v2" value="1" />
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}

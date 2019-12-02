@@ -1,0 +1,40 @@
+AppBundle\Entity\GoalJobPosition:
+    type: entity
+    table: goal_job_position
+    repositoryClass: AppBundle\Repository\GoalJobPositionRepository
+    indexes:
+        goal_job_position_goal_id:
+            columns:
+                - goal_id
+        goal_job_position_job_position_id:
+            columns:
+                - job_position_id
+    id:
+        goalJobPositionId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: goal_job_position_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        goal:
+            targetEntity: Goal
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                goal_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        jobPosition:
+            targetEntity: JobPosition
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                job_position_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

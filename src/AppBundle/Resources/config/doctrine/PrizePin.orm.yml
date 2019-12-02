@@ -1,0 +1,48 @@
+AppBundle\Entity\PrizePin:
+    type: entity
+    table: prize_pin
+    id:
+        prizePinId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: prize_pin_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: created_by
+        prizeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: prize_id
+        usedBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: used_by
+        usedAt:
+            type: datetime
+            nullable: true
+            column: used_at
+        phoneDeliveredTo:
+            type: string
+            nullable: true
+            length: 16
+            fixed: false
+            column: phone_delivered_to
+    lifecycleCallbacks: {  }

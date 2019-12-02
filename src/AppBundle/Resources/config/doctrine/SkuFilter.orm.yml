@@ -1,0 +1,39 @@
+AppBundle\Entity\SkuFilter:
+    type: entity
+    table: sku_filter
+    indexes:
+        skufilter2sku_idx:
+            columns:
+                - sku_id
+        skufilter2filter_idx:
+            columns:
+                - filter_id
+    id:
+        skuFilterId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sku_filter_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        filter:
+            targetEntity: Filter
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                filter_id:
+                    referencedColumnName: filter_id
+            orphanRemoval: false
+        sku:
+            targetEntity: Sku
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sku_id:
+                    referencedColumnName: sku_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

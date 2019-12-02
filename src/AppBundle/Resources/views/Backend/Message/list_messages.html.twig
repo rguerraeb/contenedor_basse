@@ -1,0 +1,134 @@
+<div class="card-header">
+    <h5>Listado de C&oacute;digos</h5>
+	<div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="card-block table-border-style">
+    <div class="row">
+
+        <div class="col-md-12 col-xl-4">
+            <div class="card table-card">
+                <div class="row-table">
+                    <div class="col-auto theme-bg text-white ">
+                        <i class="fas fa-envelope f-30"></i>
+                    </div>
+                    <div class="col text-center">
+                        <span class="text-uppercase d-block m-b-10">C&oacute;digos Enviados</span>
+                        <h1 class="f-w-300">{{ disponibles }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xl-4">
+            <div class="card table-card">
+                <div class="row-table">
+                    <div class="col-auto theme-bg text-white ">
+                        <i class="fas fa-exchange-alt f-30"></i>
+                    </div>
+                    <div class="col text-center">
+                        <span class="text-uppercase d-block m-b-10">C&oacute;digos Canjeados</span>
+                        <h1 class="f-w-300">{{ canjeados }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xl-4">
+            <div class="card table-card">
+                <div class="row-table">
+                    <div class="col-auto theme-bg text-white ">
+                        <i class="fas fa-users f-30"></i>
+                    </div>
+                    <div class="col text-center">
+                        <span class="text-uppercase d-block m-b-10">Participantes</span>
+                        <h1 class="f-w-300">{{ participantes }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+                    <th>C&oacute;digo</th>
+                    <th>Campa&ntilde;a</th>
+                    <th>Participante</th>
+                    <th>Tel&eacute;fono</th>
+                    <th>Fecha de Env&iacute;o</th>
+                    <th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for message in list %}
+                    <tr>
+                        <td>
+                            {{ message.staffCodeId }}
+                        </td>
+                        <td>
+                            {{ message.code }}
+                        </td>
+                        <td>
+                            {% if message.campaign %}
+                                {{ message.campaign.name }}
+                            {% else %}
+								--
+							{% endif %}
+                        </td>
+                        <td>
+                            {% if message.staff %}
+                                {{ message.staff.name }}
+                            {% else %}
+								--
+							{% endif %}
+                        </td>
+                        <td>
+                            {% if message.staff %}
+                                {{ message.staff.phone }}
+                            {% else %}
+								--
+							{% endif %}
+                        </td>
+                        <td>
+                            {{ message.createdAt|date('Y-m-d H:i:s') }}
+                        </td>
+                        <td>
+                            {% if message.codeStatus and message.codeStatus.codeStatusId == 1 %}
+								<span class="label bg-c-green f-12 text-white" href="#!">Enviado</span>
+							{% else %}
+								<span class="label bg-c-red f-12 text-white" href="#!">{{ message.codeStatus.name }}</span>
+							{% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true,
+			"dom": 'Bfrtip',
+			"buttons": [
+				'csv', 'pdf', 'excel'
+			]
+		});	
+});
+</script>
+{% endblock %}

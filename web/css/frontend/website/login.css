@@ -1,0 +1,19 @@
+.login {
+    margin: 60px auto 0 auto;
+    width: 300px;
+
+}
+
+.login .login-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login .info {
+    text-align: center;
+}
+
+.login button.btn-submit {
+    display: block;
+    margin: auto;
+}

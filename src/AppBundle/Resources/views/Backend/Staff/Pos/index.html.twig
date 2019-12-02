@@ -1,0 +1,22 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Materiales
+{% endblock %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Backend/Staff/Pos/list.html.twig',
+                'entities': list,
+                'title': 'Puntos de Venta Asociados',
+                'deleteQuestion': '&iquest;Esta seguro que desea eliminar el punto de venta asociado [ID]?',
+                'form': form,
+                'formPath': '@App/Backend/Staff/Pos/form.html.twig',
+                'singleTitle': 'Punto de Venta'
+            }
+        )
+    }}
+{% endblock %}

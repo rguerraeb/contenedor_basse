@@ -1,0 +1,19 @@
+AppBundle\Entity\MessageLogStatus:
+    type: entity
+    table: message_log_status
+    id:
+        messageLogStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            columnn: message_log_status_id
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+    lifecycleCallbacks: {  }

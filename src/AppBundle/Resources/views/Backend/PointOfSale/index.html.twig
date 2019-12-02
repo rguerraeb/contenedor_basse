@@ -1,0 +1,21 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Puntos de Venta
+{% endblock %}
+
+{% block body %}
+    {{
+        include(
+            '@App/Backend/_index.html.twig',
+            {
+                'listPath': '@App/Backend/PointOfSale/list.html.twig',
+                'entities': pointOfSales,
+                'title': 'Puntos de Venta',
+                'singleTitle': 'Punto de Venta',
+                'deleteQuestion': '¿Seguro que desea eliminar el punto de venta con ID: [ID]?',
+                'formPath':'@App/Backend/PointOfSale/form.html.twig'
+            }
+        )
+    }}
+{% endblock %}

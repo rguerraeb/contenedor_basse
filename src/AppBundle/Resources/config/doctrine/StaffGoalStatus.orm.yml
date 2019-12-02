@@ -1,0 +1,19 @@
+AppBundle\Entity\StaffGoalStatus:
+    type: entity
+    table: staff_goal_status
+    id:
+        staffGoalStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: staff_goal_status_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+    lifecycleCallbacks: {  }

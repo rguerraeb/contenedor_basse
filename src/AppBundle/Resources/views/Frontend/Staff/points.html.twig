@@ -1,0 +1,112 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+
+<!-- Main content -->
+<section class="content">
+
+	{{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Historial de Q. Acumulados</h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<table id="pointList" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Producto</th>
+								<th>N&uacute;mero de Factura</th>
+								<th>Cantidad Comprada</th>
+								<th>Q. Obtenidos</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in pointList %}
+							<tr>
+								<td>{{ item.createdAt | date('d-m-Y h:i:s') }}</td>
+								<td>{{ item.sku.skuFilterString }}</td>
+								<td>{{ item.sale.invoiceNumber }}</td>
+								<td>{{ item.sale.quantity }}</td>
+								<td>{{ item.points }}</td>
+							</tr>
+							{% endfor %}
+							
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Fecha</th>
+								<th>Producto</th>
+								<th>N&uacute;mero de Factura</th>
+								<th>Cantidad Comprada</th>
+								<th>Q. Obtenidos</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+
+
+	</div>
+
+</section>
+<!-- /.content -->
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+	href="{{ asset('bundles/adminLTE/plugins/datatables/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block extra_scripts %}
+
+<script src="{{ asset('bundles/adminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('bundles/adminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+
+<script type="text/javascript">
+	$(function() {
+		$('#pointList').DataTable({
+			"paging" : true,
+			"lengthChange" : true,
+			"searching" : true,
+			"ordering" : false,
+			"info" : true,
+			"autoWidth" : false,
+			"language": {
+			    "decimal":        "",
+			    "emptyTable":     "No hay datos disponibles en la tabla",
+			    "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+			    "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+			    "infoFiltered":   "(filtrado de _MAX_ total registros)",
+			    "infoPostFix":    "",
+			    "thousands":      ",",
+			    "lengthMenu":     "Mostrar _MENU_ registros",
+			    "loadingRecords": "Cargando...",
+			    "processing":     "Procesando...",
+			    "search":         "Buscar:",
+			    "zeroRecords":    "No se encontraron registros",
+			    "paginate": {
+			        "first":      "Primera",
+			        "last":       "Última",
+			        "next":       "Siguiente",
+			        "previous":   "Anterior"
+			    },
+			    "aria": {
+			        "sortAscending":  ": activar para ordenar de manera ascendiente",
+			        "sortDescending": ": activar para ordenar de manera descendiente"
+			    }
+			}
+		});
+
+	});
+</script>
+
+{% endblock %}

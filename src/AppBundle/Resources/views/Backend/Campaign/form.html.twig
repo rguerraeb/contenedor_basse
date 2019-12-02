@@ -1,0 +1,76 @@
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
+<form method="post" action="" id="campaignForm" class="validateForm"
+	autocomplete="false" onSubmit="return validateFields();">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.name, "Nombre") }}
+					{{form_widget(form.name, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.startFrom, "Fecha de Inicio") }}
+					{{form_widget(form.startFrom, {'attr': {'class': 'required form-control'}}) }}
+				</div>
+			</div>	
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.endAt, "Fecha Fin") }}
+					{{form_widget(form.endAt, {'attr': {'class': 'required form-control'}}) }}
+				</div>
+			</div>	
+			<div class="col-md-6">
+				<div class="form-group">
+					{{ form_label(form.status, "Estado") }}
+					{{form_widget(form.status, {'attr': {'class': 'required form-control' }}) }}
+				</div>
+			</div>
+			<div class="col-md-6 col-6">
+				{% if 'edit' in currentPath %}
+					<button type="reset" onclick="window.location='{{ path('backend_campaign') }}'" class="btn btn-rounded btn-danger">Cancelar</button>
+				{% else %}
+					<button type="reset" data-dismiss="modal" class="btn btn-rounded btn-danger">Cancelar</button>
+				{% endif %}
+			</div>
+			<div class="col-md-6 col-6">
+				<button id="button-save" type="submit" class="btn btn-rounded btn-success float-right" >Guardar Datos</button>
+			</div>	
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	{{ form_widget(form._token) }}
+</form>
+<script>
+	$(document).ready(function() {
+
+		$('#campaign_startFrom').bootstrapMaterialDatePicker({
+			weekStart:0,
+		    format: 'YYYY-MM-DD HH:mm:00'  
+		}).on('change',function(e,date){
+			$('#campaign_endAt').bootstrapMaterialDatePicker('setMinDate',date);
+		});
+		
+		$('#campaign_endAt').bootstrapMaterialDatePicker({
+			weekStart:0,
+		    format: 'YYYY-MM-DD HH:mm:00'
+		});
+
+		
+		$('#campaignForm').validate({
+            submitHandler: function(form) {
+                var saveButton = document.getElementById("button-save");
+                var validateForm = document.getElementById("campaignForm");
+                saveButton.setAttribute("disabled", true);
+                saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+                var elements = validateForm.elements;
+                for (var i = 0, len = elements.length; i < len; ++i) {
+                    elements[i].readOnly = true;
+                }
+                document.getElementById("campaignForm").submit();
+            }
+        });
+
+	});
+</script>

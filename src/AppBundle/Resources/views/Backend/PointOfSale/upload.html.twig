@@ -1,0 +1,92 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+LoyaltyV2 | Backend | Subir
+{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Puntos de Venta</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('backend_main') }}"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_point_of_sale') }}">Puntos de	venta</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Subir</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+
+				{{ include('@App/Backend/flash_message.html.twig') }}
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Ejemplo</h5>
+                    </div>
+                    <div class="card-block table-border-style">
+						<div class='row'>
+							<div class='col-md-12'>
+								Asegúrese que el archivo a subir tenga
+								los campos del siguiente ejemplo, en el formato que se muestra.
+							</div>
+						</div>
+						<br>
+                        <div class="table-responsive">
+            				<table class="table table-styling table-hover">
+								<thead>
+                    				<tr class="table-active">
+										<th>Nombre del Establecimiento</th>
+										<th>Nombre Comercial</th>
+										<th>NIT</th>
+										<th>Categoria / Tipo</th>
+										<th>Direcci&oacute;n</th>
+										<th>Zona</th>
+										<th>Tel&eacute;fono</th>
+										<th>Encargado</th>
+										<th>C&oacute;digo Interno</th>
+    								</tr>
+                				</thead>
+                				<tbody>
+									<tr>
+										<td>Mi restaurante</td>
+										<td>Comidas Ejemplo, S.A.</td>
+										<td>455555-2</td>
+										<td>Bar (Los valores pueden ser Bar o Restaurante)</td>
+										<td>Mi Direcci&oacute;n, 1-1</td>
+										<td>1</td>
+										<td>11111111</td>
+										<td>Juan P&eacute;rez</td>
+										<td>1000000000001</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+                    </div>
+                </div>
+                {{
+					include(
+						'@App/Backend/PointOfSale/file_form.html.twig',
+						{
+							'form': form,
+							'id': 'point-of-sale-upload-form'
+						}
+					)
+                }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ asset('js/block_submit_button.js') }}"> </script>
+{% endblock %}

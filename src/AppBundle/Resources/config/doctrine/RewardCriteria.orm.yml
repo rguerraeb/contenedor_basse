@@ -1,0 +1,57 @@
+AppBundle\Entity\RewardCriteria:
+    type: entity
+    table: reward_criteria
+    indexes:
+        awardjob_idx:
+            columns:
+                - job_position_id
+        awardfilter_idx:
+            columns:
+                - filter_group_id
+    id:
+        idRewardCriteria:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: id_reward_criteria
+            generator:
+                strategy: IDENTITY
+    fields:
+        mathematicalOperator:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: 'Multiplica o suma el valor de la columna filter_value de la tabla filter'
+            column: mathematical_operator
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        createdBy:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: created_by
+    manyToOne:
+        filterGroup:
+            targetEntity: FilterGroup
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                filter_group_id:
+                    referencedColumnName: filter_group_id
+            orphanRemoval: false
+        jobPosition:
+            targetEntity: JobPosition
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                job_position_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

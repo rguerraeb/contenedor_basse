@@ -1,0 +1,104 @@
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+<form name="point_of_sale" method="post" id="posForm" class="formValidate">
+    <div class="row">
+    	<div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.groupName, "Nombre del establecimiento") }}
+                {{form_widget(form.groupName, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.businessName, "Nombre comercial") }}
+                {{form_widget(form.businessName, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.taxIdentifier, "Nit") }}
+                {{form_widget(form.taxIdentifier, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.pointOfSaleType, "Categoria") }}
+                {{form_widget(form.pointOfSaleType, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>            
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.homePhone, "Número de teléfono") }}
+                {{form_widget(form.homePhone, {'attr': {'class': 'required form-control digits', 'minlength':8, 'maxlength':8 }}) }}
+            </div>
+        </div>
+        
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.address1, "Dirección 1") }}
+                {{form_widget(form.address1, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.address2, "Zona") }}
+                {{form_widget(form.address2, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="point_of_sale_pointOfSaleInnerId" class="required" aria-required="true">C&oacute;digo Interno</label>
+                {{form_widget(form.pointOfSaleInnerId, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.version, "Nombre del Encargado") }}
+                {{form_widget(form.version, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.status, "Estado") }}
+                {{form_widget(form.status, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+			{% if 'edit' in currentPath %}
+				<button type="reset" onclick="window.location='{{ path('backend_point_of_sale') }}'" class="btn btn-rounded btn-danger">Cancelar</button>
+			{% else %}
+				<button type="reset" data-dismiss="modal" class="btn btn-rounded btn-danger">Cancelar</button>
+			{% endif %}
+		</div>
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-rounded btn-success float-right">Guardar Datos</button>
+		</div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{{ form_end(form) }}
+
+<script>
+    $(document).ready(function(){
+
+        $('#posForm').validate();
+        
+        // Change cities, and points of sale based on other info
+        $('.states-panel').change(function() {
+            var $state = $(this).find('.form-group').find('select');
+            var stateId = $state.val();
+
+            var $citiesPanel = $('.cities-panel');
+
+            var $cities = $citiesPanel.find('select');
+            $cities.html('');
+
+            $.get( "{{ path('frontend_get_cities')}}", { stateId: stateId }, function(data) {
+                $cities.append('<option value="">- Municipio -</option>');
+                $.each(data, function(key, value) {
+                    $cities.append('<option value="'+value.id+'">'+value.name+'</option>');
+                });
+            });
+        });
+    });
+</script>

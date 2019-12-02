@@ -1,0 +1,109 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-warning collapsed-box">
+			<div class="box-header with-border">
+				<h3 class="box-title">
+					<i class='fa fa-search'></i> B&uacute;squeda
+				</h3>
+
+				<div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool"
+						data-widget="collapse">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+			</div>
+			<form class="form-horizontal" method="get">
+				<div class="box-body">
+					<div class="form-group">
+
+						<div class="col-sm-3">
+							<input class="form-control" placeholder="Nombre" type="text"
+								name="name">
+						</div>
+
+						<div class="col-sm-3">
+							<input class="form-control" id="citizen_id" placeholder="NIT"
+								type="text" name="citizen_id">
+						</div>
+
+						<div class="col-sm-3">
+							<input class="form-control" id="phone" placeholder="Télefono"
+								type="text" name="phone">
+						</div>
+						<div class="col-sm-3">
+							<input class="form-control" id="invoice"
+								placeholder="N&uacute;nero de Factura" type="text"
+								name="invoice">
+						</div>
+
+					</div>
+				</div>
+				<div class="box-footer">
+					<a class="btn btn-danger" href="{{ path('register_pending') }}">
+						<i class="fa fa-remove"></i> Quitar filtros
+					</a>
+					<button type="submit" class="btn btn-info pull-right">
+						<i class='fa fa-search'></i> Buscar
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="box box-success">
+	<div class="box-header">
+		<h3 class="box-title">
+			<i class='fa fa-list'></i> Listado de registros pendientes
+		</h3>
+	</div>
+	<div class="box-body">
+		<table class="table table-responsive table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombres</th>
+					<th>Telefono</th>
+					<th>Bar / Restaurante</th>
+					<th>Fecha de Recepci&oacute;n</th>
+					<th style="text-align: center">Tipo de Registro</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for registerPending in list %}
+				<tr>
+					<td>{{ registerPending.registerPendingId }}</td>
+					<td>{{ registerPending.first_name }} {{ registerPending.last_name }}</td>
+					<td>{{ registerPending.phoneMain }}</td>
+					<td>{{ registerPending.pointOfSale }}</td>
+					<td>{{ registerPending.createdAt | date('d-m-Y H:i:s')}}</td>
+					<td align="center">{% if registerPending.registerType == 'SMS'  %} <span
+						class="label label-primary">SMS</span> {% else %} <span
+						class="label label-warning">WEB</span> {% endif %}</td>	
+
+					<td class="list_tools">{% if permits["ep"] %} <a
+						href="{{ path('backend_register_pending_edit', {'id': registerPending.registerPendingId}) }}">
+							<i class="fa fa-fw fa-edit"></i>
+					</a> {% endif %}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+
+</div>
+
+
+<script type="text/javascript">
+	$(function() {
+		$('.dataTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            }
+        } );
+
+		
+	});
+</script>

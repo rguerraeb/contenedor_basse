@@ -1,0 +1,74 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Noticias, Eventos y Promociones</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Noticias, Eventos y Promociones</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+					
+				{{ include('@App/Backend/flash_message.html.twig') }}
+
+				<div class="card Application-list">
+			
+					{% if permits["wp"] %}
+						{{
+							include(
+								'@App/Backend/create_modal.html.twig',
+								{
+									'title': 'Entrada',
+									'form': form,
+									'formPath': '@App/Backend/SiteContent/form_news.html.twig'
+								}
+							)
+						}}
+					{% endif %}
+		
+					{% if permits["rp"] %}
+						{{ include('@App/Backend/SiteContent/list.html.twig', { 'list': list }) }}
+					{% endif %}
+		
+					{{ include(
+						'@App/Backend/confirm_modal.html.twig',
+						{
+							'confirmQuestion': '¿Desea eliminar la noticia # [ID]?'
+						}
+					) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+{#
+{% block extra_scripts %}
+
+<script type="text/javascript"
+	src="{{ asset('bundles/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('bundles/bootstrap-select/js/bootstrap-select.js') }}"></script>
+
+{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet"
+	href="{{ asset('bundles/adminLTE/plugins/datepicker/datepicker3.css') }}">
+<link rel="stylesheet"
+        href="{{ asset('bundles/bootstrap-select/css/boostrap-select.css') }}">	
+{% endblock %}#}

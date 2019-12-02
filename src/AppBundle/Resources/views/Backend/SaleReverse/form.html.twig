@@ -1,0 +1,39 @@
+<form method="post" action="" class="validateForm" id="goal-form">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-textarea-panel">
+                    {{ form_label(form.skuCode, "Numero de Motor") }}
+                    {{ form_widget(
+                        form.skuCode,
+                        {'attr':
+                            {
+                                'class': 'required form-control'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="box-footer">
+        <a
+            href="{{ path('backend_sale_reverse') }}"
+            class="btn btn-danger">
+            Cancelar
+        </a>
+        <button
+            type="submit"
+            id="goal-submit"
+            class="btn btn-primary pull-right">
+            Guardar Datos
+        </button>
+    </div>
+    {{ form_widget(form._token) }}
+</form>
+
+{% block extra_scripts %}
+
+{% endblock %}

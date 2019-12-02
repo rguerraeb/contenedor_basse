@@ -1,0 +1,23 @@
+AppBundle\Entity\PromoPrizeType:
+    type: entity
+    table: promo_prize_type
+    id:
+        promoPrizeTypeId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_prize_type_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

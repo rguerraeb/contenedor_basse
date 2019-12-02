@@ -1,0 +1,224 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+LoyaltyV2 | Backend | Empleados
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+	href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<section class="content-header">
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> Home</li>
+		<li class="active">Reportes</li>
+	</ol>
+</section>
+
+
+
+<section class="content">
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+
+	{% if permits["wp"] %}
+		<form action="" method="post">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box box-primary ">
+						<div class="box-header with-border">
+							<h3 class="box-title">Reportes</h3>
+							<div class="box-tools pull-right">
+							</div>
+						</div>
+					
+						<div class="box-body">
+					        <div class="row">
+						        <div class="col-md-6">
+						            Reporte
+								</div>
+								<div class="col-md-6">
+									<select class="form-control" placeholder="Report" type="text" name="report" id ="report"
+										onchange = "get_filters()" >
+										<option value="" selected="selected"></option>
+										<option value="1">KPI’s de Activación</option>
+										<option value="2">Registro de Canjes</option>
+										<option value="3">KPI’s de Redención</option>
+									</select>
+						            
+						        </div>
+						    </div>
+						        
+					        <div class="row filters" id = "end_div">
+						        <br><br>
+					            <div class="col-md-6">
+						            Fecha Inicio:
+								</div>
+								<div class="col-md-6">								
+									Fecha Fin:
+						        </div>
+						    </div>
+						     <div class="row filters" id = "start_div">
+					            <div class="col-md-6">
+									<input type="text" id = "start" name = "start" class="form-control pull-right datepicker date" />						           
+								</div>
+								<div class="col-md-6">								
+									<input type="text" id = "end" name = "end" class="form-control pull-right datepicker date"/>
+						        </div>
+						    </div>
+					       
+						    
+						    
+						    <div class="row filters" id = "region_div">
+							    <br><br>
+					            <div class="col-md-6">
+						            Region
+								</div>
+								<div class="col-md-6">								
+									<select class="form-control" placeholder="Report" type="text" name="region[]" id ="region" multiple>
+										<option value="" selected="selected">Region</option>
+										{% for info in region %}
+											<option value = "{{  info.RegionId  }}" selected="selected">{{  info.name  }}</option>
+										{% endfor %}
+									</select>
+						        </div>
+						    </div>
+						    
+					        <div class="row filters" id = "state_div">
+						        <br><br>
+						        <div class="col-md-6">
+						            Departamento
+								</div>
+								<div class="col-md-6">
+									<select class="form-control" placeholder="Report" type="text" name="state[]" id ="state" multiple>
+										<option value="" selected="selected">Departamento</option>
+										{% for info in state %}
+											<option value = "{{  info.StateId  }}" selected="selected">{{  info.name  }}</option>
+										{% endfor %}
+									</select>
+						        </div>
+					        </div>
+					        <div class="row filters" id = "point_of_sale_div">    
+						        <br><br>
+						        <div class="col-md-6">
+						            Punto de Venta
+								</div>
+								<div class="col-md-6">
+						            
+						            <select class="form-control" placeholder="Report" type="text" name="point_of_sale[]" id ="point_of_sale" multiple>
+										<option value="" selected="selected">Punto de venta</option>
+										{% for info in PointOfSale %}
+											<option value = "{{  info.PointOfSaleId  }}" selected="selected">{{  info.BusinessName  }}</option>
+										{% endfor %}
+									</select>
+	
+						        </div>
+					        </div>
+					        <div class="row filters" id = "comercial_unit_div">    
+						        <br><br>
+						        <div class="col-md-6">
+						            Unidad Comercial
+								</div>
+								<div class="col-md-6">
+									<select class="form-control" placeholder="Report" type="text" name="comercial_unit[]" id ="comercial_unit" multiple>
+										<option value="" selected="selected">Unidad Comercial</option>
+										<option value="1">Ugc</option>
+										<option value="2">Mezclas Listas</option>
+										<option value="3">Mixto Listo</option>
+									</select>
+						        </div>
+					        </div>
+							<div class="row" >   
+								<br><br> 
+						        <div class="col-md-12" style="text-align: right">
+								       <button type="submit" class="btn btn-primary pull-right"
+								       onclick="download_report()" id = "submit";
+								       	>
+								            Descargar reporte
+								       </button>
+	
+						          						
+						        </div>
+					        </div>    
+						        
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	{% endif %}
+
+	
+</section>
+
+
+<script src="{{ asset('js/clean_speacial_characters.js') }}"></script>
+<script>
+	$(function(){
+		$("#report").val("");
+		$(".filters").hide();
+		$('#start').datetimepicker({
+	        format: 'YYYY-MM-DD',
+	        viewMode: 'years'
+	    });
+	    $('#end').datetimepicker({
+	        format: 'YYYY-MM-DD',
+	        viewMode: 'years'
+	    });
+
+	});
+	
+	function get_filters(){
+		var report = $("#report").val();
+		
+		$(".filters").hide();
+		
+		switch (report) {
+			case "1": 
+				clear_and_show("start");
+				clear_and_show("end");
+				clear_and_show("region");
+				clear_and_show("state");
+				clear_and_show("point_of_sale");
+				clear_and_show("comercial_unit");
+				clear_and_show("status");
+				break;
+			case "2": 
+				clear_and_show("start");
+				clear_and_show("end");
+				clear_and_show("region");
+				clear_and_show("state");
+				clear_and_show("point_of_sale");
+				clear_and_show("comercial_unit");
+				clear_and_show("status");
+				break;	
+			case "3":
+				clear_and_show("start");
+				clear_and_show("end");
+				break;	
+			case "4":
+				clear_and_show("start");
+				clear_and_show("end");
+				clear_and_show("region");
+				clear_and_show("state");
+				clear_and_show("point_of_sale");
+				break;		
+		}			
+	}
+	
+	function download_report(){
+		
+		
+	}   
+	
+	
+	
+	function clear_and_show(name){
+		$("#"+name).val("");
+		$("#"+name+"_div").show();
+	}    
+</script>
+{% endblock %}

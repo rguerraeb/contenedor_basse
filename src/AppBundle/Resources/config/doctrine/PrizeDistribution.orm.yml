@@ -1,0 +1,30 @@
+AppBundle\Entity\PrizeDistribution:
+    type: entity
+    table: prize_distribution
+    uniqueConstraints:
+        id_UNIQUE:
+            columns:
+                - id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        prizeId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: prize_id
+        dateActivate:
+            type: date
+            nullable: true
+            column: date_activate
+        amount:
+            type: integer
+            nullable: true
+            unsigned: false
+    lifecycleCallbacks: {  }

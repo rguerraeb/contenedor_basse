@@ -1,0 +1,21 @@
+{% if app.user.profileImage is defined %}
+	{% set img = asset('uploads/clients/profile_image/'~app.user.profileImage) %}
+{% else %}
+	{% set img = asset('images/totto.jpg') %}
+{% endif %}
+<div class="dropdown drp-user">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<i class="icon feather icon-settings"></i>
+	</a>
+	<div class="dropdown-menu dropdown-menu-right profile-notification">
+		<div class="pro-head">
+			<img src="{{ img }}" class="img-radius" alt="User-Profile-Image">
+			<span>{{ app.user.firstName }}</span>
+		</div>
+		<ul class="pro-body">
+			<li>
+				<a href="{{ path('backend_logout') }}" class="dropdown-item"><i class="feather icon-log-out"></i> Salir del Sistema</a>
+			</li>
+		</ul>
+	</div>
+</div>

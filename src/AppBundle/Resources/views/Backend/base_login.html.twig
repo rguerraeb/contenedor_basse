@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74667779-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    gtag('js', new Date());
+
+    gtag('config', 'UA-74667779-5');
+</script>
+	
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+{#<link rel="icon" type="image/x-icon" href="{{ asset('images/logo_small.jpg') }}" />#}
+<title>{% block title %}Totto Promos{% endblock %}</title>
+{% block stylesheets %}
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/fonts/fontawesome/css/fontawesome-all.min.css') }}">
+<!-- DattaAble -->
+<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/plugins/animation/css/animate.min.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/dattaAble/assets/css/style.css') }}">
+
+<!-- Custom CSS -->
+<link href="{{ asset('css/backend/styleNew.css') }}" rel="stylesheet">
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('bundles/dattaAble/assets/plugins/jquery/js/jquery.min.js') }}"></script>
+<!-- DattaAble -->
+<script src="{{ asset('bundles/dattaAble/assets/js/vendor-all.min.js') }}"></script>
+<script src="{{ asset('bundles/dattaAble/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+{#<script src="{{ asset('bundles/dattaAble/assets/js/pcoded.min.js') }}"></script>#}
+<!-- Plugins -->
+<script src="{{ asset('bundles/jquery-validate/jquery.validate.min.js') }}"></script>
+{% endblock %}
+
+</head>
+<body class="hold-transition login-page">
+	{% set user_agent = app.request.server.get('HTTP_USER_AGENT') %}
+	   	{% if ('Microsoft Internet Explorer' in user_agent) or ('Trident' in user_agent) or ('rv:11' in user_agent)  %}
+	   	<div style="background-color:#FFF3CD;color:#856404;padding:20px;text-align:center;">
+        &#x26a0; &nbsp;
+		        Tu navegador no es compatible con este sitio. Por favor utiliza Chrome o Firefox {{ app.request.server.get('HTTP_USER_AGENT') }}
+		</div>
+	{% endif %}
+	{% block body %}
+	{% endblock %}
+	{% block extra_scripts %}
+	{% endblock %}
+
+	</body>
+</html>

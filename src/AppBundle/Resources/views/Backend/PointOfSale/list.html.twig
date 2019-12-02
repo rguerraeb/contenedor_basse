@@ -1,0 +1,129 @@
+<div class="card">
+    <div class="card-header">
+        <h5>
+            <a class="collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <i class='feather icon-search'></i> B&uacute;squeda
+            </a>
+        </h5>
+    </div>
+    <div class="collapse" id="collapseExample" style="">
+        <form class="form-horizontal" method="get">
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input class="form-control" placeholder="Nombre" type="text" name="name">
+                        </div>
+                                        
+                        <div class="col-md-4">
+                            <input class="form-control" id="nit" placeholder="NIT" type="text" name="nit">
+                        </div>
+                    
+                        <div class="col-md-4">
+                            <input class="form-control" id="id" placeholder="C&oacute;digo Interno" type="text" name="id">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-rounded btn-danger" href="{{ path('backend_point_of_sale') }}">
+                    <i class="feather icon-x"></i>Limpiar filtros
+                </a>
+                <button type="submit" class="btn btn-rounded btn-success float-right"><i class='feather icon-search'></i>Buscar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card Application-list">
+    <div class="card-header">
+        <h5>Listado de puntos de venta</h5>
+        {% if permits["wp"] %}
+            <span title="Agregar Punto de Venta" data-toggle="tooltip">
+                <a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+            </span>
+        {% endif %}
+        <a href="{{ path('backend_point_of_sale_upload') }}" class="upload-link btn btn-icon btn-rounded btn-success text-white" title="Subir puntos de venta" data-toggle="tooltip">
+           <i class='feather icon-upload'></i>
+        </a>
+        <div class="card-header-right">
+            <div class="btn-group card-option">
+                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="feather icon-more-horizontal"></i>
+                </button>
+                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>C&oacute;digo Interno</th>
+                        <th>Tipo de Establecimiento</th>
+                        <th>Nombre del establecimiento</th>
+                        <th>Nombre Comercial</th>
+                        <th>Tel&eacute;fono</th>
+                        <th>Encargado</th>                                               
+                        <th>Herramientas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pointOfSale in entities %}
+                        <tr>
+                            <td>{{ pointOfSale.pointOfSaleInnerId }}</td>
+                            <td class="text-center">
+                                {% if pointOfSale.pointOfSaleType == 'Bar' %}
+                                    <span class="label bg-c-green f-12 text-white">{{ pointOfSale.pointOfSaleType }}</span>
+                                {% else %}
+                                    <span class="label bg-c-red f-12 text-white">{{ pointOfSale.pointOfSaleType }}</span>
+                                {% endif %}                    
+                            </td>
+                            <td>{{ pointOfSale.groupName }}</td>
+                            <td>{{ pointOfSale.businessName }}</td>
+                            <td>{{ pointOfSale.homePhone }}</td>
+                            <td>{{ pointOfSale.version }}</td>
+                            <td>
+                            {% if permits["ep"] %}
+                                <a class="btn btn-icon btn-rounded theme-bg2 text-white"
+                                    href="{{ path(
+                                            'backend_point_of_sale_edit',
+                                            {'id': pointOfSale.pointOfSaleId}
+                                        ) }}"  title="Editar Punto de Venta" data-toggle="tooltip">
+                                    <i class="feather icon-edit-1"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if permits["dp"] %}   
+                                <span  title="Eliminar Punto de Venta" data-toggle="tooltip">
+                                    <a
+                                        class="btn btn-icon btn-rounded btn-danger text-white delete-point-of-sale"
+                                        data-id="{{ pointOfSale.pointOfSaleInnerId }}" 
+                                        data-href="{{ path(
+                                            'backend_point_of_sale_delete',
+                                            {'id': pointOfSale.pointOfSaleId}
+                                        ) }}"
+                                        data-toggle="modal"
+                                        data-target="#confirm-modal">
+                                        <i class="feather icon-trash-2"></i>
+                                    </a>
+                                </span>
+                            {% endif %}  
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>{{ knp_pagination_render(entities) }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

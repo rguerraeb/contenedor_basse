@@ -1,0 +1,33 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Estado de C&oacute;digos</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Estado de C&oacute;digos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+				<div class="card Application-list">
+					{{ include('@App/Backend/Message/list_messages.html.twig', { 'list': list, 'disponibles' :disponibles}) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block title %}
+    LoyaltyV2 | Backend | Ventas
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+        href="{{ asset('css/backend/loading_animation.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>Ventas</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('backend_main') }}">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li class="active">Ventas</li>
+        </ol>
+    </section>
+    <section class="content">
+        {{ include('@App/Backend/flash_message.html.twig') }}
+
+        <div class="row">
+            <div class="col-md-12" id="alerts-panel">
+            </div>
+        </div>
+
+        {% if permits["wp"] and form %}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ include('@App/Backend/loading_css.html.twig') }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if permits["rp"] %}
+            {{ include(
+                '@App/Backend/Sale/search.html.twig',
+                {'noFiterPath' : noFilterPath}
+            ) }}
+        
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ include(listPath, { 'sales': sales }) }}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ asset('js/create_alert.js') }}"></script>
+    <script>
+        jQuery(function ($){
+            $(document).ajaxStop(function(){
+                $(".loading-animation-panel").hide();
+            });
+            $(document).ajaxStart(function(){
+                $(".loading-animation-panel").show();
+            });
+        });
+
+        $(document).ready(function(){
+            $('#issued-at').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+            $('#cancel-sale-staff').click(function(e){
+                e.preventDefault();
+
+                var $form = $('#cancel-form');
+                var alertSelector = '#alerts-panel';
+
+                $.post(
+                    $form.attr('action'),
+                    $form.serialize(),
+                    function(response){
+                        if (response.status == 200) {
+                            createAlert(
+                                'success', response.message,
+                                'Éxito!', alertSelector);
+                        }
+                        else {
+                            createAlert(
+                                'danger', response.message,
+                                'Error!', alertSelector);
+                        }
+                    }
+                )
+                .fail(function(){
+                    createAlert(
+                        'danger', '',
+                        'Error!', alertSelector);
+                });
+            });
+        });
+    </script>
+{% endblock %}

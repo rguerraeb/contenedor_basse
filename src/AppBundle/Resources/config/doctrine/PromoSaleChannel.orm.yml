@@ -1,0 +1,40 @@
+AppBundle\Entity\PromoSaleChannel:
+    type: entity
+    table: promo_sale_channel
+    repositoryClass: AppBundle\Repository\PromoSaleChannelRepository    
+    indexes:
+        promo_sale_channel_promo_id:
+            columns:
+                - promo_id
+        promo_sale_channel_sale_channel_id:
+            columns:
+                - sale_channel_id
+    id:
+        promoSaleChannelId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: promo_sale_channel_id
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        promo:
+            targetEntity: Promo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                promo_id:
+                    referencedColumnName: promo_id
+            orphanRemoval: false
+        saleChannel:
+            targetEntity: SaleChannel
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sale_channel_id:
+                    referencedColumnName: sale_channel_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

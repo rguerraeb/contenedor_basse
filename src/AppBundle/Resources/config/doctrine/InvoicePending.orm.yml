@@ -1,0 +1,79 @@
+AppBundle\Entity\InvoicePending:
+    type: entity
+    table: invoice_pending
+    repositoryClass: AppBundle\Repository\InvoicePendingRepository
+    indexes:
+        fk_staff_id124_idx:
+            columns:
+                - staff_id
+    id:
+        invoicePendingId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: invoice_pending_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        invoiceImage:
+            type: string
+            nullable: true
+            length: 64
+            fixed: false
+            column: invoice_image
+        invoiceStatus:
+            type: string
+            nullable: true
+            length: null
+            fixed: false
+            column: invoice_status
+        invoiceNumber:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            column: invoice_number
+        invoiceDate:
+            type: datetime
+            nullable: true
+            column: invoice_date
+        comments:
+            type: text
+            nullable: true
+            length: 65535
+            fixed: false
+        points:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        createdBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: created_by
+        updatedBy:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: updated_by
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

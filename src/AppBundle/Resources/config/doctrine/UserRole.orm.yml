@@ -1,0 +1,62 @@
+AppBundle\Entity\UserRole:
+    type: entity
+    table: user_role
+    repositoryClass: AppBundle\Repository\UserRoleRepository
+    indexes:
+        user_role2user_idx:
+            columns:
+                - created_by
+        user_role2user2_idx:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+        description:
+            type: string
+            nullable: true
+            length: 512
+            fixed: false
+        active:
+            type: boolean
+            nullable: false
+            default: '1'
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

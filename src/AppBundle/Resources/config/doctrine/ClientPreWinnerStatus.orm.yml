@@ -1,0 +1,19 @@
+AppBundle\Entity\ClientPreWinnerStatus:
+    type: entity
+    table: client_pre_winner_status
+    id:
+        clientPreWinnerStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: client_pre_winner_status_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+    lifecycleCallbacks: {  }

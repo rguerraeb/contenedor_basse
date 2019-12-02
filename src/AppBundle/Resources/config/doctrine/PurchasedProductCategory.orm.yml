@@ -1,0 +1,38 @@
+AppBundle\Entity\PurchasedProductCategory:
+    type: entity
+    table: purchased_product_category
+    repositoryClass: AppBundle\Repository\PurchasedProductCategoryRepository
+    indexes:
+        purchased_product_category_pk_idx:
+            columns:
+                - purchased_product_category_id
+    id:
+        purchasedProductCategoryId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: purchased_product_category_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        description:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        skuId:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: sku_id    
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+    lifecycleCallbacks: {  }

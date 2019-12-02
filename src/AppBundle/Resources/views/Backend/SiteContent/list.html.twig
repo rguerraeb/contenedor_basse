@@ -1,0 +1,89 @@
+<div class="card-header">
+    <h5>Listado de Contenido</h5>
+	{% if permits["wp"] %}
+		<span  title="Agregar Entrada" data-toggle="tooltip">
+			<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+		</span>
+	{% endif %}
+    <div class="card-header-right">
+        <div class="btn-group card-option">
+            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather icon-more-horizontal"></i>
+            </button>
+            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Image</th>
+					<th>Fecha de Publicacion</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for siteContent in list %}
+				<tr>
+					<td>{{ siteContent.id }}</td>
+					<td>{{ siteContent.title }}</td>
+					<td>{{ siteContent.description }}</td>
+					<td>
+					{% if siteContent.image %}
+						<img src="{{ asset('images/news/'~siteContent.image) }}" alt="" width="240" />
+					{% endif %}	
+				
+				</td>
+					<td>{% if siteContent.publicationDate %} {{ siteContent.publicationDate|date('Y-m-d H:i:s') }}
+						{% endif %}</td>
+					
+					<td class="list_tools">
+						{% if permits["ep"] %}
+						<a class="btn btn-icon btn-rounded theme-bg2 text-white" href="{{
+							path(
+								'backend_site_content_news_edit',
+								{
+									'id': siteContent.id
+								}
+							)
+						}}" title="Editar Entrada" data-toggle="tooltip">
+							<i class="feather icon-edit-1"></i>
+						</a>
+						{% endif %}
+						
+						{% if permits["dp"] %}
+						<span  title="Eliminar Entrada" data-toggle="tooltip">
+							<a href="javascript:;"
+								class="btn btn-icon btn-rounded btn-danger text-white delete-site-content"
+								data-id="{{ siteContent.id }}" 
+								data-href="{{ path(
+									'backend_site_content_news_delete',
+									{'id': siteContent.id}
+								) }}"
+								data-toggle="modal"
+								data-target="#confirm-modal">
+								<i class="feather icon-trash-2"></i>
+							</a>
+						</span>
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>{{ knp_pagination_render(list) }}</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

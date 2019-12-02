@@ -1,0 +1,70 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+<section class="content-header">
+	<h1>Promociones</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('backend_main') }}"><i
+				class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Promociones</li>
+	</ol>
+</section>
+<section class="content">
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+		
+	{% if permits["wp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary collapsed-box_">
+				<div class="box-header with-border">
+					<h3  class="box-title">Agregar una Promoci&oacute;n</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>		
+                {{ include(
+                	'@App/Backend/Promotions/form.html.twig', {
+                	'form': form,
+                	'subcategories': NULL
+                }) }}
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+	{% endif %}
+	
+	{% if permits["rp"] %}
+	<div class="row">
+		<div class="col-xs-12">
+			{{ include('@App/Backend/Promotions/list.html.twig', { 'list': list }) }}
+		</div>
+	</div>
+	{% endif %}
+	
+	{{ include(
+		'@App/Backend/confirm_modal.html.twig',
+		{
+			'form': form,
+			'confirmQuestion': '¿Desea Eliminar la promocion con ID: [ID]?'
+		}
+	) }}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript"
+		src="{{ asset('bundles/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+	<script src="{{ asset('bundles/adminLTE/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+	<script src="{{ asset('bundles/bootstrap-select/js/bootstrap-select.js') }}"></script>
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet"
+		href="{{ asset('bundles/adminLTE/plugins/datepicker/datepicker3.css') }}">
+	<link rel="stylesheet"
+        href="{{ asset('bundles/bootstrap-select/css/boostrap-select.css') }}">
+{% endblock %}

@@ -1,0 +1,62 @@
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title">Listado de {{ title }}</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Premio</th>
+                <th>Status</th>
+                <th>Cantidad disponible</th>
+                <th>Cantidad de puntos</th>
+                <th>Instrucciones</th>
+                <th>Actions</th>
+            </tr>
+            {% for prize in entities %}
+            <tr>
+                <td>{{ prize.id }}</td>
+                <td>{{ prize.name }}</td>
+                {% if  prize.isActive == 1  %}
+                	<td>ACTIVO</td>
+                {% else %}
+                	<td>INACTIVO</td>
+				{% endif %}
+				<td>{{ prize.amount }}</td>
+				<td>{{ prize.value }}</td>
+				<td>{{ prize.instructions }}</td>
+				<td>
+					{% if permits["ep"] %}
+	                    <a 
+	                        href="{{ path(
+	                                'backend_prize_edit',
+	                                {'id': prize.id}
+	                            ) }}">
+	                        <i class="fa fa-fw fa-edit"></i>
+	                    </a>
+                    {% endif %}
+                    
+                    {% if permits["dp"] %}
+	                    <a
+	                        class="delete-point-of-sale"
+	                        data-id="{{ prize.id }}" 
+	                        data-href="{{ path(
+	                            'backend_prize_delete',
+	                            {'id': prize.id}
+	                        ) }}"
+	                        data-toggle="modal"
+	                        data-target="#confirm-modal">
+	                        <i class="fa fa-fw fa-remove"></i>
+						</a>
+                    {% endif %}
+				</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.box-body -->
+
+</div>
+<!-- /.box -->

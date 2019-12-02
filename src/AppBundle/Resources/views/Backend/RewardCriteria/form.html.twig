@@ -1,0 +1,44 @@
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.filterGroup, "Filtro del Grupo") }}
+                {{form_widget(form.filterGroup, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.jobPosition, "Puesto") }}
+                {{form_widget(form.jobPosition, {'attr': {'class': 'required form-control' }}) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.mathematicalOperator, "Factor") }}
+                {{form_widget(
+                    form.mathematicalOperator,
+                    {'attr':
+                        {
+                            'class': 'required form-control',
+                            'type': 'number',
+                            'step': 0.01
+                        }
+                    })
+                }}
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+			{% if 'edit' in currentPath %}
+				<button type="reset" onclick="window.location='{{ path('backend_reward_criteria') }}'" class="btn btn-rounded btn-danger">Cancelar</button>
+			{% else %}
+				<button type="reset" data-dismiss="modal" class="btn btn-rounded btn-danger">Cancelar</button>
+			{% endif %}
+		</div>
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-rounded btn-success float-right">Guardar Datos</button>
+		</div>
+    </div>
+{{ form_end(form) }}

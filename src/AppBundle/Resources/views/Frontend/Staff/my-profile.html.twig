@@ -1,0 +1,31 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+
+<!-- Main content -->
+<section class="content">
+ 
+	{{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Editar Mis Datos de Perfil</h3>
+				</div>
+				{{ include('@App/FrontEnd/Staff/form_my_profile.html.twig', { 'form': form, 'staffProfile': staffProfile }) }}
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+
+</section>
+<!-- /.content -->
+{% endblock %}
+
+{% block extra_scripts %}
+
+
+{% endblock %}

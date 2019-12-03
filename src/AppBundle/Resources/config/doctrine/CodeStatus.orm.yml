@@ -16,5 +16,5 @@ AppBundle\Entity\CodeStatus:
             nullable: true
             length: 300
             fixed: false
-            column: name
+            default: 'NULL'
     lifecycleCallbacks: {  }

@@ -6,21 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WhatsappImagesType extends AbstractType
+class StatusType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('imageName')->add('contactPhone')->add('createdAt')->add('status');
+        $builder->add('name')->add('forTable')->add('active');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WhatsappImages'
+            'data_class' => 'AppBundle\Entity\Status'
         ));
     }
 
@@ -29,7 +29,7 @@ class WhatsappImagesType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_whatsappimages';
+        return 'appbundle_status';
     }
 
 

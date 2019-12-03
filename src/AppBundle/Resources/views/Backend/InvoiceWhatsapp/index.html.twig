@@ -1,0 +1,60 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Aprobaci&oacute;n de Facturas</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Aprobación de Facturas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+	
+	{{ include('@App/Backend/flash_message.html.twig') }}
+
+	
+	{% if permits["rp"] %}
+			{{ include('@App/Backend/InvoiceWhatsapp/list.html.twig', { 'list': list,'listAceptado':listAceptado, 'listRechazado':listRechazado }) }}
+	{% endif %}
+	
+	{{ include(
+		'@App/Backend/invoice_whatsapp_modal.html.twig',
+		{
+			'confirmQuestion': '¿Seguro que desea desactivar al usuario?'
+		}
+	) }}
+</section>
+
+
+{% set title = "Titulo WhatsApp"  %}
+{{
+include(
+    '@App/Backend/invoice_whatsapp_modal.html.twig',
+    {
+        'title': title,
+        'form':form
+    }
+)
+}}  
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.dataTable').DataTable( {
+            dom: 'Bfrtip', buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5']
+        });
+    });     
+</script>
+
+{% endblock %}

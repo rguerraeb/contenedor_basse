@@ -16,7 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\RegisterPending;
 use AppBundle\Entity\StaffCode;
-use AppBundle\Entity\WhatsappImages;
+use AppBundle\Entity\Staff;
+use AppBundle\Entity\InvoiceWhatsapp;
 use AppBundle\Repository\EbClosion;
 use AppBundle\Helper\SessionHelper;
 use Doctrine\ORM\Query\AST\Functions\SubstringFunction;
@@ -452,22 +453,45 @@ class IndexController extends Controller
 		$x = sizeof($imageDataExt) - 1;
 		$imageDataExt = $imageDataExt[$x];
 		$fileName = md5(uniqid()).'.'.$imageDataExt;
-		$uploaded = $fullPath . $fileName;		
+		$uploaded = $fullPath . $fileName;
         $isSaved = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded);
 		if ($isSaved) {
-
+			//Se procede a validar si el phone eexiste en staff
+			$phoneData = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("phone"=>$phone));
+			if ($phoneData) {
+				//$staffId = $phoneData->getStaffId();
+				$mensaje = "Si existe";
+				$staffObj = $phoneData;
+				$recurrent = 1;
+			}else{
+				$countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findOneBy(array("id"=>1));
+				$em = $this->getDoctrine()->getManager();
+				$newStaff = new Staff();
+				$newStaff->setPhone($phone);
+				$newStaff->setCreatedAt(new \DateTime());
+				$newStaff->setCountry($countryObj);
+				$em->persist($newStaff);
+				$em->flush();
+				$staffObj = $newStaff;
+				//$staffId = $newStaff->getStaffId();
+				$mensaje = "No existe";
+				$recurrent = 0;
+			}
 			$em = $this->getDoctrine()->getManager();	
-			$wsImg = new WhatsappImages();
-			$wsImg->setImageName($fileName);
-			$wsImg->setContactPhone($phone);
-			$wsImg->setCreatedAt(new \DateTime());
-			$wsImg->setStatus('1');
-			$em->persist($wsImg);
+			$statusObj = $this->getDoctrine()->getRepository("AppBundle:CodeStatus")->findOneBy(array("name"=>"Pendiente"));
+			$invoiceWs = new InvoiceWhatsapp();
+			$invoiceWs->setStaff($staffObj);
+			$invoiceWs->setImageName($fileName);
+			$invoiceWs->setCreatedAt(new \DateTime());
+			$invoiceWs->setStatus($statusObj);
+			$invoiceWs->setRecurrent($recurrent);
+			$em->persist($invoiceWs);
 			$em->flush();
 
 			return new JsonResponse(array(
 	            'status' => "Success",
-	            'message' => "Imagen Recibida!"
+	            'message' => "Imagen Recibida!",
+	            'existe' => $mensaje
 	        ));
 	        
 		} else {
@@ -475,19 +499,7 @@ class IndexController extends Controller
 			return new JsonResponse(array(
 	            'status' => "Error",
 	            'message' => "La imagen no pudo ser guardada"
-	        ));
-	        
-		}
-				
-        		
+	        ));   
+		}        		
 	}
-
-
-
-
-
-
-
-   
-
 }

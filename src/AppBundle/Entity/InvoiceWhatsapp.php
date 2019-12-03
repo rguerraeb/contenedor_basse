@@ -1,0 +1,223 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * InvoiceWhatsapp
+ */
+class InvoiceWhatsapp
+{
+    /**
+     * @var integer
+     */
+    private $invoiceId;
+
+    /**
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @var string
+     */
+    private $invoiceNumber;
+
+    /**
+     * @var string
+     */
+    private $nit;
+
+    /**
+     * @var integer
+     */
+    private $recurrent;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \AppBundle\Entity\Staff
+     */
+    private $staff;
+
+    /**
+     * @var \AppBundle\Entity\CodeStatus
+     */
+    private $status;
+
+
+    /**
+     * Get invoiceId
+     *
+     * @return integer 
+     */
+    public function getInvoiceId()
+    {
+        return $this->invoiceId;
+    }
+
+    /**
+     * Set imageName
+     *
+     * @param string $imageName
+     * @return InvoiceWhatsapp
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * Get imageName
+     *
+     * @return string 
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * Set invoiceNumber
+     *
+     * @param string $invoiceNumber
+     * @return InvoiceWhatsapp
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceNumber
+     *
+     * @return string 
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
+     * Set nit
+     *
+     * @param string $nit
+     * @return InvoiceWhatsapp
+     */
+    public function setNit($nit)
+    {
+        $this->nit = $nit;
+
+        return $this;
+    }
+
+    /**
+     * Get nit
+     *
+     * @return string 
+     */
+    public function getNit()
+    {
+        return $this->nit;
+    }
+
+    /**
+     * Set recurrent
+     *
+     * @param integer $recurrent
+     * @return InvoiceWhatsapp
+     */
+    public function setRecurrent($recurrent)
+    {
+        $this->recurrent = $recurrent;
+
+        return $this;
+    }
+
+    /**
+     * Get recurrent
+     *
+     * @return integer 
+     */
+    public function getRecurrent()
+    {
+        return $this->recurrent;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return InvoiceWhatsapp
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set staff
+     *
+     * @param \AppBundle\Entity\Staff $staff
+     * @return InvoiceWhatsapp
+     */
+    public function setStaff(\AppBundle\Entity\Staff $staff = null)
+    {
+        $this->staff = $staff;
+
+        return $this;
+    }
+
+    /**
+     * Get staff
+     *
+     * @return \AppBundle\Entity\Staff 
+     */
+    public function getStaff()
+    {
+        return $this->staff;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\CodeStatus $status
+     * @return InvoiceWhatsapp
+     */
+    public function setStatus(\AppBundle\Entity\CodeStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\CodeStatus 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+}

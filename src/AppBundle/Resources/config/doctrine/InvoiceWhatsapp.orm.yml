@@ -1,0 +1,67 @@
+AppBundle\Entity\InvoiceWhatsapp:
+    type: entity
+    table: invoice_whatsapp
+    indexes:
+        invoice_FK:
+            columns:
+                - staff_id
+        invoice_FK_1:
+            columns:
+                - status
+    id:
+        invoiceId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: invoice_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        imageName:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            column: image_name
+        invoiceNumber:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            default: 'NULL'
+            column: invoice_number
+        nit:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            default: 'NULL'
+        recurrent:
+            type: integer
+            nullable: false
+            unsigned: false
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: staff_id
+            orphanRemoval: false
+        status:
+            targetEntity: CodeStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                status:
+                    referencedColumnName: code_status_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

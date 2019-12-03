@@ -1,38 +1,31 @@
-AppBundle\Entity\WhatsappImages:
+AppBundle\Entity\Status:
     type: entity
-    table: whatsapp_images
+    table: status
     id:
-        whatsappImagesId:
+        statusId:
             type: integer
             nullable: false
             unsigned: false
             id: true
-            column: whatsapp_images_id
+            column: status_id
             generator:
                 strategy: IDENTITY
     fields:
-        imageName:
+        name:
             type: string
             nullable: true
             length: 100
             fixed: false
             default: 'NULL'
-            column: image_name
-        contactPhone:
+        forTable:
             type: string
             nullable: true
             length: 100
             fixed: false
             default: 'NULL'
-            column: contact_phone
-        createdAt:
-            type: datetime
+            column: for_table
+        active:
+            type: binary
             nullable: true
-            default: 'NULL'
-            column: created_at
-        status:
-            type: integer
-            nullable: true
-            unsigned: false
             default: 'NULL'
     lifecycleCallbacks: {  }

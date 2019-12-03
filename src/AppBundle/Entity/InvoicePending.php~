@@ -304,4 +304,32 @@ class InvoicePending
     {
         return $this->invoiceNumber;
     }
+    /**
+     * @var \DateTime
+     */
+    private $invoiceDate;
+
+
+    /**
+     * Set invoiceDate
+     *
+     * @param \DateTime $invoiceDate
+     * @return InvoicePending
+     */
+    public function setInvoiceDate($invoiceDate)
+    {
+        $this->invoiceDate = $invoiceDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoiceDate
+     *
+     * @return \DateTime 
+     */
+    public function getInvoiceDate()
+    {
+        return $this->invoiceDate;
+    }
 }

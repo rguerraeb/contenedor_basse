@@ -1,0 +1,159 @@
+<div class="card User-Activity">
+	<div class="card-header">
+		<h5>Listado de facturas pendientes de aprobaci&oacute;n</h5>
+		<div class="card-header-right">
+			<div class="btn-group card-option">
+				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="feather icon-more-horizontal"></i>
+				</button>
+				<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+					<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+					<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+					<li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+					<li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="card-block pb-0">
+		<div class="table-responsive m-b-15">
+			<table class="table table-hover dataTable">
+				<thead>
+					<tr>
+						<th>#Correlativo</th>
+						<th>Tel&eacute;fono</th>
+						<th>Fecha de Ingreso</th>					
+						<th>Estatus</th>
+						<th>Recurrente</th>
+						<th>Herramientas</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in list %}
+						<tr>
+							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
+							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
+							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
+							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
+							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
+							<td class="list_tools">
+								{% if permits["wp"] %}
+									<span  title="Procesar Factura" data-toggle="tooltip">
+										<a class="btn btn-icon btn-rounded theme-bg text-white" data-id="{{item.invoiceId}}" data-toggle="modal" data-target="#whatsappInvoice"><span><i class="feather icon-plus"></i></span></a>
+									</span>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="card User-Activity">
+	<div class="card-header">
+		<h5>Listado de facturas aprobadas</h5>
+		<div class="card-header-right">
+			<div class="btn-group card-option">
+				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="feather icon-more-horizontal"></i>
+				</button>
+				<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+					<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+					<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+					<li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+					<li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="card-block pb-0">
+		<div class="table-responsive m-b-15">
+			<table class="table table-hover dataTable">
+				<thead>
+					<tr>
+						<th>#Correlativo</th>
+						<th>Tel&eacute;fono</th>
+						<th>Fecha de Ingreso</th>					
+						<th>Estatus</th>
+						<th>Recurrente</th>
+						<th>Herramientas</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in listAceptado %}
+						<tr>
+							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
+							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
+							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
+							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
+							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
+							<td class="list_tools">
+								{% if permits["ep"] %} 
+									<a	href="{{ path('backend_invoice', {'id': item.invoiceId | md5}) }}">
+										<i class="fa fa-fw fa-edit"></i>
+									</a> 
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="card User-Activity">
+	<div class="card-header">
+		<h5>Listado de facturas rechazadas</h5>
+		<div class="card-header-right">
+			<div class="btn-group card-option">
+				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="feather icon-more-horizontal"></i>
+				</button>
+				<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+					<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+					<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+					<li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+					<li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="card-block pb-0">
+		<div class="table-responsive m-b-15">
+			<table class="table table-hover dataTable">
+				<thead>
+					<tr>
+						<th>#Correlativo</th>
+						<th>Tel&eacute;fono</th>
+						<th>Fecha de Ingreso</th>					
+						<th>Estatus</th>
+						<th>Recurrente</th>
+						<th>Herramientas</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in listRechazado %}
+						<tr>
+							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
+							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
+							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
+							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
+							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
+							<td class="list_tools">
+								{% if permits["ep"] %} 
+									<a	href="{{ path('backend_invoice', {'id': item.invoiceId | md5}) }}">
+										<i class="fa fa-fw fa-edit"></i>
+									</a> 
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

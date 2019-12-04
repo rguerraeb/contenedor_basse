@@ -36,19 +36,6 @@
 </section>
 
 
-{% set title = "Titulo WhatsApp"  %}
-{{
-include(
-    '@App/Backend/invoice_whatsapp_modal.html.twig',
-    {
-        'title': title,
-        'form':form
-    }
-)
-}}  
-
-
-
 <script>
     $(document).ready(function() {
         $('.dataTable').DataTable( {

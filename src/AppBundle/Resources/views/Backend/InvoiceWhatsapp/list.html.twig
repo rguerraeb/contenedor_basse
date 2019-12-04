@@ -38,9 +38,20 @@
 							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
 							<td class="list_tools">
 								{% if permits["wp"] %}
-									<span  title="Procesar Factura" data-toggle="tooltip">
+									<a class="btn btn-icon btn-rounded theme-bg text-white" 
+									href="{{ path('backend_invoice_whatsapp_pending_review', {'id': item.invoiceId}) }}"  
+									title="Procesar Factura" 
+									data-toggle="tooltip">
+										<i class="feather icon-plus"></i>
+									</a>
+
+									{#<span  title="Procesar Factura" data-toggle="tooltip">
+										
+
 										<a class="btn btn-icon btn-rounded theme-bg text-white" data-id="{{item.invoiceId}}" data-toggle="modal" data-target="#whatsappInvoice"><span><i class="feather icon-plus"></i></span></a>
-									</span>
+
+
+									</span>#}
 								{% endif %}
 							</td>
 						</tr>
@@ -91,7 +102,7 @@
 							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
 							<td class="list_tools">
 								{% if permits["ep"] %} 
-									<a	href="{{ path('backend_invoice', {'id': item.invoiceId | md5}) }}">
+									<a	href="{{ path('backend_invoice_whatsapp', {'id': item.invoiceId}) }}">
 										<i class="fa fa-fw fa-edit"></i>
 									</a> 
 								{% endif %}
@@ -144,7 +155,7 @@
 							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
 							<td class="list_tools">
 								{% if permits["ep"] %} 
-									<a	href="{{ path('backend_invoice', {'id': item.invoiceId | md5}) }}">
+									<a	href="{{ path('backend_invoice_whatsapp', {'id': item.invoiceId}) }}">
 										<i class="fa fa-fw fa-edit"></i>
 									</a> 
 								{% endif %}

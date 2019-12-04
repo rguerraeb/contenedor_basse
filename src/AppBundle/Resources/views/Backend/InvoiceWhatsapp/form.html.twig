@@ -1,79 +1,100 @@
-{% extends '@App/Backend/base.html.twig' %}
+<form method="post" action="" id="iwsForm" autocomplete="false">	
 
-{% block body %}
-
-
-	<div class="page-header">
-	    <div class="page-block">
-	        <div class="row align-items-center">
-	            <div class="col-md-12">
-	                <div class="page-header-title">
-	                    <h5 class="m-b-10">Aprobaci&oacute;n de Facturas</h5>
-	                </div>
-	                <ul class="breadcrumb">
-	                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
-	                    <li class="breadcrumb-item"><a href="#!">Aprobación de Facturas</a></li>
-	                </ul>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-		
 	<div class="row">
-		<div class="col-sm-6">
-			<img src="{{asset('uploads/imgs/')~imgName}}" alt="" style="max-width:450px;">
+		<div class="col-sm-6 text-center">
+			<img src="{{asset('uploads/imgs/')~imgName}}" alt="" style="max-width:100%;">
 		</div>
 		<div class="col-sm-6">
-				<div class="row">
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formInvoice.invoiceNumber, "Número de Factura") }}
-					{{form_widget(formInvoice.invoiceNumber, {'attr': {'class': 'required form-control' }}) }}
+			<div class="row">
+				<div class="col">
+					<div class="row align-items-center justify-content-center">
+						<div class="col">
+							{% if recurrent == 1 %}
+								<i class="fas fa-sync-alt text-c-blue f-20"></i>&nbsp;&nbsp;&nbsp;<span style="font-size: 16px; color: #04a9f5;">Este participante es recurrente</span>
+							{% endif %}
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formInvoice.nit, "NIT") }}
-					{{form_widget(formInvoice.nit, {'attr': {'class': 'required form-control' }}) }}
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formInvoice.invoiceNumber, "Número de Factura") }}
+						{{form_widget(formInvoice.invoiceNumber, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formInvoice.nit, "NIT") }}
+						{{form_widget(formInvoice.nit, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="appbundle_invoicewhatsapp_status">Status</label>
+						<select id="appbundle_invoicewhatsapp_status" name="appbundle_invoicewhatsapp[status]" class="form-control">
+							{% for status in statusOpt %}
+								{% if status.id == statusAct %}
+									<option value="{{status.id}}" selected>{{status.name}}</option>
+								{% else %}
+									<option value="{{status.id}}">{{status.name}}</option>
+								{% endif %}
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formStaff.name, "Nombre del Participante") }}
+						{{form_widget(formStaff.name, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formStaff.citizenId, "GPID") }}
+						{{form_widget(formStaff.citizenId, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formStaff.phone, "Teléfono") }}
+						{{form_widget(formStaff.phone, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formStaff.email, "Correo Electrónico") }}
+						{{form_widget(formStaff.email, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>País</label>
+						<select id="staff_country" name="staff[country]" class="form-control">
+							{% for country in countryOpt %}
+								{% if country.id == countryAct %}
+									<option value="{{country.id}}" selected>{{country.name}}</option>
+								{% else %}
+									<option value="{{country.id}}">{{country.name}}</option>
+								{% endif %}
+							{% endfor %}
+						</select>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formInvoice.status, "Status") }}
-					{{form_widget(formInvoice.status, {'attr': {'class': 'required form-control' }}) }}
+			<div class="row p-t-15">
+				<div class="col text-right">
+					<button id="button-save-whatsapp" type="submit" class="btn btn-rounded btn-success float-right">Procesar</button>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formStaff.name, "Nombre del Participante") }}
-					{{form_widget(formStaff.name, {'attr': {'class': 'required form-control' }}) }}
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formStaff.citizenId, "GPID") }}
-					{{form_widget(formStaff.citizenId, {'attr': {'class': 'required form-control' }}) }}
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formStaff.phone, "Teléfono") }}
-					{{form_widget(formStaff.phone, {'attr': {'class': 'required form-control' }}) }}
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					{{ form_label(formStaff.email, "Correo Electrónico") }}
-					{{form_widget(formStaff.email, {'attr': {'class': 'required form-control' }}) }}
-				</div>
-			</div>
-			
-		</div>
 		</div>
 	</div>
+	{{ form_widget(formInvoice._token) }}
+</form>
 
-
-
-
-
-{% endblock %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#staff_email").removeAttr("required");
+	});
+</script>

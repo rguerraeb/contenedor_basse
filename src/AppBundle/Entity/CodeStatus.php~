@@ -55,32 +55,4 @@ class CodeStatus
     public function __toString() {
     	return $this->getName();
     }
-    /**
-     * @var string
-     */
-    private $fromTable;
-
-
-    /**
-     * Set fromTable
-     *
-     * @param string $fromTable
-     * @return CodeStatus
-     */
-    public function setFromTable($fromTable)
-    {
-        $this->fromTable = $fromTable;
-
-        return $this;
-    }
-
-    /**
-     * Get fromTable
-     *
-     * @return string 
-     */
-    public function getFromTable()
-    {
-        return $this->fromTable;
-    }
 }

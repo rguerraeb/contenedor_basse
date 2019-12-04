@@ -67,26 +67,80 @@ class InvoiceWhatsappController extends Controller
     }
 
 
-
     /**
      *
      * @Route("/backend/invoice-whatsapp-pending/review/{id}", name="backend_invoice_whatsapp_pending_review", requirements={"id": "\w+"})
      */
     public function editAction (Request $request)
     {
+        
         $iwId = $request->get('id');
         $iwStaffObj = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
-
-        $iwObj = new InvoiceWhatsapp();
-        $form = $this->createForm ( new InvoiceWhatsappType (), $iwObj);
+        $imgName = $iwStaffObj->getImageName();
+        $recurrent = $iwStaffObj->getRecurrent();
+        $createdAt = $iwStaffObj->getCreatedAt();
+        $stId = $iwStaffObj->getStaff()->getStaffId();
+        $form = $this->createForm ( new InvoiceWhatsappType (), $iwStaffObj);
         $form->handleRequest ( $request );
+        if ($form->isSubmitted ()) {
+            if ($form->isValid ()) {
+                $staffData = $request->get('staff');
+                $iwsData = $request->get('appbundle_invoicewhatsapp');
+                //Actualización de datos en las tablas invoice_whatsapp y staff
+                $em = $this->getDoctrine()->getManager();
+                $iwEnt = $em->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
+                $newStatus = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>$iwsData['status']));
+                $staffEnt = $em->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$stId));
+                $iwEnt->setImageName($imgName);
+                $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
+                $iwEnt->setNit($iwsData['nit']);
+                $iwEnt->setRecurrent($recurrent);
+                $iwEnt->setCreatedAt($createdAt);
+                $iwEnt->setStaff($staffEnt);
+                $iwEnt->setStatus($newStatus);
+                $em->persist($iwEnt);
+                
+                $newCountry = $em->getRepository("AppBundle:Country")->findOneBy(array("id"=>$staffData['country']));
+                $staffEnt->setName($staffData['name']);
+                $staffEnt->setCitizenId($staffData['citizenId']);
+                $staffEnt->setEmail($staffData['email']);
+                $staffEnt->setCountry($newCountry);
+                $em->persist($staffEnt);
+                $em->flush();
+
+                $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
+                return $this->redirectToRoute ( "backend_invoice_whatsapp" );
+            }else{
+                $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
+                return $this->redirectToRoute ( "backend_invoice_whatsapp" );
+            }
+        }
         $staffObj = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$iwStaffObj->getStaff()->getStaffId()));
         $formStaff = $this->createForm(new StaffType(),$staffObj);
-        return $this->render('@App/Backend/InvoiceWhatsapp/form.html.twig',
-            array(  "message" => "Hola de nuevo",
-                    "formInvoice" => $form->createView (),
+        $statusAct = $iwStaffObj->getStatus()->getCodeStatusId();
+        $statusObj = $this->getDoctrine()->getRepository("AppBundle:CodeStatus")->findBy(array("fromTable"=>"INVOICE_WHATSAPP"));
+        $statusOpt = [];
+        foreach ($statusObj as $value) {
+            $statusOpt[$value->getCodeStatusId()]['id'] = $value->getCodeStatusId();
+            $statusOpt[$value->getCodeStatusId()]['name'] = $value->getName(); 
+        }
+        $countryAct = $staffObj->getCountry()->getId();
+        
+        $countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findAll();
+        $countryOpt = [];
+        foreach ($countryObj as $value) {
+            $countryOpt[$value->getId()]['id'] = $value->getId();
+            $countryOpt[$value->getId()]['name'] = $value->getName(); 
+        }
+        return $this->render('@App/Backend/InvoiceWhatsapp/edit.html.twig',
+            array(  "formInvoice" => $form->createView (),
                     "formStaff" => $formStaff->createView(),
-                    "imgName" => $iwStaffObj->getImageName()
+                    "imgName" => $iwStaffObj->getImageName(),
+                    "countryAct" => $countryAct,
+                    "statusAct" => $statusAct,
+                    "statusOpt" => $statusOpt,
+                    "countryOpt" => $countryOpt,
+                    "recurrent" => $recurrent
             ));
     }
 

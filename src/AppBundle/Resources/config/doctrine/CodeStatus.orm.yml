@@ -17,4 +17,11 @@ AppBundle\Entity\CodeStatus:
             length: 300
             fixed: false
             default: 'NULL'
+        fromTable:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            default: 'NULL'
+            column: from_table
     lifecycleCallbacks: {  }

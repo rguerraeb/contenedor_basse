@@ -46,22 +46,24 @@ class InvoiceWhatsappController extends Controller
                 array(
                         "status" => 5
                 ));
-       
+       /*
         $listAceptado = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(
                 array(
                         "status" => 6
                 ));
-        
-        $listRechazado = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(
-                array(
-                        "status" => 8
-                ));
-
+        */
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $entityManager->createQuery(
+                                                'SELECT p
+                                                FROM AppBundle:InvoiceWhatsapp p
+                                                WHERE p.status > :sta'
+                                            )->setParameter('sta', 5);
+        $listProcesados = $query->getResult();
+        //print_r($listProcesados[0]->getInvoiceId());
         return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
                 array(
                         "list" => $list,
-                        "listAceptado" => $listAceptado,
-                        "listRechazado" => $listRechazado,
+                        "listProcesados" => $listProcesados,
                         "permits" => $mp
                 ));
     }
@@ -86,7 +88,7 @@ class InvoiceWhatsappController extends Controller
             if ($form->isValid ()) {
                 $staffData = $request->get('staff');
                 $iwsData = $request->get('appbundle_invoicewhatsapp');
-                //Actualización de datos en las tablas invoice_whatsapp y staff
+
                 $em = $this->getDoctrine()->getManager();
                 $iwEnt = $em->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
                 $newStatus = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>$iwsData['status']));
@@ -106,7 +108,7 @@ class InvoiceWhatsappController extends Controller
                 $staffEnt->setEmail($staffData['email']);
                 $staffEnt->setCountry($newCountry);
                 $em->persist($staffEnt);
-                $em->flush();
+                //$em->flush();
 
                 $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );

@@ -24,7 +24,7 @@
 
 	
 	{% if permits["rp"] %}
-			{{ include('@App/Backend/InvoiceWhatsapp/list.html.twig', { 'list': list,'listAceptado':listAceptado, 'listRechazado':listRechazado }) }}
+			{{ include('@App/Backend/InvoiceWhatsapp/list.html.twig', { 'list': list,'listProcesados':listProcesados }) }}
 	{% endif %}
 	
 	{{ include(

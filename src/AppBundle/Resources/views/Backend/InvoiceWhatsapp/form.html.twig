@@ -1,8 +1,10 @@
 <form method="post" action="" id="iwsForm" autocomplete="false">	
 
 	<div class="row">
-		<div class="col-sm-6 text-center">
-			<img src="{{asset('uploads/imgs/')~imgName}}" alt="" style="max-width:100%;">
+		<div class="col-sm-6 text-center align-self-center">
+			<a href="{{asset('uploads/imgs/')~imgName}}" target="_blank">
+				<img src="{{asset('uploads/imgs/')~imgName}}" alt="" style="max-width:100%;">
+			</a>
 		</div>
 		<div class="col-sm-6">
 			<div class="row">
@@ -10,7 +12,7 @@
 					<div class="row align-items-center justify-content-center">
 						<div class="col">
 							{% if recurrent == 1 %}
-								<i class="fas fa-sync-alt text-c-blue f-20"></i>&nbsp;&nbsp;&nbsp;<span style="font-size: 16px; color: #04a9f5;">Este participante es recurrente</span>
+								<span class="badge badge-pill badge-info shadow-2 float-right p-b-" style="font-size: 16px; padding-bottom: 6px;"> <i class="fas fa-exchange-alt text-white"></i>&nbsp;&nbsp;Participante Recurrente</span>
 							{% endif %}
 						</div>
 					</div>
@@ -30,18 +32,9 @@
 						{{form_widget(formInvoice.nit, {'attr': {'class': 'form-control' }}) }}
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 d-none">
 					<div class="form-group">
-						<label for="appbundle_invoicewhatsapp_status">Status</label>
-						<select id="appbundle_invoicewhatsapp_status" name="appbundle_invoicewhatsapp[status]" class="form-control">
-							{% for status in statusOpt %}
-								{% if status.id == statusAct %}
-									<option value="{{status.id}}" selected>{{status.name}}</option>
-								{% else %}
-									<option value="{{status.id}}">{{status.name}}</option>
-								{% endif %}
-							{% endfor %}
-						</select>
+						<input type="text" name="appbundle_invoicewhatsapp[status]" id="appbundle_invoicewhatsapp_status">
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -83,9 +76,13 @@
 					</div>
 				</div>
 			</div>
+			<hr>
 			<div class="row p-t-15">
-				<div class="col text-right">
-					<button id="button-save-whatsapp" type="submit" class="btn btn-rounded btn-success float-right">Procesar</button>
+				<div class="col-6">
+					<button id="button-rejected-whatsapp" type="submit" class="btn btn-rounded btn-danger">Rechazar</button>
+				</div>
+				<div class="col-6 text-right">
+					<button id="button-approved-whatsapp" type="submit" class="btn btn-rounded btn-success">Aprobar</button>
 				</div>
 			</div>
 		</div>
@@ -96,5 +93,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#staff_email").removeAttr("required");
+		$("#button-approved-whatsapp").on("click",function(){
+			$("#appbundle_invoicewhatsapp_status").val(6);
+		})
+		$("#button-rejected-whatsapp").on("click",function(){
+			$("#appbundle_invoicewhatsapp_status").val(8);
+		})
 	});
 </script>

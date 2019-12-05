@@ -46,20 +46,12 @@ class InvoiceWhatsappController extends Controller
                 array(
                         "status" => 5
                 ));
-       /*
-        $listAceptado = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(
-                array(
-                        "status" => 6
-                ));
-        */
+       
         $entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery(
-                                                'SELECT p
+        $query = $entityManager->createQuery(  'SELECT p
                                                 FROM AppBundle:InvoiceWhatsapp p
-                                                WHERE p.status > :sta'
-                                            )->setParameter('sta', 5);
+                                                WHERE p.status > :sta')->setParameter('sta', 5);
         $listProcesados = $query->getResult();
-        //print_r($listProcesados[0]->getInvoiceId());
         return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
                 array(
                         "list" => $list,

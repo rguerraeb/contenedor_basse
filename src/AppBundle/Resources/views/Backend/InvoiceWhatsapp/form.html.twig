@@ -1,10 +1,10 @@
 <form method="post" action="" id="iwsForm" autocomplete="false">	
 
 	<div class="row  align-items-center">
-		<div class="col-sm-6 text-center">
+		<div class="col-md-6 text-center">
 			<img src="{{asset('uploads/imgs/')~imgName}}" alt="" style="max-width:100%;">
 		</div>
-		<div class="col-sm-6">
+		<div class="col-md-6">
 			<div class="row">
 				<div class="col">
 					<div class="row align-items-center justify-content-center">
@@ -30,6 +30,31 @@
 						{{form_widget(formInvoice.nit, {'attr': {'class': 'form-control' }}) }}
 					</div>
 				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formStaff.phone, "Teléfono") }}
+						{{form_widget(formStaff.phone, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+
+
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formInvoice.productQuantity, "Cantidad de Productos") }}
+						{{form_widget(formInvoice.productQuantity, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(formInvoice.totalInvoice, "Monto Total en Factura") }}
+						{{form_widget(formInvoice.totalInvoice, {'attr': {'class': 'form-control' }}) }}
+					</div>
+				</div>
+				<div class="col-md-6 d-none">
+					<div class="form-group">
+						<input type="text" name="appbundle_invoicewhatsapp[prizeType]" id="appbundle_invoicewhatsapp_prizeType" value=0>
+					</div>
+				</div>
 				<div class="col-md-6 d-none">
 					<div class="form-group">
 						<input type="text" name="appbundle_invoicewhatsapp[status]" id="appbundle_invoicewhatsapp_status">
@@ -43,14 +68,8 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						{{ form_label(formStaff.citizenId, "GPID") }}
+						{{ form_label(formStaff.citizenId, "DPI") }}
 						{{form_widget(formStaff.citizenId, {'attr': {'class': 'form-control' }}) }}
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						{{ form_label(formStaff.phone, "Teléfono") }}
-						{{form_widget(formStaff.phone, {'attr': {'class': 'form-control' }}) }}
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -73,6 +92,16 @@
 						</select>
 					</div>
 				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Tipo de Premio</label><br>
+						<div class="switch switch-primary d-inline m-r-10">
+							<input type="checkbox" id="switch-p-1">
+							<label for="switch-p-1" class="cr"></label>
+						</div>
+							<label id="beChecked">Es un premio pequeño</label>
+					</div>
+				</div>
 			</div>
 			<hr>
 			<div class="row p-t-15">
@@ -92,10 +121,23 @@
 	$(document).ready(function(){
 		$("#staff_email").removeAttr("required");
 		$("#button-approved-whatsapp").on("click",function(){
-			$("#appbundle_invoicewhatsapp_status").val(6);
+			$("#appbundle_invoicewhatsapp_status").val(2);
 		})
 		$("#button-rejected-whatsapp").on("click",function(){
-			$("#appbundle_invoicewhatsapp_status").val(8);
+			$("#appbundle_invoicewhatsapp_status").val(3);
 		})
+		$("#switch-p-1").on('click',function(){
+			if ($('#switch-p-1').is(":checked"))
+			{
+				console.log("Está checked");
+				$("#beChecked").html("Es un premio grande");
+				$("#appbundle_invoicewhatsapp_prizeType").val(1);
+			}else{
+				$("#beChecked").html("Es un premio pequeño");
+				$("#appbundle_invoicewhatsapp_prizeType").val(0);
+				console.log("No está checked");
+			}
+		})
+		
 	});
 </script>

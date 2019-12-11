@@ -23,6 +23,7 @@ use AppBundle\Entity\PurchasedProductDetail;
 use AppBundle\Entity\InvoiceWhatsapp;
 use AppBundle\Form\InvoiceWhatsappType;
 use AppBundle\Form\StaffType;
+use AppBundle\Entity\StaffCode;
 
 
 class InvoiceWhatsappController extends Controller
@@ -44,13 +45,13 @@ class InvoiceWhatsappController extends Controller
 
         $list = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(
                 array(
-                        "status" => 5
+                        "status" => 1
                 ));
        
         $entityManager = $this->getDoctrine()->getManager();
         $query = $entityManager->createQuery(  'SELECT p
                                                 FROM AppBundle:InvoiceWhatsapp p
-                                                WHERE p.status > :sta')->setParameter('sta', 5);
+                                                WHERE p.status > :sta')->setParameter('sta', 1);
         $listProcesados = $query->getResult();
         return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
                 array(
@@ -67,7 +68,6 @@ class InvoiceWhatsappController extends Controller
      */
     public function editAction (Request $request)
     {
-        
         $iwId = $request->get('id');
         $iwStaffObj = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
         $imgName = $iwStaffObj->getImageName();
@@ -78,13 +78,21 @@ class InvoiceWhatsappController extends Controller
         $form->handleRequest ( $request );
         if ($form->isSubmitted ()) {
             if ($form->isValid ()) {
+
                 $staffData = $request->get('staff');
                 $iwsData = $request->get('appbundle_invoicewhatsapp');
 
                 $em = $this->getDoctrine()->getManager();
                 $iwEnt = $em->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
-                $newStatus = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>$iwsData['status']));
+                $newStatus = $em->getRepository("AppBundle:MainStatus")->findOneBy(array("mainStatusId"=>$iwsData['status']));
                 $staffEnt = $em->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$stId));
+
+                if ($iwsData['prizeType'] == '1') {
+                    $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"26")); 
+                }else{
+                    $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"27"));
+                }
+                
                 $iwEnt->setImageName($imgName);
                 $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
                 $iwEnt->setNit($iwsData['nit']);
@@ -92,6 +100,9 @@ class InvoiceWhatsappController extends Controller
                 $iwEnt->setCreatedAt($createdAt);
                 $iwEnt->setStaff($staffEnt);
                 $iwEnt->setStatus($newStatus);
+                $iwEnt->setProductQuantity($iwsData['productQuantity']);
+                $iwEnt->setTotalInvoice($iwsData['totalInvoice']);
+                $iwEnt->setPrizeType($iwsData['prizeType']);
                 $em->persist($iwEnt);
                 
                 $newCountry = $em->getRepository("AppBundle:Country")->findOneBy(array("id"=>$staffData['country']));
@@ -100,23 +111,36 @@ class InvoiceWhatsappController extends Controller
                 $staffEnt->setEmail($staffData['email']);
                 $staffEnt->setCountry($newCountry);
                 $em->persist($staffEnt);
-                //$em->flush();
 
+                $winnCode = strtoupper("T".substr( md5(microtime()), 1, 5));
+                $codeStatusObj = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>"2"));
+                
+                $staffCodeObj = new StaffCode();
+                $staffCodeObj->setCode($winnCode);
+                $staffCodeObj->setStaff($staffEnt);
+                $staffCodeObj->setCodeStatus($codeStatusObj);
+                $staffCodeObj->setCreatedAt(new \DateTime());
+                $staffCodeObj->setPrize($prizeObj);
+                $staffCodeObj->setWhatsappStatus('pendiente');
+                $em->persist($staffCodeObj);
+                $em->flush();
+                
                 $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );
             }else{
+
                 $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );
             }
         }
         $staffObj = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$iwStaffObj->getStaff()->getStaffId()));
         $formStaff = $this->createForm(new StaffType(),$staffObj);
-        $statusAct = $iwStaffObj->getStatus()->getCodeStatusId();
-        $statusObj = $this->getDoctrine()->getRepository("AppBundle:CodeStatus")->findBy(array("fromTable"=>"INVOICE_WHATSAPP"));
+        $statusAct = $iwStaffObj->getStatus()->getMainStatusId();
+        $statusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findBy(array("forTable"=>"INVOICE_WHATSAPP"));
         $statusOpt = [];
         foreach ($statusObj as $value) {
-            $statusOpt[$value->getCodeStatusId()]['id'] = $value->getCodeStatusId();
-            $statusOpt[$value->getCodeStatusId()]['name'] = $value->getName(); 
+            $statusOpt[$value->getMainStatusId()]['id'] = $value->getMainStatusId();
+            $statusOpt[$value->getMainStatusId()]['name'] = $value->getName(); 
         }
         $countryAct = $staffObj->getCountry()->getId();
         

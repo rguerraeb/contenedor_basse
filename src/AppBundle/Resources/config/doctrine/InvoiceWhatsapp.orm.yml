@@ -5,7 +5,7 @@ AppBundle\Entity\InvoiceWhatsapp:
         invoice_FK:
             columns:
                 - staff_id
-        invoice_FK_1:
+        invoice_whatsapp_FK:
             columns:
                 - status
     id:
@@ -45,6 +45,23 @@ AppBundle\Entity\InvoiceWhatsapp:
             type: datetime
             nullable: false
             column: created_at
+        productQuantity:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: 'NULL'
+            column: product_quantity
+        totalInvoice:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: 'NULL'
+            column: total_invoice
+        prizeType:
+            type: boolean
+            nullable: true
+            default: 'NULL'
+            column: prize_type
     manyToOne:
         staff:
             targetEntity: Staff
@@ -56,12 +73,12 @@ AppBundle\Entity\InvoiceWhatsapp:
                     referencedColumnName: staff_id
             orphanRemoval: false
         status:
-            targetEntity: CodeStatus
+            targetEntity: MainStatus
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
                 status:
-                    referencedColumnName: code_status_id
+                    referencedColumnName: main_status_id
             orphanRemoval: false
     lifecycleCallbacks: {  }

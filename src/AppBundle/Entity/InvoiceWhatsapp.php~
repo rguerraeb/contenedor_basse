@@ -40,27 +40,12 @@ class InvoiceWhatsapp
     private $createdAt;
 
     /**
-     * @var integer
-     */
-    private $productQuantity;
-
-    /**
-     * @var integer
-     */
-    private $totalInvoice;
-
-    /**
-     * @var boolean
-     */
-    private $prizeType;
-
-    /**
      * @var \AppBundle\Entity\Staff
      */
     private $staff;
 
     /**
-     * @var \AppBundle\Entity\MainStatus
+     * @var \AppBundle\Entity\CodeStatus
      */
     private $status;
 
@@ -191,6 +176,67 @@ class InvoiceWhatsapp
     }
 
     /**
+     * Set staff
+     *
+     * @param \AppBundle\Entity\Staff $staff
+     * @return InvoiceWhatsapp
+     */
+    public function setStaff(\AppBundle\Entity\Staff $staff = null)
+    {
+        $this->staff = $staff;
+
+        return $this;
+    }
+
+    /**
+     * Get staff
+     *
+     * @return \AppBundle\Entity\Staff 
+     */
+    public function getStaff()
+    {
+        return $this->staff;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\CodeStatus $status
+     * @return InvoiceWhatsapp
+     */
+    public function setStatus(\AppBundle\Entity\CodeStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\CodeStatus 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    /**
+     * @var integer
+     */
+    private $productQuantity;
+
+    /**
+     * @var integer
+     */
+    private $totalInvoice;
+
+    /**
+     * @var boolean
+     */
+    private $prizeType;
+
+
+    /**
      * Set productQuantity
      *
      * @param integer $productQuantity
@@ -257,51 +303,5 @@ class InvoiceWhatsapp
     public function getPrizeType()
     {
         return $this->prizeType;
-    }
-
-    /**
-     * Set staff
-     *
-     * @param \AppBundle\Entity\Staff $staff
-     * @return InvoiceWhatsapp
-     */
-    public function setStaff(\AppBundle\Entity\Staff $staff = null)
-    {
-        $this->staff = $staff;
-
-        return $this;
-    }
-
-    /**
-     * Get staff
-     *
-     * @return \AppBundle\Entity\Staff 
-     */
-    public function getStaff()
-    {
-        return $this->staff;
-    }
-
-    /**
-     * Set status
-     *
-     * @param \AppBundle\Entity\MainStatus $status
-     * @return InvoiceWhatsapp
-     */
-    public function setStatus(\AppBundle\Entity\MainStatus $status = null)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \AppBundle\Entity\MainStatus 
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 }

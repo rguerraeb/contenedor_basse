@@ -57,6 +57,11 @@ class StaffCode
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    private $whatsappStatus;
+
+    /**
      * Get staffCodeId
      *
      * @return integer 
@@ -87,6 +92,29 @@ class StaffCode
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Set whatsappStatus
+     *
+     * @param string $whatsappStatus
+     * @return staffCode
+     */
+    public function setWhatsappStatus($whatsappStatus)
+    {
+        $this->whatsappStatus = $whatsappStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get whatsappStatus
+     *
+     * @return string 
+     */
+    public function getWhatsappStatus()
+    {
+        return $this->whatsappStatus;
     }
 
     /**

@@ -52,6 +52,11 @@ AppBundle\Entity\StaffCode:
             length: 255
             fixed: false
             column: bill_number
+        whatsappStatus:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false            
     manyToOne:
         campaign:
             targetEntity: Campaign

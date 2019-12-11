@@ -1,0 +1,42 @@
+AppBundle\Entity\WinnParticipant:
+    type: entity
+    table: winn_participant
+    indexes:
+        winn_participant_FK:
+            columns:
+                - staff_code_id
+    id:
+        winnParticipantId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: winn_participant_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        statusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: status_id
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            default: 'NULL'
+            column: updated_at
+    manyToOne:
+        staffCode:
+            targetEntity: StaffCode
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_code_id:
+                    referencedColumnName: staff_code_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

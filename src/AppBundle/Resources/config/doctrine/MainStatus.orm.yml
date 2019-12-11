@@ -1,0 +1,30 @@
+AppBundle\Entity\MainStatus:
+    type: entity
+    table: main_status
+    id:
+        mainStatusId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: main_status_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        forTable:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            default: 'NULL'
+            column: for_table
+        active:
+            type: smallint
+            nullable: false
+            unsigned: false
+    lifecycleCallbacks: {  }

@@ -6,21 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class InvoiceWhatsappType extends AbstractType
+class WinnParticipantType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('imageName')->add('invoiceNumber')->add('nit')->add('recurrent')->add('createdAt')->add('productQuantity')->add('totalInvoice')->add('prizeType')->add('staff')->add('status');
+        $builder->add('statusId')->add('createdAt')->add('updatedAt')->add('staffCode');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\InvoiceWhatsapp'
+            'data_class' => 'AppBundle\Entity\WinnParticipant'
         ));
     }
 
@@ -29,7 +29,7 @@ class InvoiceWhatsappType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_invoicewhatsapp';
+        return 'appbundle_winnparticipant';
     }
 
 

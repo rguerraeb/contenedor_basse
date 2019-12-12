@@ -13,7 +13,18 @@ class InvoiceWhatsappType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('imageName')->add('invoiceNumber')->add('nit')->add('recurrent')->add('createdAt')->add('productQuantity')->add('totalInvoice')->add('prizeType')->add('staff')->add('status');
+        $builder
+        ->add('imageName')
+        ->add('invoiceNumber')
+        ->add('nit')
+        ->add('recurrent')
+        ->add('createdAt')
+        ->add('productQuantity')
+        ->add('totalInvoice')
+        ->add('prizeType')
+        ->add('staff')
+        ->add('status')
+        ->add('rejectionMessage');
     }/**
      * {@inheritdoc}
      */

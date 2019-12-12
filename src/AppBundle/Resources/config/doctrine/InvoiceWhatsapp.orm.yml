@@ -52,8 +52,9 @@ AppBundle\Entity\InvoiceWhatsapp:
             default: 'NULL'
             column: product_quantity
         totalInvoice:
-            type: integer
+            type: string
             nullable: true
+            length: 100
             unsigned: false
             default: 'NULL'
             column: total_invoice
@@ -62,6 +63,13 @@ AppBundle\Entity\InvoiceWhatsapp:
             nullable: true
             default: 'NULL'
             column: prize_type
+        rejectionMessage:
+            type: text
+            nullable: true
+            default: 'NULL'
+            length: 300
+            fixed: false
+            column: rejection_message
     manyToOne:
         staff:
             targetEntity: Staff

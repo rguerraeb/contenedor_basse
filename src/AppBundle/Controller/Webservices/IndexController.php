@@ -478,7 +478,7 @@ class IndexController extends Controller
 				$recurrent = 0;
 			}
 			$em = $this->getDoctrine()->getManager();	
-			$statusObj = $this->getDoctrine()->getRepository("AppBundle:CodeStatus")->findOneBy(array("name"=>"Pendiente"));
+			$statusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findOneBy(array("name"=>"Pendiente"));
 			$invoiceWs = new InvoiceWhatsapp();
 			$invoiceWs->setStaff($staffObj);
 			$invoiceWs->setImageName($fileName);
@@ -503,3 +503,4 @@ class IndexController extends Controller
 		}        		
 	}
 }
+

@@ -45,7 +45,7 @@ class InvoiceWhatsapp
     private $productQuantity;
 
     /**
-     * @var integer
+     * @var string
      */
     private $totalInvoice;
 
@@ -64,6 +64,10 @@ class InvoiceWhatsapp
      */
     private $status;
 
+    /**
+     * @var string
+     */
+    private $rejectionMessage;
 
     /**
      * Get invoiceId
@@ -216,7 +220,7 @@ class InvoiceWhatsapp
     /**
      * Set totalInvoice
      *
-     * @param integer $totalInvoice
+     * @param string $totalInvoice
      * @return InvoiceWhatsapp
      */
     public function setTotalInvoice($totalInvoice)
@@ -229,7 +233,7 @@ class InvoiceWhatsapp
     /**
      * Get totalInvoice
      *
-     * @return integer 
+     * @return string 
      */
     public function getTotalInvoice()
     {
@@ -304,4 +308,29 @@ class InvoiceWhatsapp
     {
         return $this->status;
     }
+
+
+    /**
+     * Set rejectionMessage
+     *
+     * @param string $rejectionMessage
+     * @return InvoiceWhatsapp
+     */
+    public function setRejectionMessage($rejectionMessage)
+    {
+        $this->rejectionMessage = $rejectionMessage;
+
+        return $this;
+    }
+
+    /**
+     * Get rejectionMessage
+     *
+     * @return string 
+     */
+    public function getRejectionMessage()
+    {
+        return $this->rejectionMessage;
+    }
+
 }

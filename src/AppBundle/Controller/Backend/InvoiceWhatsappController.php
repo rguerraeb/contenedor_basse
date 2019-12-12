@@ -78,7 +78,7 @@ class InvoiceWhatsappController extends Controller
         $form->handleRequest ( $request );
         if ($form->isSubmitted ()) {
             if ($form->isValid ()) {
-
+                
                 $staffData = $request->get('staff');
                 $iwsData = $request->get('appbundle_invoicewhatsapp');
 
@@ -94,15 +94,22 @@ class InvoiceWhatsappController extends Controller
                 }
                 
                 $iwEnt->setImageName($imgName);
+                
                 $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
                 $iwEnt->setNit($iwsData['nit']);
+                if ($iwsData['productQuantity'] == '') {
+                    $pqty = 0;
+                }else{
+                    $pqty = $iwsData['productQuantity'];
+                }
+                $iwEnt->setProductQuantity($pqty);
+                $iwEnt->setTotalInvoice($iwsData['totalInvoice']);
+                $iwEnt->setPrizeType($iwsData['prizeType']);    
                 $iwEnt->setRecurrent($recurrent);
                 $iwEnt->setCreatedAt($createdAt);
                 $iwEnt->setStaff($staffEnt);
                 $iwEnt->setStatus($newStatus);
-                $iwEnt->setProductQuantity($iwsData['productQuantity']);
-                $iwEnt->setTotalInvoice($iwsData['totalInvoice']);
-                $iwEnt->setPrizeType($iwsData['prizeType']);
+                $iwEnt->setRejectionMessage($iwsData['rejectionMessage']);
                 $em->persist($iwEnt);
                 
                 $newCountry = $em->getRepository("AppBundle:Country")->findOneBy(array("id"=>$staffData['country']));

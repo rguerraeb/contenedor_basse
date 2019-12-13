@@ -37,6 +37,9 @@ class InvoiceWhatsappController extends Controller
      */
     public function indexAction (Request $request)
     {
+        $k1 = new \DateTime();
+        print_r($k1);
+        die;
         $this->get("session")->set("module_id", $this->moduleId);
 
         $mp = EbClosion::getModulePermission($this->moduleId,

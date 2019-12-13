@@ -522,17 +522,32 @@ class IndexController extends Controller
      */
     public function updateStMsg(Request $request) {
     	
-    	$scid = $_POST['scid'];
+    	$scidIvid = $_POST['scidIvid'];
+    	$msgType = $_POST['msgType'];
     	$em = $this->getDoctrine()->getManager();
-		try {
-			$stIdObj = $em->getRepository("AppBundle:StaffCode")->findOneBy(array("staffCodeId"=>$scid));
-	    	$stIdObj->setWhatsappStatus('enviado');
-	    	$em->persist($stIdObj);
-	    	$em->flush(); 
-	    	$sts = 'ok';
-		 } catch (Exception $e) {
-		 	$sts = 'error';
-		}
+    	if ($msgType == 0) {
+    		try {
+    			$stIdObj = $em->getRepository("AppBundle:StaffCode")->findOneBy(array("staffCodeId"=>$scidIvid));
+    			$stIdObj->setWhatsappStatus('enviado');
+    			$em->persist($stIdObj);
+    			$em->flush(); 
+    			$sts = 'ok';
+    		} catch (Exception $e) {
+    			$sts = 'error';
+    		}
+    	}
+    	if ($msgType == 1) {
+    		try {
+    			$stIdObj = $em->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$scidIvid));
+    			$stIdObj->setNotifiStatus('enviado');
+    			$em->persist($stIdObj);
+    			$em->flush(); 
+    			$sts = 'ok';
+    		} catch (Exception $e) {
+    			$sts = 'error';
+    		}
+    	}
+
     	return new JsonResponse(array(
 	            'status' => $sts
 	        ));

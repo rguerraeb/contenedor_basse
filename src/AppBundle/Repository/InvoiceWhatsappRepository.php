@@ -15,9 +15,20 @@ class InvoiceWhatsappRepository extends EntityRepository
 			    	AND 	sc.staff_id = s.staff_id 
 			    	AND 	sc.prize_id = p.id ";
 		
-		$res = $this->getEntityManager ()->getConnection ()->prepare ( $query );
-		$res->execute ();
-		return $res->fetchAll();
+		$resApproved = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$resApproved->execute ();
+
+		$query = "	SELECT 	iw.invoice_id, iw.status, s.phone, iw.notifi_status, iw.rejection_message as message
+					FROM 	invoice_whatsapp iw, staff s
+					WHERE 	iw.status = 3
+					AND 	iw.staff_id = s.staff_id ";
+		
+		$resRejected = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$resRejected->execute ();
+
+		$res = array('resApproved' => $resApproved->fetchAll(), 'resRejected' => $resRejected->fetchAll());
+
+		return $res;
 	}
 
 	

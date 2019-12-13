@@ -508,22 +508,13 @@ class IndexController extends Controller
      * @Route("/ws/get-responses", name="ws_get_responses")
      */
     public function getResponses(Request $request) {
-    
-    	$entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery( '	SELECT 	s.phone, p.message, sc.whatsapp_status, sc.staff_code_id 
-										    	FROM 	staff_code sc, staff s, prize p 
-										    	WHERE 	sc.whatsapp_status = :mySt 
-										    	AND 	sc.staff_id = s.staff_id 
-										    	AND 	sc.prize_id = p.id' )->setParameter('mySt', 'pendiente');
-        $messagesPending = $query->getResult();
-        print_r($messagesPending);
-        die;
-        return 0;
-        /*
+    	
+    	$mtoSend = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getMessages();
+    	
     	return new JsonResponse(array(
 	            'status' => "ok",
-	            'message' => $messagesPending
-	        ));*/
+	            'message' => $mtoSend
+	        ));
 	}
 
 

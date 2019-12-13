@@ -1,6 +1,7 @@
 AppBundle\Entity\InvoiceWhatsapp:
     type: entity
     table: invoice_whatsapp
+    repositoryClass: AppBundle\Repository\InvoiceWhatsappRepository
     indexes:
         invoice_FK:
             columns:

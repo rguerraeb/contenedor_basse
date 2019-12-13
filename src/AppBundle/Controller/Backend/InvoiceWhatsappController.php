@@ -87,22 +87,25 @@ class InvoiceWhatsappController extends Controller
                 $newStatus = $em->getRepository("AppBundle:MainStatus")->findOneBy(array("mainStatusId"=>$iwsData['status']));
                 $staffEnt = $em->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$stId));
 
+                //AQUI SE ESTA OBTENIEDO EL OBJETO DE PREMIO QUE CORRESPONDE CON EL GRANDE O PEQUEÑO. PRIZE_TYPE = 1 ES PREMIO GRANDE, 0 ES PEQUEÑO
                 if ($iwsData['prizeType'] == '1') {
                     $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"26")); 
                 }else{
                     $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"27"));
                 }
                 
-                $iwEnt->setImageName($imgName);
-                
-                $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
-                $iwEnt->setNit($iwsData['nit']);
                 if ($iwsData['productQuantity'] == '') {
                     $pqty = 0;
                 }else{
                     $pqty = $iwsData['productQuantity'];
                 }
+                if ($iwsData['status'] == 3) {
+                    $iwEnt->setNotifiStatus('pendiente');
+                }
                 $iwEnt->setProductQuantity($pqty);
+                $iwEnt->setImageName($imgName);
+                $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
+                $iwEnt->setNit($iwsData['nit']);
                 $iwEnt->setTotalInvoice($iwsData['totalInvoice']);
                 $iwEnt->setPrizeType($iwsData['prizeType']);    
                 $iwEnt->setRecurrent($recurrent);
@@ -119,18 +122,20 @@ class InvoiceWhatsappController extends Controller
                 $staffEnt->setCountry($newCountry);
                 $em->persist($staffEnt);
 
-                $winnCode = strtoupper("T".substr( md5(microtime()), 1, 5));
-                $codeStatusObj = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>"2"));
-                
-                $staffCodeObj = new StaffCode();
-                $staffCodeObj->setCode($winnCode);
-                $staffCodeObj->setStaff($staffEnt);
-                $staffCodeObj->setCodeStatus($codeStatusObj);
-                $staffCodeObj->setCreatedAt(new \DateTime());
-                $staffCodeObj->setPrize($prizeObj);
-                $staffCodeObj->setWhatsappStatus('pendiente');
-                $em->persist($staffCodeObj);
-                $em->flush();
+                if ($iwsData['status'] == 2) {
+                    $winnCode = strtoupper("T".substr( md5(microtime()), 1, 5));
+                    $codeStatusObj = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>"2"));
+                    $staffCodeObj = new StaffCode();
+                    $staffCodeObj->setCode($winnCode);
+                    $staffCodeObj->setStaff($staffEnt);
+                    $staffCodeObj->setCodeStatus($codeStatusObj);
+                    $staffCodeObj->setCreatedAt(new \DateTime());
+                    $staffCodeObj->setPrize($prizeObj);
+                    $staffCodeObj->setWhatsappStatus('pendiente');
+                    $em->persist($staffCodeObj);
+                }
+
+                //$em->flush();
                 
                 $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );

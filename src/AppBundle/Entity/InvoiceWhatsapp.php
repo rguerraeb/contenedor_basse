@@ -68,6 +68,11 @@ class InvoiceWhatsapp
      * @var string
      */
     private $rejectionMessage;
+ 
+    /**
+     * @var string
+     */
+    private $notifiStatus;
 
     /**
      * Get invoiceId
@@ -309,7 +314,6 @@ class InvoiceWhatsapp
         return $this->status;
     }
 
-
     /**
      * Set rejectionMessage
      *
@@ -331,6 +335,29 @@ class InvoiceWhatsapp
     public function getRejectionMessage()
     {
         return $this->rejectionMessage;
+    }
+
+    /**
+     * Set notifiStatus
+     *
+     * @param string $notifiStatus
+     * @return InvoiceWhatsapp
+     */
+    public function setNotifiStatus($notifiStatus)
+    {
+        $this->notifiStatus = $notifiStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get notifiStatus
+     *
+     * @return string 
+     */
+    public function getNotifiStatus()
+    {
+        return $this->notifiStatus;
     }
 
 }

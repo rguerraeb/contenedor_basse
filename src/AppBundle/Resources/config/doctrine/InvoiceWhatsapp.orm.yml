@@ -70,6 +70,13 @@ AppBundle\Entity\InvoiceWhatsapp:
             length: 300
             fixed: false
             column: rejection_message
+        notifiStatus:
+            type: string
+            nullable: true
+            default: 'NULL'
+            length: 100
+            fixed: false
+            column: notifi_status
     manyToOne:
         staff:
             targetEntity: Staff

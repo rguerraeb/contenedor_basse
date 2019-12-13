@@ -1,3 +1,6 @@
+.error{
+  color: red;
+}
 .btn-adj-padding {
   padding-top: 12px!important;
 }

@@ -101,21 +101,37 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Tipo de Premio</label><br>
+
+
+
+						<div class="custom-controls-stacked">
+							<label class="custom-control custom-radio">
+								<input name="validation-radios-custom" type="radio" class="custom-control-input m-prize-t" value="big">
+								<span class="custom-control-label">Premio Grande</span>
+							</label>
+							<label class="custom-control custom-radio">
+								<input name="validation-radios-custom" type="radio" class="custom-control-input m-prize-t" value="small">
+								<span class="custom-control-label">Premio Pequeño</span>
+							</label>
+						</div>
+
+{#}
 						<div class="switch switch-primary d-inline m-r-10">
 							<input type="checkbox" id="switch-p-1">
 							<label for="switch-p-1" class="cr"></label>
 						</div>
 							<label id="beChecked">Es un premio pequeño</label>
+#}
 					</div>
 				</div>
 			</div>
 			<hr>
 			<div class="row p-t-15">
 				<div class="col-6">
-					<button id="button-rejected-whatsapp" type="button" class="btn btn-rounded btn-secondary">Rechazar</button>
+					<button id="button-rejected-whatsapp" type="button" class="btn btn-rounded btn-secondary fnumber">Rechazar</button>
 				</div>
 				<div class="col-6 text-right">
-					<button id="button-approved-whatsapp" type="submit" class="btn btn-rounded btn-success">Aprobar</button>
+					<button id="button-approved-whatsapp" type="submit" class="btn btn-rounded btn-success fnumber">Aprobar</button>
 				</div>
 			</div>
 		</div>
@@ -125,23 +141,28 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$(".fnumber").on('click',function(){
+			var numero = $("#appbundle_invoicewhatsapp_totalInvoice").val();
+			if (new Intl.NumberFormat('es-MX').format(numero) != 'NaN' && new Intl.NumberFormat('es-MX').format(numero) != 0) {
+				$("#appbundle_invoicewhatsapp_totalInvoice").val(new Intl.NumberFormat('es-MX').format(numero));
+			}
+		});	
+		
 		$("#staff_email").removeAttr("required");
 		$("#button-approved-whatsapp").on("click",function(){
 			$("#appbundle_invoicewhatsapp_status").val(2);
 		})
 		$("#button-rejected-whatsapp").on("click",function(){
 			$("#appbundle_invoicewhatsapp_status").val(3);
-
 			var textarea = document.createElement('textarea');
 			textarea.rows = 6;
 			textarea.className = 'swal-content__textarea';
-
 			textarea.onkeyup = function () {
-			swal.setActionValue({
-			  confirm: this.value
-			});
+				swal.setActionValue({
+				  confirm: this.value
+				});
 			};
-
 			swal({
 			text: 'Motivo de rechazo de la factura en proceso:',
 			content: textarea,
@@ -162,78 +183,37 @@
 			  document.getElementById("iwsForm").submit();
 			}
 			if (value === true || value === '') {
-			  swal.close();
+				swal("Texto Vacío", "No ha introducido ningún texto. La factura aún no se procesa.", "warning");
 			}
 			});
-
 		})
-		$("#switch-p-1").on('click',function(){
-			if ($('#switch-p-1').is(":checked"))
+		$(".m-prize-t").on('click',function(){
+			console.log($(this).val());
+			if ($(this).val() == 'big')
 			{
-				console.log("Está checked");
-				$("#beChecked").html("Es un premio grande");
 				$("#appbundle_invoicewhatsapp_prizeType").val(1);
 			}else{
-				$("#beChecked").html("Es un premio pequeño");
 				$("#appbundle_invoicewhatsapp_prizeType").val(0);
-				console.log("No está checked");
 			}
-		})
+		});
 
-/*
-		$('#campaignForm').validate({
+		$('#iwsForm').validate({
             submitHandler: function(form) {
-                var saveButton = document.getElementById("button-save");
-                var validateForm = document.getElementById("campaignForm");
+                
+                var saveButton = document.getElementById("button-approved-whatsapp");
+                var rejectedButton = document.getElementById("button-rejected-whatsapp");
+                var validateForm = document.getElementById("iwsForm");
                 saveButton.setAttribute("disabled", true);
-                saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+                rejectedButton.setAttribute("disabled", true);
+                saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Enviando...";
                 var elements = validateForm.elements;
                 for (var i = 0, len = elements.length; i < len; ++i) {
                     elements[i].readOnly = true;
                 }
-                document.getElementById("campaignForm").submit();
+                document.getElementById("iwsForm").submit();
             }
         });
-*/
 
 
 	});
 </script>
-
-
-
-
-
-
-<!-- script>
-	$(document).ready(function() {
-
-		$('#campaign_startFrom').bootstrapMaterialDatePicker({
-			weekStart:0,
-		    format: 'YYYY-MM-DD HH:mm:00'  
-		}).on('change',function(e,date){
-			$('#campaign_endAt').bootstrapMaterialDatePicker('setMinDate',date);
-		});
-		
-		$('#campaign_endAt').bootstrapMaterialDatePicker({
-			weekStart:0,
-		    format: 'YYYY-MM-DD HH:mm:00'
-		});
-
-		
-		$('#campaignForm').validate({
-            submitHandler: function(form) {
-                var saveButton = document.getElementById("button-save");
-                var validateForm = document.getElementById("campaignForm");
-                saveButton.setAttribute("disabled", true);
-                saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
-                var elements = validateForm.elements;
-                for (var i = 0, len = elements.length; i < len; ++i) {
-                    elements[i].readOnly = true;
-                }
-                document.getElementById("campaignForm").submit();
-            }
-        });
-
-	});
-</script -->

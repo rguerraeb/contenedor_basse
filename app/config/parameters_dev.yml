@@ -2,7 +2,7 @@
 parameters:
     database_host: localhost
     database_port: null
-    database_name: totto_promo
+    database_name: lala_promo
     database_user: root
     database_password: 
 

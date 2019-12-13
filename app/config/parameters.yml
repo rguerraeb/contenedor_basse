@@ -2,9 +2,9 @@
 parameters:
     database_host: localhost
     database_port: null
-    database_name: totto_promo
-    database_user: totto_usr
-    database_password: TTkkd443_dk45
+    database_name: lala_promo
+    database_user: root
+    database_password: 
 
     mailer_transport: gmail
     mailer_host: smtp.gmail.com:465

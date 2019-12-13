@@ -503,7 +503,6 @@ class IndexController extends Controller
 		}        		
 	}
 
-
     /**
      * @Route("/ws/get-responses", name="ws_get_responses")
      */
@@ -514,6 +513,27 @@ class IndexController extends Controller
     	return new JsonResponse(array(
 	            'status' => "ok",
 	            'message' => $mtoSend
+	        ));
+	}
+
+    /**
+     * @Route("/ws/update-st-msg", name="ws_update_st_msg")
+     */
+    public function updateStMsg(Request $request) {
+    	
+    	$scid = $_POST['scid'];
+    	$em = $this->getDoctrine()->getManager();
+		try {
+			$stIdObj = $em->getRepository("AppBundle:StaffCode")->findOneBy(array("staffCodeId"=>$scid));
+	    	$stIdObj->setWhatsappStatus('enviado');
+	    	$em->persist($stIdObj);
+	    	$em->flush(); 
+	    	$sts = 'ok';
+		 } catch (Exception $e) {
+		 	$sts = 'error';
+		}
+    	return new JsonResponse(array(
+	            'status' => $sts
 	        ));
 	}
 

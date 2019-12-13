@@ -448,7 +448,8 @@ class IndexController extends Controller
     public function uploadPictures(Request $request) {
         
         $phone = $_POST['phone'];
-    	$fullPath = "/home/nelson/EBCLOSION/symfony/lala/web/uploads/imgs/";
+    	#$fullPath = "/home/nelson/EBCLOSION/symfony/lala/web/uploads/imgs/";
+    	$fullPath = "/usr/home/ncastillo/lala/loyalty_lala/web/uploads/imgs/";
 		$imageDataExt = explode(".",basename($_FILES['file']['name']));
 		$x = sizeof($imageDataExt) - 1;
 		$imageDataExt = $imageDataExt[$x];

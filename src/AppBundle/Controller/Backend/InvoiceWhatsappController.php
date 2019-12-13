@@ -135,7 +135,7 @@ class InvoiceWhatsappController extends Controller
                     $em->persist($staffCodeObj);
                 }
 
-                //$em->flush();
+                $em->flush();
                 
                 $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );

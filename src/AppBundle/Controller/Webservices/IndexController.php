@@ -457,7 +457,17 @@ class IndexController extends Controller
 		$uploaded = $fullPath . $fileName;
         $isSaved = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded);
 		if ($isSaved) {
-			//Se procede a validar si el phone eexiste en staff
+			if (strlen($phone) == 11) {
+				//ESTE NÚMERO ES DE GUATEMALA
+				$phone = str_replace("502", "", $phone);
+				$countryPhone = 1;
+			}
+			if (strlen($phone) == 12) {
+				//ESTE NÚMERO ES DE VENEZUELA
+				$phone = str_replace("58", "", $phone);
+				$countryPhone = 3;	
+			}
+			//Se procede a validar si el phone existe en staff
 			$phoneData = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("phone"=>$phone));
 			if ($phoneData) {
 				//$staffId = $phoneData->getStaffId();
@@ -465,7 +475,7 @@ class IndexController extends Controller
 				$staffObj = $phoneData;
 				$recurrent = 1;
 			}else{
-				$countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findOneBy(array("id"=>1));
+				$countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findOneBy(array("id"=>$countryPhone));
 				$em = $this->getDoctrine()->getManager();
 				$newStaff = new Staff();
 				$newStaff->setPhone($phone);

@@ -107,11 +107,11 @@
 						<div class="custom-controls-stacked">
 							<label class="custom-control custom-radio">
 								<input name="validation-radios-custom" type="radio" class="custom-control-input m-prize-t" value="big">
-								<span class="custom-control-label">Premio Grande</span>
+								<span class="custom-control-label">Premio Mayor</span>
 							</label>
 							<label class="custom-control custom-radio">
 								<input name="validation-radios-custom" type="radio" class="custom-control-input m-prize-t" value="small">
-								<span class="custom-control-label">Premio Pequeño</span>
+								<span class="custom-control-label">Premio Menor</span>
 							</label>
 						</div>
 
@@ -155,9 +155,11 @@
 		})
 		$("#button-rejected-whatsapp").on("click",function(){
 			$("#appbundle_invoicewhatsapp_status").val(3);
+
 			var textarea = document.createElement('textarea');
 			textarea.rows = 6;
 			textarea.className = 'swal-content__textarea';
+			textarea.value = "Lo sentimos, la imagen que enviaste es ilegible y/o no cuenta con las especificaciones para participar en la promoción, intenta nuevamente o visita www.backtoschoolconlala.com para conocer más de la promoción.";
 			textarea.onkeyup = function () {
 				swal.setActionValue({
 				  confirm: this.value
@@ -177,15 +179,20 @@
 			  }
 			}
 			}).then(function (value) {
-			if (value && value !== true && value !== '') {
-			  var data = { feedback: value };
-			  $("#appbundle_invoicewhatsapp_rejectionMessage").val(data.feedback);
-			  document.getElementById("iwsForm").submit();
-			}
-			if (value === true || value === '') {
-				swal("Texto Vacío", "No ha introducido ningún texto. La factura aún no se procesa.", "warning");
-			}
+				var  textArea = $('.swal-content__textarea').val();
+				var length = textArea.length;
+				if(length > 0){
+					if (value !== null) {
+					  $("#appbundle_invoicewhatsapp_rejectionMessage").val($('.swal-content__textarea').val());
+					  document.getElementById("iwsForm").submit();
+					}
+				} else {
+					if (value !== null) {
+						swal("Texto Vacío", "No ha introducido ningún texto. La factura aún no se procesa.", "warning");
+					}
+				}
 			});
+			
 		})
 		$(".m-prize-t").on('click',function(){
 			console.log($(this).val());

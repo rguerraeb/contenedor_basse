@@ -125,6 +125,7 @@ class InvoiceWhatsappController extends Controller
                 if ($iwsData['status'] == 2) {
                     $winnCode = strtoupper("T".substr( md5(microtime()), 1, 5));
                     $codeStatusObj = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>"2"));
+                    $storeObj = $em->getRepository("AppBundle:Store")->findOneBy(array("id"=>"54"));
                     $staffCodeObj = new StaffCode();
                     $staffCodeObj->setCode($winnCode);
                     $staffCodeObj->setStaff($staffEnt);
@@ -132,6 +133,7 @@ class InvoiceWhatsappController extends Controller
                     $staffCodeObj->setCreatedAt(new \DateTime());
                     $staffCodeObj->setPrize($prizeObj);
                     $staffCodeObj->setWhatsappStatus('pendiente');
+                    $staffCodeObj->setStore($storeObj); //ID = 54     STORE_NAME = TIENDA DE PRODUCTOS LALA
                     $em->persist($staffCodeObj);
                 }
 

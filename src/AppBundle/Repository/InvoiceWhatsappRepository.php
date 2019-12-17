@@ -9,7 +9,7 @@ class InvoiceWhatsappRepository extends EntityRepository
 {
 	
 	public function getMessages() {
-		$query = "	SELECT 	s.phone, p.message, sc.whatsapp_status, sc.staff_code_id, s.country_id as country
+		$query = "	SELECT 	s.phone, p.message, sc.whatsapp_status, sc.staff_code_id, s.country_id as country, sc.code
 			    	FROM 	staff_code sc, staff s, prize p 
 			    	WHERE 	sc.whatsapp_status = 'pendiente' 
 			    	AND 	sc.staff_id = s.staff_id 

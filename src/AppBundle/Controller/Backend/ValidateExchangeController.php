@@ -59,12 +59,13 @@ class ValidateExchangeController extends Controller {
 			$codeValue = null;
 			$codeId = null;
 			$codeStatus = null;
+			$prizeName = null;
+			$prizeType = null;
 		} else {
 			$staffCode = $this->getDoctrine()->getRepository('AppBundle:StaffCode')->findOneBy( array (
 				"code" => $code,
 				"staff" => $staff
 			) );
-
 			if (!$staffCode) {
 				$responseType = 2;
 				$codeValue = null;

@@ -1,3 +1,17 @@
+.st-new-b {
+    height: 30px;
+    width: 90px;
+    font-size: 12px;
+    padding-top: 9px;
+  }
+
+.f-16{
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+.adj-f{
+  padding-top: 11px!important;
+}
 .error{
   color: red;
 }

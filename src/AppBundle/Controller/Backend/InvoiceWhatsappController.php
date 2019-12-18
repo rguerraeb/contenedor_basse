@@ -164,6 +164,12 @@ class InvoiceWhatsappController extends Controller
             $countryOpt[$value->getId()]['id'] = $value->getId();
             $countryOpt[$value->getId()]['name'] = $value->getName(); 
         }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $entityManager->createQuery(  'SELECT p
+                                                FROM AppBundle:InvoiceWhatsapp p
+                                                WHERE p.status > :sta')->setParameter('sta', 1);
+        $listProcesados = $query->getResult();
         return $this->render('@App/Backend/InvoiceWhatsapp/edit.html.twig',
             array(  "formInvoice" => $form->createView (),
                     "formStaff" => $formStaff->createView(),
@@ -172,7 +178,8 @@ class InvoiceWhatsappController extends Controller
                     "statusAct" => $statusAct,
                     "statusOpt" => $statusOpt,
                     "countryOpt" => $countryOpt,
-                    "recurrent" => $recurrent
+                    "recurrent" => $recurrent,
+                    "listProcesados" => $listProcesados
             ));
     }
 

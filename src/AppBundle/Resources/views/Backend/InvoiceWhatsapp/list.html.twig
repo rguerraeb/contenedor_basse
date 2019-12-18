@@ -35,14 +35,20 @@
 							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
 							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
 							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
-							<td><h6 class="m-0">{{ item.recurrent }}</h6></td>
+							<td>
+								{% if item.recurrent == '1' %}
+									<span class="badge badge-pill badge-info st-new-b">Sí</span>
+								{% else %}
+									<span class="badge badge-pill badge-info st-new-b">No</span>
+								{% endif %}
+							</td>
 							<td class="list_tools">
 								{% if permits["wp"] %}
-									<a class="btn btn-icon btn-rounded theme-bg text-white" 
+									<a class="btn btn-icon btn-rounded theme-bg text-white adj-f" 
 									href="{{ path('backend_invoice_whatsapp_pending_review', {'id': item.invoiceId}) }}"  
 									title="Procesar Factura" 
 									data-toggle="tooltip">
-										<i class="feather icon-plus"></i>
+										<i class="fas fa-ellipsis-v"></i>
 									</a>
 
 									{#<span  title="Procesar Factura" data-toggle="tooltip">
@@ -86,7 +92,8 @@
 					<tr>
 						<th>#Correlativo</th>
 						<th>Tel&eacute;fono</th>
-						<th>Fecha de Ingreso</th>					
+						<th>Fecha de Ingreso</th>
+						<th>Factura</th>					
 						<th>Estatus</th>
 						<th>Recurrente</th>
 					</tr>
@@ -97,18 +104,23 @@
 							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
 							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
 							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
+							{% if item.status.name == 'Aprobado' %}
+								<td><h6 class="m-0"><b>{{ item.invoiceNumber }}</b></h6></td>
+							{% else %}
+								<td><h6 class="m-0">---</h6></td>
+							{% endif %}
 							<td>
 								{% if item.status.name == 'Aprobado' %}
-									<span class="badge badge-pill badge-primary">{{ item.status.name }}</span>
+									<span class="badge badge-pill badge-primary st-new-b">{{ item.status.name }}</span>
 								{% else %}
-									<span class="badge badge-pill badge-danger">{{ item.status.name }}</span>
+									<span class="badge badge-pill badge-danger st-new-b">{{ item.status.name }}</span>
 								{% endif %}
 							</td>
 							<td>
 								{% if item.recurrent == 1 %}
-									<span class="badge badge-pill badge-info">Sí</span>
+									<span class="badge badge-pill badge-info st-new-b">Sí</span>
 								{% else %}
-									<span class="badge badge-pill badge-secondary">No</span>
+									<span class="badge badge-pill badge-secondary st-new-b">No</span>
 								{% endif %}
 							</td>
 						</tr>

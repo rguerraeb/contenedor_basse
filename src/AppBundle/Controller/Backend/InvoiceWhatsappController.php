@@ -205,4 +205,34 @@ class InvoiceWhatsappController extends Controller
             ));
         }
     }
+
+
+    /**
+     *
+     * @Route("/backend/invoice-verify", name="backend_invoice_verify")
+     */
+    public function invoiceVerifyAction (Request $request)
+    {
+        $myInvoice = $request->get("myInvoice");
+        if ($myInvoice) {
+            $mInvObj = $this->getDoctrine()
+                ->getRepository("AppBundle:InvoiceWhatsapp")
+                ->findOneBy(array(
+                    "invoiceNumber" => $myInvoice
+            ));
+            if ( is_null($mInvObj) ) {
+                $invNone = 'none';
+            }else{
+                $invNone = 'exist';
+            }
+            return new JsonResponse(array(
+                    "invoice" => $invNone
+            ));
+        } else {
+            return new JsonResponse(array(
+                    false
+            ));
+        }
+    }
+
 }

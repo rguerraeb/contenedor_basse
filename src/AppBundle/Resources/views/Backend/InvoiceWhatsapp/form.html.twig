@@ -22,6 +22,7 @@
 					<div class="form-group">
 						{{ form_label(formInvoice.invoiceNumber, "Número de Factura") }}
 						{{form_widget(formInvoice.invoiceNumber, {'attr': {'class': 'required form-control' }}) }}
+						<span style="color: red" id="invoice_exist_flag"></span>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -141,6 +142,17 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		$('#appbundle_invoicewhatsapp_invoiceNumber').on('keyup',function(){
+			var myInvoice = $(this).val();
+			$.post('{{ path("backend_invoice_verify") }}' , { myInvoice: myInvoice })
+			.done(function( data ) {
+				if (data.invoice == 'exist') {
+					$('#invoice_exist_flag').html('Factura ya procesada!');
+				}else{
+					$('#invoice_exist_flag').html('');
+				}
+			});
+		});
 		
 		$(".fnumber").on('click',function(){
 			var numero = $("#appbundle_invoicewhatsapp_totalInvoice").val();
@@ -220,7 +232,5 @@
                 document.getElementById("iwsForm").submit();
             }
         });
-
-
 	});
 </script>

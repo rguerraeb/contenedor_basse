@@ -34,7 +34,8 @@ class InvoiceWhatsappRepository extends EntityRepository
 					FROM 	invoice_whatsapp iw, staff s, main_status ms
 					WHERE	iw.status > 1
 					AND 	iw.staff_id = s.staff_id
-					AND 	iw.status = ms.main_status_id";
+					AND 	iw.status = ms.main_status_id
+					ORDER BY iw.updated_at DESC";
 		$gip = $this->getEntityManager ()->getConnection ()->prepare ( $query );
 		$gip->execute ();
 		$res = $gip->fetchAll();

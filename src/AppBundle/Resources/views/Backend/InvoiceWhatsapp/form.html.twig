@@ -47,13 +47,13 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						{{ form_label(formInvoice.totalInvoice, "Monto Total en Factura") }}
+						{{ form_label(formInvoice.totalInvoice, "Suma Total en Productos Lala") }}
 						{{form_widget(formInvoice.totalInvoice, {'attr': {'class': 'required form-control' }}) }}
 					</div>
 				</div>
 				<div class="col-md-6 d-none">
 					<div class="form-group">
-						<input type="text" name="appbundle_invoicewhatsapp[prizeType]" id="appbundle_invoicewhatsapp_prizeType" value=0>
+						<input type="text" name="appbundle_invoicewhatsapp[prizeType]" id="appbundle_invoicewhatsapp_prizeType" class="required form-control">
 					</div>
 				</div>
 				<div class="col-md-6 d-none">
@@ -101,8 +101,8 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Tipo de Premio</label><br>
-
+						<label id="type_prize_selected">Tipo de Premio</label>
+						<label style="color: red" id="type_prize_no_selected"></label><br>
 
 
 						<div class="custom-controls-stacked">
@@ -142,14 +142,17 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+
 		$('#appbundle_invoicewhatsapp_invoiceNumber').on('keyup',function(){
 			var myInvoice = $(this).val();
 			$.post('{{ path("backend_invoice_verify") }}' , { myInvoice: myInvoice })
 			.done(function( data ) {
 				if (data.invoice == 'exist') {
 					$('#invoice_exist_flag').html('Factura ya procesada!');
+					$("#button-approved-whatsapp").prop("disabled", true);
 				}else{
 					$('#invoice_exist_flag').html('');
+					$("#button-approved-whatsapp").prop("disabled", false);
 				}
 			});
 		});
@@ -207,7 +210,9 @@
 			
 		})
 		$(".m-prize-t").on('click',function(){
-			console.log($(this).val());
+			$("#button-approved-whatsapp").prop("disabled", false);
+			$("#type_prize_no_selected").html("");
+	        $("#type_prize_selected").show();
 			if ($(this).val() == 'big')
 			{
 				$("#appbundle_invoicewhatsapp_prizeType").val(1);
@@ -218,19 +223,45 @@
 
 		$('#iwsForm').validate({
             submitHandler: function(form) {
-                
-                var saveButton = document.getElementById("button-approved-whatsapp");
-                var rejectedButton = document.getElementById("button-rejected-whatsapp");
-                var validateForm = document.getElementById("iwsForm");
-                saveButton.setAttribute("disabled", true);
-                rejectedButton.setAttribute("disabled", true);
-                saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Enviando...";
-                var elements = validateForm.elements;
-                for (var i = 0, len = elements.length; i < len; ++i) {
-                    elements[i].readOnly = true;
-                }
-                document.getElementById("iwsForm").submit();
+					
+	            swal({
+	                    title: "Está a punto de premiar a un cliente",
+	                    text: "Verifique la información ingresada, antes de continuar",
+	                    icon: "warning",
+	                    buttons: ["Revisar", "Procesar"],
+	                    dangerMode: true,
+	                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        
+						var saveButton = document.getElementById("button-approved-whatsapp");
+						var rejectedButton = document.getElementById("button-rejected-whatsapp");
+						var validateForm = document.getElementById("iwsForm");
+						saveButton.setAttribute("disabled", true);
+						rejectedButton.setAttribute("disabled", true);
+						saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Enviando...";
+						var elements = validateForm.elements;
+						for (var i = 0, len = elements.length; i < len; ++i) {
+						    elements[i].readOnly = true;
+						}
+						document.getElementById("iwsForm").submit();
+                    } 
+                });
             }
         });
+
+		//$("#staff_country").attr('readonly', 'readonly');
+		$('#staff_country option:not(:selected)').attr('disabled',true);
+        $("#button-approved-whatsapp").mouseover(function(){
+        	if($(".m-prize-t").is(':checked')) {  
+
+	        } else {
+	        	console.log("Seleccione un tipo de premio");
+	        	$("#button-approved-whatsapp").attr('disabled', 'disabled');
+	        	$("#type_prize_no_selected").html("Asigne tipo de premio.");
+	        	$("#type_prize_selected").hide();
+	        } 
+        });
+
 	});
 </script>

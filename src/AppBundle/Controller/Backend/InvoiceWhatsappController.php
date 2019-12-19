@@ -43,10 +43,7 @@ class InvoiceWhatsappController extends Controller
                 $this->get("session")->get("userModules"));
         $em = $this->getDoctrine()->getManager();
 
-        $list = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(
-                array(
-                        "status" => 1
-                ));
+        $list = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(array("status" => 1),array('createdAt' => 'DESC'));
         
        $listProcesados = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getInvProcessed();
         return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',

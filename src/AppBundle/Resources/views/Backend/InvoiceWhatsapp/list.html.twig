@@ -33,7 +33,7 @@
 						<tr>
 							{#<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>#}
 							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
-							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
+							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s a') }}</h6></td>
 							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
 							<td>
 								{% if item.recurrent == '1' %}
@@ -104,7 +104,7 @@
 							{#<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>#}
 							<td><h6 class="m-0">{{ item.phone }}</h6></td>
 							
-							<td><h6 class="m-0">{{ item.updatedAt | date('d-m-Y h:i:s') }}</h6></td>							
+							<td><h6 class="m-0">{{ item.updatedAt | date('d-m-Y h:i:s a') }}</h6></td>							
 							{% if item.statusName == 'Aprobado' %}
 								<td><h6 class="m-0"><b>{{ item.invoiceNumber }}</b></h6></td>
 							{% else %}
@@ -112,9 +112,9 @@
 							{% endif %}
 							<td>
 								{% if item.statusName == 'Aprobado' %}
-									<span class="badge badge-pill badge-primary st-new-b">{{ item.statusName }}</span>
+									<span class="badge badge-pill badge-primary st-new-b theme-bg">{{ item.statusName }}</span>
 								{% else %}
-									<span class="badge badge-pill badge-danger st-new-b">{{ item.statusName }}</span>
+									<span class="badge badge-pill badge-danger st-new-b red">{{ item.statusName }}</span>
 								{% endif %}
 							</td>
 							<td>

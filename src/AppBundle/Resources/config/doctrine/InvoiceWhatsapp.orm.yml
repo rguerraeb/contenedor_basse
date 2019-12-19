@@ -46,6 +46,10 @@ AppBundle\Entity\InvoiceWhatsapp:
             type: datetime
             nullable: false
             column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
         productQuantity:
             type: integer
             nullable: true

@@ -29,5 +29,17 @@ class InvoiceWhatsappRepository extends EntityRepository
 		return $res;
 	}
 
+	public function getInvProcessed() {
+		$query = "	SELECT 	iw.invoice_id as invoiceId, s.phone, iw.created_at as createdAt, iw.updated_at as updatedAt, ms.name as statusName, iw.invoice_number as invoiceNumber, iw.recurrent
+					FROM 	invoice_whatsapp iw, staff s, main_status ms
+					WHERE	iw.status > 1
+					AND 	iw.staff_id = s.staff_id
+					AND 	iw.status = ms.main_status_id";
+		$gip = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$gip->execute ();
+		$res = $gip->fetchAll();
+		return $res;
+	}
+
 	
 }

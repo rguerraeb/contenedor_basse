@@ -20,7 +20,7 @@
 			<table class="table table-hover dataTable">
 				<thead>
 					<tr>
-						<th>#Correlativo</th>
+						{#<th>#Correlativo</th>#}
 						<th>Tel&eacute;fono</th>
 						<th>Fecha de Ingreso</th>					
 						<th>Estatus</th>
@@ -31,7 +31,7 @@
 				<tbody>
 					{% for item in list %}
 						<tr>
-							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
+							{#<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>#}
 							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
 							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
 							<td><h6 class="m-0">{{ item.status.name }}</h6></td>
@@ -90,9 +90,9 @@
 			<table class="table table-hover dataTable">
 				<thead>
 					<tr>
-						<th>#Correlativo</th>
 						<th>Tel&eacute;fono</th>
-						<th>Fecha de Ingreso</th>
+						{#<th>Fecha de Ingreso</th>#}
+						<th>Fecha de Procesado</th>
 						<th>Factura</th>					
 						<th>Estatus</th>
 						<th>Recurrente</th>
@@ -101,19 +101,20 @@
 				<tbody>
 					{% for item in listProcesados %}
 						<tr>
-							<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
-							<td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
-							<td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
-							{% if item.status.name == 'Aprobado' %}
+							{#<td><h6 class="m-0">{{ item.invoiceId }}</h6></td>#}
+							<td><h6 class="m-0">{{ item.phone }}</h6></td>
+							
+							<td><h6 class="m-0">{{ item.updatedAt | date('d-m-Y h:i:s') }}</h6></td>							
+							{% if item.statusName == 'Aprobado' %}
 								<td><h6 class="m-0"><b>{{ item.invoiceNumber }}</b></h6></td>
 							{% else %}
 								<td><h6 class="m-0">---</h6></td>
 							{% endif %}
 							<td>
-								{% if item.status.name == 'Aprobado' %}
-									<span class="badge badge-pill badge-primary st-new-b">{{ item.status.name }}</span>
+								{% if item.statusName == 'Aprobado' %}
+									<span class="badge badge-pill badge-primary st-new-b">{{ item.statusName }}</span>
 								{% else %}
-									<span class="badge badge-pill badge-danger st-new-b">{{ item.status.name }}</span>
+									<span class="badge badge-pill badge-danger st-new-b">{{ item.statusName }}</span>
 								{% endif %}
 							</td>
 							<td>

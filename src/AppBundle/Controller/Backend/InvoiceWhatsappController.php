@@ -47,12 +47,8 @@ class InvoiceWhatsappController extends Controller
                 array(
                         "status" => 1
                 ));
-       
-        $entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery(  'SELECT p
-                                                FROM AppBundle:InvoiceWhatsapp p
-                                                WHERE p.status > :sta')->setParameter('sta', 1);
-        $listProcesados = $query->getResult();
+        
+       $listProcesados = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getInvProcessed();
         return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
                 array(
                         "list" => $list,
@@ -110,6 +106,7 @@ class InvoiceWhatsappController extends Controller
                 $iwEnt->setPrizeType($iwsData['prizeType']);    
                 $iwEnt->setRecurrent($recurrent);
                 $iwEnt->setCreatedAt($createdAt);
+                $iwEnt->setUpdatedAt(new \DateTime());
                 $iwEnt->setStaff($staffEnt);
                 $iwEnt->setStatus($newStatus);
                 $iwEnt->setRejectionMessage($iwsData['rejectionMessage']);

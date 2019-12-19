@@ -40,6 +40,11 @@ class InvoiceWhatsapp
     private $createdAt;
 
     /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
      * @var integer
      */
     private $productQuantity;
@@ -197,6 +202,29 @@ class InvoiceWhatsapp
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return InvoiceWhatsapp
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 
     /**

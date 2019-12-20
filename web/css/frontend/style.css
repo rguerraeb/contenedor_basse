@@ -10,6 +10,21 @@ body {
 	color: #FFF;
 }
 
+
+.myBtnPdf{
+	left: 18%;
+    bottom: 16%;
+    position: absolute;
+    text-decoration: none;
+    background-color: #672DF1;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+	-webkit-box-shadow: 10px 10px 6px -5px rgba(133,133,133,0.71);
+	-moz-box-shadow: 10px 10px 6px -5px rgba(133,133,133,0.71);
+	box-shadow: 10px 10px 6px -5px rgba(133,133,133,0.71);
+}
+
 .myContainer{
 	position: relative;
 }

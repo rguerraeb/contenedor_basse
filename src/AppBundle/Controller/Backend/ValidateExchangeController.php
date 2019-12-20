@@ -129,6 +129,7 @@ class ValidateExchangeController extends Controller {
 		
 				//	if($quantityTaken[$promo->getPromotionId()] != 0){
 
+
 						$staffPromotion->setStaffCode($staffCode);
 						$staffPromotion->setStaff($staffCode->getStaff());
 						$staffPromotion->setDistributor($userDistributor);

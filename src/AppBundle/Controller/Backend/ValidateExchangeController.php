@@ -129,17 +129,18 @@ class ValidateExchangeController extends Controller {
 		
 				//	if($quantityTaken[$promo->getPromotionId()] != 0){
 
-
-						$staffPromotion->setStaffCode($staffCode);
-						$staffPromotion->setStaff($staffCode->getStaff());
-						$staffPromotion->setDistributor($userDistributor);
-						$staffPromotion->setQuantityTaken("1");
-						$staffPromotion->setInvoiceNumber($invoiceNumber);
-						$staffPromotion->setCreatedAt(new \DateTime());
-						$staffPromotion->setCreatedBy($createdBy);
-						$em = $this->getDoctrine ()->getManager ();
-						$em->persist ( $staffPromotion );
-						$em->flush ();
+				$staffPromotion->setStaffCode($staffCode);
+				$staffPromotion->setStaff($staffCode->getStaff());
+				$staffPromotion->setDistributor($userDistributor);
+				$staffPromotion->setQuantityTaken("1");
+				$staffPromotion->setInvoiceNumber($invoiceNumber);
+				$staffPromotion->setCreatedAt(new \DateTime());
+				$staffPromotion->setCreatedBy($createdBy);
+				$staffPromotion->setCreatedBy();
+				$staffPromotion->setCreatedBy();
+				$em = $this->getDoctrine ()->getManager ();
+				$em->persist ( $staffPromotion );
+				$em->flush ();
 				//	}
 
 				//	array_push($validated, $request->get("quantity_".$promo->getPromotionId()));
@@ -157,6 +158,19 @@ class ValidateExchangeController extends Controller {
 				$em = $this->getDoctrine ()->getManager ();
 				$em->persist ( $staffCode );
 				$em->flush ();
+
+				$myCode = $staffPromotion->getStaffCode()->getCode();
+				$myPhone = $staffPromotion->getStaff()->getPhone();
+				$myMessage = "Exito! El descuento que pertenece al código " . $myCode . " fué canjeado. Te invitamos a seguir participando.";
+				$myInvoiceNumber = $staffPromotion->getInvoiceNumber();
+				$em = $this->getDoctrine ()->getManager ();
+				$MyIwObj = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceNumber" => $myInvoiceNumber));
+				$MyIwObj->setRejectionMessage($myMessage);
+				$MyIwObj->setNotifiStatus('pendiente');
+				$MainStatusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findOneBy(array("mainStatusId" => 4));
+				$MyIwObj->setStatus($MainStatusObj);
+				$em->persist ( $MyIwObj );
+				$em->flush ();				
 
 				$this->addFlash ( 'success_message', $this->getParameter ( 'exito_canje_promo' ) );
 				return $this->redirectToRoute ( "backend_validate_exchange_finiquito", ["codeId" => $staffCode->getStaffCodeId()]);

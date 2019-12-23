@@ -141,7 +141,59 @@
 </form>
 
 <script type="text/javascript">
+
+
+	function qtyCodesAssignedMessage(){
+
+		var textarea = document.createElement('textarea');
+		textarea.rows = 3;
+		textarea.className = 'swal-content__textarea';
+		textarea.value = "Gracias por preferirnos, has llegado al limite de códigos permitidos para esta promoción. Mas información en www.regresoaclasestottolala.com";
+		textarea.onkeyup = function () {
+			swal.setActionValue({
+			  confirm: this.value
+			});
+		};
+		swal({
+		text: 'Este participante ya ha ganado dos premios! El mensaje a enviar es el siguiente:',
+		content: textarea,
+		icon: "warning",
+		buttons: {
+		  cancel: {
+		    text: 'Cancelar',
+		    visible: true
+		  },
+		  confirm: {
+		    text: 'Enviar',
+		    closeModal: true
+		  }
+		}
+		}).then(function (value) {
+			var  textArea = $('.swal-content__textarea').val();
+			var length = textArea.length;
+			if(length > 0){
+				if (value !== null) {
+					$("#appbundle_invoicewhatsapp_status").val(3);
+					$("#appbundle_invoicewhatsapp_rejectionMessage").val($('.swal-content__textarea').val());
+				  	document.getElementById("iwsForm").submit();
+				}
+			} else {
+				if (value !== null) {
+					swal("Texto Vacío", "No ha introducido ningún texto. La factura aún no se procesa.", "warning");
+				}
+			}
+		});
+	}
+
 	$(document).ready(function(){
+
+		var qtyCodesAssigned = '{{ qtyCodesAssigned }}';
+		console.log("qtyCodesAssigned: ", qtyCodesAssigned);
+
+		if (qtyCodesAssigned >= 2) {
+			qtyCodesAssignedMessage();
+		}
+
 
 		$('#appbundle_invoicewhatsapp_invoiceNumber').on('keyup',function(){
 			var myInvoice = $(this).val();
@@ -261,6 +313,10 @@
 	        	$("#type_prize_no_selected").html("Asigne tipo de premio.");
 	        	$("#type_prize_selected").hide();
 	        } 
+
+	 		if (qtyCodesAssigned >= 2) {
+				qtyCodesAssignedMessage();
+			}
         });
 
 	});

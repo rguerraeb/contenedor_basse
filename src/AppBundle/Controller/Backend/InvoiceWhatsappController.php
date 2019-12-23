@@ -128,10 +128,11 @@ class InvoiceWhatsappController extends Controller
                     $staffCodeObj->setPrize($prizeObj);
                     $staffCodeObj->setWhatsappStatus('pendiente');
                     $staffCodeObj->setStore($storeObj); //ID = 54     STORE_NAME = TIENDA DE PRODUCTOS LALA
+                    $staffCodeObj->setBillNumber($iwsData['invoiceNumber']);
                     $em->persist($staffCodeObj);
                 }
 
-                $em->flush();
+                //$em->flush();
                 
                 $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
                 return $this->redirectToRoute ( "backend_invoice_whatsapp" );
@@ -164,6 +165,8 @@ class InvoiceWhatsappController extends Controller
                                                 FROM AppBundle:InvoiceWhatsapp p
                                                 WHERE p.status > :sta')->setParameter('sta', 1);
         $listProcesados = $query->getResult();
+
+        $qtyCodesAssigned = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getQtyCodes($iwId);
         return $this->render('@App/Backend/InvoiceWhatsapp/edit.html.twig',
             array(  "formInvoice" => $form->createView (),
                     "formStaff" => $formStaff->createView(),
@@ -173,7 +176,8 @@ class InvoiceWhatsappController extends Controller
                     "statusOpt" => $statusOpt,
                     "countryOpt" => $countryOpt,
                     "recurrent" => $recurrent,
-                    "listProcesados" => $listProcesados
+                    "listProcesados" => $listProcesados,
+                    "qtyCodesAssigned" => $qtyCodesAssigned
             ));
     }
 

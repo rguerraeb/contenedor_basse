@@ -42,5 +42,17 @@ class InvoiceWhatsappRepository extends EntityRepository
 		return $res;
 	}
 
+	public function getQtyCodes($iwId) {
+		$query = "	SELECT 		COUNT(1) as qty_codes
+					FROM 		invoice_whatsapp iw, staff s, staff_code sc
+					WHERE 		iw.invoice_id = '$iwId' 
+					AND 		iw.staff_id = s.staff_id
+					AND 		s.staff_id = sc.staff_id";
+		$gip = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$gip->execute ();
+		$res = $gip->fetch();
+		return $res['qty_codes'];
+	}
+
 	
 }

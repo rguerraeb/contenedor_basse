@@ -251,8 +251,9 @@
 				var length = textArea.length;
 				if(length > 0){
 					if (value !== null) {
-					  $("#appbundle_invoicewhatsapp_rejectionMessage").val($('.swal-content__textarea').val());
-					  document.getElementById("iwsForm").submit();
+						$("#appbundle_invoicewhatsapp_prizeType").val(0);
+					  	$("#appbundle_invoicewhatsapp_rejectionMessage").val($('.swal-content__textarea').val());
+					  	document.getElementById("iwsForm").submit();
 					}
 				} else {
 					if (value !== null) {

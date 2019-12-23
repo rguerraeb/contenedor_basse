@@ -109,7 +109,7 @@ parameters:
     
 # Accounts ids
     conection_recharge_account: 3
-    conection_bag_name: LOYALTY_GAMA
+    conection_bag_name: LOYALTY_LALA
 
 #textos de respuesta para formularios
     proximo_canje: TOTTO PROMOS: Los canjes no estan habilitados, sigue acumulando Q. y espera para obtener los mejores beneficios.

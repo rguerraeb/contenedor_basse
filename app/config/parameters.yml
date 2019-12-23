@@ -3,8 +3,8 @@ parameters:
     database_host: localhost
     database_port: null
     database_name: lala_promo
-    database_user: root
-    database_password: 
+    database_user: lala_promo_usr
+    database_password: PPd_j38163$2 
 
     mailer_transport: gmail
     mailer_host: smtp.gmail.com:465
@@ -109,7 +109,7 @@ parameters:
     
 # Accounts ids
     conection_recharge_account: 3
-    conection_bag_name: LOYALTY_GAMA
+    conection_bag_name: LOYALTY_LALA
 
 #textos de respuesta para formularios
     proximo_canje: TOTTO PROMOS: Los canjes no estan habilitados, sigue acumulando Q. y espera para obtener los mejores beneficios.

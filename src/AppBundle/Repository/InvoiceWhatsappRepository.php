@@ -19,7 +19,7 @@ class InvoiceWhatsappRepository extends EntityRepository
 
 		$query = "	SELECT 	iw.invoice_id, iw.status, s.phone, iw.notifi_status, iw.rejection_message as message, s.country_id as country
 					FROM 	invoice_whatsapp iw, staff s
-					WHERE 	iw.status = 3
+					WHERE 	iw.status  > 2
 					AND 	iw.notifi_status = 'pendiente'
 					AND 	iw.staff_id = s.staff_id ";
 		$resRejected = $this->getEntityManager ()->getConnection ()->prepare ( $query );

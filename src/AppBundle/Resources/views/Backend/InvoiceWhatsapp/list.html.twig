@@ -113,6 +113,8 @@
 							<td>
 								{% if item.statusName == 'Aprobado' %}
 									<span class="badge badge-pill badge-primary st-new-b theme-bg">{{ item.statusName }}</span>
+								{% elseif item.statusName == 'Entregado' %}
+									<span class="badge badge-pill badge-primary st-new-b theme-bg2">{{ item.statusName }}</span>
 								{% else %}
 									<span class="badge badge-pill badge-danger st-new-b red">{{ item.statusName }}</span>
 								{% endif %}

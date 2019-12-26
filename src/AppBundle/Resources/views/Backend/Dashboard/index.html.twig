@@ -1,0 +1,79 @@
+{% extends '@App/Backend/base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="card Active-visitor">
+        <div class="card-block text-center theme-bg">
+            <h5 class="mb-4 text-white">Mensajes Recibidos</h5>
+            <i class="fas fa-comments f-30 text-white"></i>
+            <h2 class="f-w-300 mt-3 text-white"></h2>
+            <h5 class="text-white">Esto es el total de fotografías de facturas recibidas a través del sistema de interacción automátizado por WahtsApp. De estas fotografías, se puede diferenciar además la cantidad de contactos recibidos.</h5>
+            <div class="row card-active">
+                <div class="col-md-6">
+                    <h2 class="text-white">{{ qtyInvoices }}</h2>
+                    <span class="text-white">Fotografías Recibidas</span>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-white">{{ qtyContacts }}</h2>
+                    <span class="text-white">Contactos Recibidos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card Active-visitor">
+        <div class="card-block text-center">
+            <h5 class="mb-4">Facturas Procesadas</h5>
+            <i class="fas fa-cog f-30 text-c-green"></i>
+            <h2 class="f-w-300 mt-3">{{ qtyProcessed }}</h2>
+            <h5 class="text-muted">Cantidad de facturas procesadas por el personal de Recursos Humanos de Lala. De este proceso se derivan las facturas premiadas y rechazadas.</h5>
+            <!--div class="progress mt-4 m-b-40">
+                <div class="progress-bar progress-c-theme" role="progressbar" style="width: 75%; height:7px;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div-->
+            <br><br>
+            <div class="row card-active">
+                <div class="col-md-6">
+                    <h4>{{ qtyWinned }}</h4>
+                    <span class="text-muted">Facturas Premiadas</span>
+                </div>
+                <div class="col-md-6">
+                    <h4>{{ qtyRejected }}</h4>
+                    <span class="text-muted">Facturas Rechazadas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card theme-bg2 bitcoin-wallet">
+                <div class="card-block">
+                    <h5 class="text-white mb-2">Códigos Canjeados</h5>
+                    <h2 class="text-white mb-3 f-w-300">{{ qtyChanged }}</h2>
+                    <span class="text-white d-block">Códigos reclamados en las tiendas Totto</span>
+                    <i class="feather icon-check-circle f-70 text-white"></i>
+                </div>
+            </div>        
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-c-blue bitcoin-wallet">
+                <div class="card-block">
+                    <h5 class="text-white mb-2">Códigos pendientes</h5>
+                    <h2 class="text-white mb-3 f-w-300">{{ qtyPending }}</h2>
+                    <span class="text-white d-block">Códigos activos que aún no han sido canjeados</span>
+                    <i class="feather icon-clock f-70 text-white"></i>
+                </div>
+            </div>        
+        </div>
+
+    </div>
+
+
+
+
+
+{% endblock %}

@@ -54,5 +54,76 @@ class InvoiceWhatsappRepository extends EntityRepository
 		return $res['qty_codes'];
 	}
 
+	public function getQtyInvoices() {
+		$query = "	SELECT COUNT(1) as qty_invoices
+					FROM invoice_whatsapp";
+		$qtyInv = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyInv->execute ();
+		$res = $qtyInv->fetch();
+		return $res['qty_invoices'];
+	}
+
+	public function getQtyContacts() {
+		$query = "	SELECT COUNT(1) as qty_contacts
+					FROM staff";
+		$qtyCont = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyCont->execute ();
+		$res = $qtyCont->fetch();
+		return $res['qty_contacts'];
+	}	
+
+	public function getQtyProcessed() {
+		$query ="	SELECT 		COUNT(1) as qty_processed
+					FROM 		invoice_whatsapp iw
+					WHERE 		iw.status > 1";
+		$qtyProc = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyProc->execute ();
+		$res = $qtyProc->fetch();
+		return $res['qty_processed'];
+	}
+
+	public function getQtyWinned() {
+		$query ="	SELECT 		COUNT(1) as qty_winned
+					FROM 		invoice_whatsapp iw
+					WHERE 		iw.status = 2";
+		$qtyWinned = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyWinned->execute ();
+		$res = $qtyWinned->fetch();
+		return $res['qty_winned'];
+	}
+
+	public function getQtyRejected() {
+		$query ="	SELECT 		COUNT(1) as qty_rejected
+					FROM 		invoice_whatsapp iw
+					WHERE 		iw.status = 3";
+		$qtyRejected = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyRejected->execute ();
+		$res = $qtyRejected->fetch();
+		return $res['qty_rejected'];
+	}
 	
+	public function getQtyChanged() {
+		$query ="	SELECT 	count(1) as qty_changed
+					FROM 	lala_promo.staff_code sc
+					WHERE 	sc.code_status_id = 3";
+		$qtyChanged = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyChanged->execute ();
+		$res = $qtyChanged->fetch();
+		return $res['qty_changed'];
+	}
+	
+	public function getQtyPending() {
+		$query ="	SELECT 	count(1) as qty_pending
+					FROM 	lala_promo.staff_code sc
+					WHERE 	sc.code_status_id = 2";
+		$qtyPending = $this->getEntityManager ()->getConnection ()->prepare ( $query );
+		$qtyPending->execute ();
+		$res = $qtyPending->fetch();
+		return $res['qty_pending'];
+	}
+
+
+
+
+
 }

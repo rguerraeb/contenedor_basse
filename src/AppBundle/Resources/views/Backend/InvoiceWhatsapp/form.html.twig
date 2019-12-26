@@ -92,8 +92,8 @@
 							{% for country in countryOpt %}
 								{% if country.id == countryAct %}
 									<option value="{{country.id}}" selected>{{country.name}}</option>
-								{% else %}
-									<option value="{{country.id}}">{{country.name}}</option>
+								{#% else %}
+									<option value="{{country.id}}">{{country.name}}</option>#}
 								{% endif %}
 							{% endfor %}
 						</select>

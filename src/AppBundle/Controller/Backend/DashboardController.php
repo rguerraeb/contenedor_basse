@@ -11,7 +11,7 @@ use AppBundle\Helper\SessionHelper;
 class DashboardController extends Controller
 {
 
-    private $moduleId = 18;
+    private $moduleId = 19;
 
     /**
      *

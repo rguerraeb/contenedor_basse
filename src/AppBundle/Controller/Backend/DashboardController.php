@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $qty_rejected = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyRejected();
         $qty_changed = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyChanged();
         $qty_pending = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyPending();
-        $listProcesados = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getInvProcessed();
+        
         return $this->render('@App/Backend/Dashboard/index.html.twig',
                 array(
                         "permits" => $mp,
@@ -48,6 +48,26 @@ class DashboardController extends Controller
     }
 
 
+    /**
+     *
+     * @Route("/backend/dashboard-refresh", name="backend_dashboard_refresh")
+     */
+    public function dashboardRefreshAction (Request $request)
+    {
+               
+        $em = $this->getDoctrine()->getManager();
+        
+        $qtyDashboard = [];
+        $qtyDashboard['qtyInvoices'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyInvoices();
+        $qtyDashboard['qtyContacts'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyContacts();
+        $qtyDashboard['qtyProcessed'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyProcessed();
+        $qtyDashboard['qtyWinned'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyWinned();
+        $qtyDashboard['qtyRejected'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyRejected();
+        $qtyDashboard['qtyChanged'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyChanged();
+        $qtyDashboard['qtyPending'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyPending();
+
+        return new JsonResponse($qtyDashboard);
+    }
 
 
 }

@@ -37,11 +37,14 @@
 			
 			<!-- Custom CSS -->
 	    	<link href="{{ asset('css/backend/styleNew.css') }}" rel="stylesheet">
-			
+
+			<!-- Notification css -->
+			<link href="{{ asset('bundles/dattaAble/assets/plugins/notification/css/notification.min.css') }}" rel="stylesheet">
 		{% endblock %}
 		
 		<!-- JQuery -->
 		<script src="{{ asset('bundles/dattaAble/assets/plugins/jquery/js/jquery.min.js') }}"></script>
+
 		
 		{% block extra_css %}
 		{% endblock %}
@@ -160,6 +163,7 @@
 		<script src="{{ asset('bundles/dattaAble/assets/plugins/lightbox2-master/js/lightbox.min.js') }}"></script>
 
 		<script src="{{ asset('bundles/dattaAble/assets/plugins/sweetalert/js/sweetalert.min.js') }}"></script>
+		<script src="{{ asset('bundles/dattaAble/assets/plugins/notification/js/bootstrap-growl.min.js') }}"></script>
 
 		<script type="text/javascript">
 			var idioma_español = {
@@ -187,6 +191,8 @@
 				}
 			};
 		</script>
+
+		
 
 	{% block extra_scripts %}
 		

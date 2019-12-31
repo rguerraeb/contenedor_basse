@@ -1,23 +1,18 @@
 <div class="card-header">
-    <h5>Listado de Distribuidores</h5>
-	{% if permits["wp"] %}
-		<span  title="Agregar Distribuidor" data-toggle="tooltip">
-			<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
-		</span>
-	{% endif %}
-    <div class="card-header-right">
-        <div class="btn-group card-option">
-            <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="feather icon-more-horizontal"></i>
-            </button>
-            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
-                <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
-            </ul>
-        </div>
-    </div>
+	<h5>Listado de Distribuidores</h5>
+	
+	<div class="card-header-right">
+		<div class="btn-group card-option">
+			<button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="feather icon-more-horizontal"></i>
+			</button>
+			<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+				<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+				<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+			</ul>
+		</div>
+	</div>
 </div>
-
 <div class="card-block table-border-style">
 	<div class="table-responsive">
 		<table class="table table-hover dataTable">

@@ -10,7 +10,7 @@
                     <button type="button" class="btn btn-glow-dark btn-dark btn-success btn-block"  data-from="top" data-align="center" data-animation-in="animated fadeIn" data-animation-out="animated fadeOut" id="myNotificationDashboard">Actualizar</button>
                 </div>
             </div>
-            <small>La actualización de datos automática se hace cada 10 minutos. Si lo desea, puede actualizar ahora presionando en el botón "Actualizar"</small>
+            <small>La actualización de datos automática se hace cada 5 minutos. Si lo desea, puede actualizar ahora presionando en el botón "Actualizar"</small>
         </div>
     </div>
     <div class="card Active-visitor">
@@ -124,7 +124,7 @@
             };  
             var storeTimeInterval = setInterval(function(){
                 getDashboardData();
-            }, 600000);
+            }, 300000);
         });
     </script>
     <script src="{{ asset('bundles/dattaAble/assets/plugins/select2/js/select2.full.min.js') }}"></script>

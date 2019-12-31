@@ -1,3 +1,10 @@
+.myAlertClass{
+  padding-top: 10px!important;
+  padding-bottom: 10px!important;
+}
+.p-t-12 {
+  padding-top: 12px;
+}
 .swal-button--danger {
   background-color: #7cd1f9!important; 
 }

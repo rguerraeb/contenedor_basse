@@ -33,7 +33,8 @@ class DashboardController extends Controller
         $qty_rejected = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyRejected();
         $qty_changed = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyChanged();
         $qty_pending = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyPending();
-        
+        $dateTimeRequest = new \DateTime();
+        $dateTimeRequest = $dateTimeRequest->format('H:i:s a');
         return $this->render('@App/Backend/Dashboard/index.html.twig',
                 array(
                         "permits" => $mp,
@@ -43,7 +44,8 @@ class DashboardController extends Controller
                         "qtyWinned" => $qty_winned,
                         "qtyRejected" => $qty_rejected,
                         "qtyChanged" => $qty_changed,
-                        "qtyPending" => $qty_pending
+                        "qtyPending" => $qty_pending,
+                        "dateTimeRequest" => $dateTimeRequest
                 ));
     }
 
@@ -65,6 +67,9 @@ class DashboardController extends Controller
         $qtyDashboard['qtyRejected'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyRejected();
         $qtyDashboard['qtyChanged'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyChanged();
         $qtyDashboard['qtyPending'] = $em->getRepository("AppBundle:InvoiceWhatsapp")->getQtyPending();
+        $dateTimeRequest = new \DateTime();
+        $dateTimeRequest = $dateTimeRequest->format('H:i:s a');
+        $qtyDashboard['dateTime'] = $dateTimeRequest;
 
         return new JsonResponse($qtyDashboard);
     }

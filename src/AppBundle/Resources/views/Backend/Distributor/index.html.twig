@@ -1,32 +1,38 @@
 {% extends '@App/Backend/base.html.twig' %}
 {% block body %}
-	<div class="page-header">
-	    <div class="page-block">
-	        <div class="row align-items-center">
-	            <div class="col-md-12">
-	                <div class="page-header-title">
-	                    <h5 class="m-b-10">Distribuidores</h5>
-	                </div>
-	                <ul class="breadcrumb">
-	                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
-	                    <li class="breadcrumb-item"><a href="#!">Distribuidores</a></li>
-	                </ul>
-	            </div>
-	        </div>
-	    </div>
+	<div class="row">
+		<div class="col-6">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Distribuidores</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Distribuidores</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>
+		<div class="col-6">
+			{% if permits["wp"] %}
+				<div class="text-right m-b-5">
+					<span  title="Agregar Distribuidor" data-toggle="tooltip">
+						<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+					</span>
+				</div>
+			{% endif %}		
+		</div>
 	</div>
 	<div class="main-body">
 	    <div class="page-wrapper">
 	        <div class="row">
 	            <div class="col-sm-12">					
 					{{ include('@App/Backend/flash_message.html.twig') }}
-					{% if permits["wp"] %}
-						<div class="text-right m-b-5">
-							<span  title="Agregar Distribuidor" data-toggle="tooltip">
-								<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
-							</span>
-						</div>
-					{% endif %}
 					<div class="card Application-list">
 						{% if permits["wp"] %}
 							{{

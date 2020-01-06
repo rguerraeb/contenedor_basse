@@ -450,70 +450,80 @@ class IndexController extends Controller
         $phone = $_POST['phone'];
     	#$fullPath = "/home/nelson/EBCLOSION/symfony/lala/web/uploads/imgs/";
     	//$fullPath = "/usr/home/ncastillo/lala/loyalty_lala/web/uploads/imgs/";
-	// path produccion
-        $fullPath = "/usr/home/prod/loyalty_lala/web/uploads/imgs/";
-		$imageDataExt = explode(".",basename($_FILES['file']['name']));
-		$x = sizeof($imageDataExt) - 1;
-		$imageDataExt = $imageDataExt[$x];
-		$fileName = md5(uniqid()).'.'.$imageDataExt;
-		$uploaded = $fullPath . $fileName;
-        $isSaved = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded);
-		if ($isSaved) {
-			if (strlen($phone) == 11) {
-				//ESTE NÚMERO ES DE GUATEMALA
-				$phone = str_replace("502", "", $phone);
-				$countryPhone = 1;
-			}
-			if (strlen($phone) == 12) {
-				//ESTE NÚMERO ES DE VENEZUELA
-				$phone = str_replace("58", "", $phone);
-				$countryPhone = 3;	
-			}
-			//Se procede a validar si el phone existe en staff
-			$phoneData = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("phone"=>$phone));
-			if ($phoneData) {
-				//$staffId = $phoneData->getStaffId();
-				$mensaje = "Si existe";
-				$staffObj = $phoneData;
-				$recurrent = 1;
-			}else{
-				$countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findOneBy(array("id"=>$countryPhone));
-				$em = $this->getDoctrine()->getManager();
-				$newStaff = new Staff();
-				$newStaff->setPhone($phone);
-				$newStaff->setCreatedAt(new \DateTime());
-				$newStaff->setCountry($countryObj);
-				$em->persist($newStaff);
+		// path produccion
+		$fullPath = "/usr/home/prod/loyalty_lala/web/uploads/imgs/";
+		if (strlen($phone) >= 11 && strlen($phone) <= 12 && is_numeric($phone) && substr_count($phone, '502', 0, 3) == 1) {
+			$imageDataExt = explode(".",basename($_FILES['file']['name']));
+			$x = sizeof($imageDataExt) - 1;
+			$imageDataExt = $imageDataExt[$x];
+			$fileName = md5(uniqid()).'.'.$imageDataExt;
+			$uploaded = $fullPath . $fileName;
+	        $isSaved = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded);
+			if ($isSaved) {
+				if (strlen($phone) == 11) {
+					//ESTE NÚMERO ES DE GUATEMALA
+					$phone = str_replace("502", "", $phone);
+					$countryPhone = 1;
+				}
+				if (strlen($phone) == 12) {
+					//ESTE NÚMERO ES DE VENEZUELA
+					$phone = str_replace("58", "", $phone);
+					$countryPhone = 3;
+				}
+				//Se procede a validar si el phone existe en staff
+				$phoneData = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("phone"=>$phone));
+				if ($phoneData) {
+					//$staffId = $phoneData->getStaffId();
+					$mensaje = "Si existe";
+					$staffObj = $phoneData;
+					$recurrent = 1;
+				}else{
+					$countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findOneBy(array("id"=>$countryPhone));
+					$em = $this->getDoctrine()->getManager();
+					$newStaff = new Staff();
+					$newStaff->setPhone($phone);
+					$newStaff->setCreatedAt(new \DateTime());
+					$newStaff->setCountry($countryObj);
+					$em->persist($newStaff);
+					$em->flush();
+					$staffObj = $newStaff;
+					//$staffId = $newStaff->getStaffId();
+					$mensaje = "No existe";
+					$recurrent = 0;
+				}
+				$em = $this->getDoctrine()->getManager();	
+				$statusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findOneBy(array("name"=>"Pendiente"));
+				$invoiceWs = new InvoiceWhatsapp();
+				$invoiceWs->setStaff($staffObj);
+				$invoiceWs->setImageName($fileName);
+				$invoiceWs->setCreatedAt(new \DateTime());
+				$invoiceWs->setStatus($statusObj);
+				$invoiceWs->setRecurrent($recurrent);
+				$em->persist($invoiceWs);
 				$em->flush();
-				$staffObj = $newStaff;
-				//$staffId = $newStaff->getStaffId();
-				$mensaje = "No existe";
-				$recurrent = 0;
-			}
-			$em = $this->getDoctrine()->getManager();	
-			$statusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findOneBy(array("name"=>"Pendiente"));
-			$invoiceWs = new InvoiceWhatsapp();
-			$invoiceWs->setStaff($staffObj);
-			$invoiceWs->setImageName($fileName);
-			$invoiceWs->setCreatedAt(new \DateTime());
-			$invoiceWs->setStatus($statusObj);
-			$invoiceWs->setRecurrent($recurrent);
-			$em->persist($invoiceWs);
-			$em->flush();
 
+				return new JsonResponse(array(
+		            'status' => "Success",
+		            'message' => "Imagen Recibida!",
+		            'existe' => $mensaje,
+		            'code' => '21'
+		        ));
+		        
+			} else {
+				
+				return new JsonResponse(array(
+		            'status' => "Error",
+		            'message' => "La imagen no pudo ser guardada",
+		            'code' => '22'
+		        ));   
+			}
+		}else{
 			return new JsonResponse(array(
-	            'status' => "Success",
-	            'message' => "Imagen Recibida!",
-	            'existe' => $mensaje
-	        ));
-	        
-		} else {
-			
-			return new JsonResponse(array(
-	            'status' => "Error",
-	            'message' => "La imagen no pudo ser guardada"
-	        ));   
-		}        		
+		            'status' => "Error",
+		            'message' => "El número de telefono no se ha recibido",
+		            'code' => '23'
+		        ));
+		}       		
 	}
 
     /**

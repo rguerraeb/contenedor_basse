@@ -1,50 +1,68 @@
 {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-
-<form method="post" action="" id="userForm" class="validateForm"
-	autocomplete="false">
+{% if 'edit' in currentPath %}
+	{% set firstName = user[0].firstName %}
+	{% set lastName = user[0].lastName %}
+	{% set email = user[0].email %}
+	{% set status = user[0].status %}
+	{% set distributorId = user[0].distributorId %}
+	{% set userRoleId = user[0].userRoleId %}
+{% endif %}
+<form method="post" action="" id="userForm" class="validateForm" autocomplete="false">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					{{ form_label(form.firstName, "Nombres") }}
-					{{form_widget(form.firstName, {'attr': {'class': 'required form-control' }}) }}
+					<label for="first_name">Nombres</label>
+					<input type="text" id="first_name" name="user[first_name]" maxlength="64" class="required form-control" {% if 'edit' in currentPath %} value="{{ firstName }}" {% endif %}>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					{{ form_label(form.lastName, "Apellidos") }}
-					{{form_widget(form.lastName, {'attr': {'class': 'required form-control' }}) }}
+					<label for="last_name">Apellidos</label>
+					<input type="text" id="last_name" name="user[last_name]" maxlength="64" class="required form-control" {% if 'edit' in currentPath %} value="{{ lastName }}" {% endif %}>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					{{ form_label(form.email, "Email") }}
-					{{form_widget(form.email, {'attr': {'class': 'required email form-control' }}) }}
+					<label for="email">Email</label>
+					<input type="text" id="email" name="user[email]" required="required" maxlength="64" class="required email form-control" {% if 'edit' in currentPath %} value="{{ email }}" {% endif %}>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-				    {{ form_label(form.password, "Contraseña") }}
-				    {{form_widget(form.password, {'attr': {'class': 'form-control' }}) }}
+					<label for="password">Contraseña</label>
+					<input type="password" id="password" name="user[password]" class="form-control">
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					{{ form_label(form.status, "Estado") }}
-					{{form_widget(form.status, {'attr': {'class': 'required form-control' }}) }}
+					<label for="status">Estado</label>
+					<select id="status" name="user[status]" class="required form-control valid">
+						<option value="ACTIVO"{% if 'edit' in currentPath %} {{ (status == "ACTIVO") ? 'selected' : '' }} {% endif %}>ACTIVO</option>
+						<option value="INACTIVO"{% if 'edit' in currentPath %} {{ (status == "INACTIVO") ? 'selected' : '' }} {% endif %}>INACTIVO</option>
+					</select>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					{{ form_label(form.userRole, "Rol") }}
-					{{form_widget(form.userRole, {'attr': {'class': 'required form-control'}}) }}
+					<label for="user_role">Rol</label>
+					<select id="user_role" name="user[user_role]" class="required form-control valid">
+						{% for userRole in roles %}
+							<option value="{{ userRole.id }}" {% if 'edit' in currentPath %} {{ (userRoleId == userRole.id) ? 'selected' : '' }} {% endif %}>{{ userRole.name }}</option>
+						{% endfor %}
+					</select>
 				</div>
-			</div>	
+			</div>
 			<div class="col-md-6">
 				<div class="form-group select-distributor">
-					{{ form_label(form.distributor, "Asignar a tienda") }}
-					{{form_widget(form.distributor, {'attr': {'class': 'form-control'}}) }}
+					<label for="distributor">Asignar a tienda</label>
+					<select id="distributor" name="user[distributor]" class="form-control">
+						<option value="">Seleccionar Tienda</option>
+						{% for distributor in distributors %}
+							<option value="{{ distributor.distributorId }}" {% if 'edit' in currentPath %} {{ (distributorId == distributor.distributorId) ? 'selected' : '' }} {% endif %}>{{ distributor.name }}</option>
+						{% endfor %}
+					</select>
 				</div>
-			</div>	
+			</div>
 			<div class="col-md-6">
 			</div>	
 			<div class="col-md-6">
@@ -57,10 +75,7 @@
 			<div class="col-md-6">
 				<button id="button-save" type="submit" class="btn btn-rounded btn-success float-right" style="margin-right: 0px;">Guardar Datos</button>
 			</div>	
-			<!-- /.col -->
 		</div>
-		<!-- /.row -->
-	{{ form_widget(form._token) }}
 </form>
 
 
@@ -69,7 +84,7 @@
 	<script>
 
 		$(document).ready(function(){
-			var rol = $('#user_userRole').val();
+			var rol = $('#user_role').val();
 			
 			if (rol == 5) {
 				$('.select-distributor').show();
@@ -79,15 +94,15 @@
 				$('.select-distributor').hide();
 			}
 
-			$('#user_userRole').change(function(){
-				var rol = $('#user_userRole').val();
+			$('#user_role').change(function(){
+				var rol = $('#user_role').val();
 
 				if (rol == 5) {
 					$('.select-distributor').show();
-					$('#user_distributor').addClass("required");
+					$('#distributor').addClass("required");
 				} else if (rol == 4) {
 					$('.select-distributor').hide();
-					$('#user_distributor').removeClass("required");
+					$('#distributor').removeClass("required");
 				}
 			});
 
@@ -101,7 +116,9 @@
 					for (var i = 0, len = elements.length; i < len; ++i) {
 						elements[i].readOnly = true;
 					}
-					document.getElementById("userForm").submit();
+					document.getElementById("userForm").submit(function() {
+						$('#userForm').serializeArray();
+					});
 				}
 			});
 

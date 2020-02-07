@@ -14,33 +14,18 @@ class MainController extends Controller
     
     public function mainMenuAction(Request $request)
     {
-    	$userData = $this->get("session")->get("userData");
     	$userModules = $this->get("session")->get("userModules");
     	$moduleId = $this->get("session")->get("module_id");
 
-        // Get service with function
-        $service = $this->container->get('user.role.handler');
-        $roleId = $service->getRoleId();
-
-        if ($roleId == 2) {
-            $roleStaff = true;
-        }
-        else {
-            $roleStaff = false;
-        }
-
         return $this->render('@App/Backend/main_menu.html.twig', array(
-        	"userData" => $userData,
         	"userModules" => $userModules,
-        	"menuId" => $this->get("session")->get("module_id"),
-        	"roleStaff" => $roleStaff
+        	"menuId" => $moduleId
         ));
     }
     
     public function profileAction(Request $request)
     {
     	$userData = $this->get("session")->get("userData");
-    	$userModules = $this->get("session")->get("userModules");
 
     	// replace this example code with whatever you need
     	return $this->render('@App/Backend/profile.html.twig', array(

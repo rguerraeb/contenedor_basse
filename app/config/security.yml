@@ -27,25 +27,27 @@ security:
 
         backend:
             pattern:    ^/backend/
+            security: false
             provider: our_db_provider
             form_login:
-                success_handler: authentication.success.listener
+                #success_handler: authentication.success.listener
                 always_use_default_target_path: true
                 default_target_path: backend_main
-                check_path: backend_login
-                login_path: backend_login
+                check_path: backend_login_user
+                login_path: backend_login_user
                 require_previous_session: false
+            anonymous: true
 
             logout:
                 path:   /backend/logout
-                target: /backend/login
+                target: /backend/login-user
             anonymous: true
         
         frontend:
             pattern:    ^/staff/
             provider: staff_db_provider
             form_login:
-                success_handler: authentication.staff.success.listener
+                #success_handler: authentication.staff.success.listener
                 always_use_default_target_path: true
                 default_target_path: /staff/login
                 check_path: /staff/login
@@ -61,14 +63,14 @@ security:
     access_control:
         - { path: ^/backend/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/user/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backend/checkmp, role: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/main, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/sms-incoming, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/sale/not-assigned, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/staff, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/registerPending/edit, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/registerPending, roles: [ROLE_ADMINISTRADOR] }
-        - { path: ^/backend/, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/backend/checkmp, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/main, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/sms-incoming, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/sale/not-assigned, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/staff, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/registerPending/edit, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/registerPending, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/backend/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/staff/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/staff/getPrize, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/staff/, roles: [ROLE_ADMINISTRADOR] }
+        - { path: ^/staff/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }

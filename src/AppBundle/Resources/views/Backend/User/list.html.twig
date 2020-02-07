@@ -36,10 +36,10 @@
 						<td>{{ user.email }}</td>
 						<td>{{ user.firstName }}</td>
 						<td>{{ user.lastName }}</td>
-						<td>{{ user.userRole.name }}</td>
+						<td>{{ user.userRole }}</td>
 						<td>
 						{% if user.distributor %}
-							{{ user.distributor.name }}
+							{{ user.distributor }}
 						{% endif %}
 						</td>
 						<td>
@@ -50,13 +50,13 @@
 							{% endif %}
 						</td>
 						<td>
-						{% if permits["ep"] %}
+						{% if permits.ep %}
 							<a class="btn btn-icon btn-rounded theme-bg2 text-white" href="{{ path('backend_user_edit', {'id': user.id}) }}"  title="Editar Usuario" data-toggle="tooltip">
 								<i class="feather icon-edit-1"></i>
 							</a>
 						{% endif %}
 						
-						{% if permits["dp"] %}
+						{% if permits.dp %}
 							{% if user.status == 'ACTIVO'%}
 								<span  title="Inactivar Usuario" data-toggle="tooltip">
 									<a id="btn-delete"

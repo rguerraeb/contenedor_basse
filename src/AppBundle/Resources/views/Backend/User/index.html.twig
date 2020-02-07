@@ -19,7 +19,7 @@
 			</div>			
 		</div>
 		<div class="col-6">
-			{% if permits["wp"] %}
+			{% if permits.wp %}
 				<div  class="text-right m-b-5">
 					<span  title="Agregar Usuario" data-toggle="tooltip">
 						<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-user-plus"></i></span></a>
@@ -36,20 +36,20 @@
 	            	
 					<div class="card Application-list">
 				
-						{% if permits["wp"] %}
+						{% if permits.wp %}
 							{{
 								include(
 									'@App/Backend/create_modal.html.twig',
 									{
 										'title': 'Usuario',
-										'form': form,
+										
 										'formPath': '@App/Backend/User/form.html.twig'
 									}
 								)
 							}}
 						{% endif %}
 			
-						{% if permits["rp"] %}
+						{% if permits.rp %}
 							{{ include('@App/Backend/User/list.html.twig', { 'list': list }) }}
 						{% endif %}
 					</div>

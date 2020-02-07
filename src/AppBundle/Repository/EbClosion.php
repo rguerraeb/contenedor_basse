@@ -28,7 +28,7 @@ class EbClosion {
 	public static function getModulePermission($moduleId, $userModules) {
 	    
 	    foreach ($userModules as $module) {
-	        if ($module["mcid"] == $moduleId) {
+	        if ($module->mcid == $moduleId) {
 	            return $module;
 	        }
 	    }

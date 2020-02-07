@@ -1,5 +1,5 @@
-{% if app.user.profileImage is defined %}
-	{% set img = asset('uploads/clients/profile_image/'~app.user.profileImage) %}
+{% if app.session.get('userData').profileImage is defined %}
+	{% set img = asset('uploads/clients/profile_image/'~app.session.get('userData').profileImage) %}
 {% else %}
 	{% set img = asset('images/lala_logo_square.png') %}
 {% endif %}
@@ -10,7 +10,7 @@
 	<div class="dropdown-menu dropdown-menu-right profile-notification">
 		<div class="pro-head">
 			<img src="{{ img }}" class="img-radius" alt="User-Profile-Image">
-			<span>{{ app.user.firstName }}</span>
+			<span>{{ app.session.get('userData').fullName }}</span>
 		</div>
 		<ul class="pro-body">
 			<li>

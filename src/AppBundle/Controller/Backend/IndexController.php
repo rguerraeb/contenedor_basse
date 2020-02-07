@@ -9,6 +9,8 @@ use AppBundle\Entity\User;
 use AppBundle\Form\UserLoginType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Repository\EbClosion;
+use AppBundle\Helper\ApiHelper;
+use AppBundle\Helper\WebServiceHelper;
 
 class IndexController extends Controller
 {
@@ -43,7 +45,7 @@ class IndexController extends Controller
 	public function getindexAction(Request $request)
 	{				
 		// replace this example code with whatever you need
-		return $this->redirectToRoute("backend_login");
+		return $this->redirectToRoute("backend_login_user");
 	
 	}
 	
@@ -65,12 +67,67 @@ class IndexController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         // replace this example code with whatever you need
-        return $this->render('@App/Backend/login.html.twig', array(
+        return $this->render('@App/Backend/login_old.html.twig', array(
         	"form" => $form->createView (),
             'error' => $error
         ));
     }
-    
+	
+	/**
+	 * @Route("/backend/login-user", name="backend_login_user") 
+	 */	
+	public function loginAction(Request $request)
+	{
+		$response = [];
+
+		$apiHelper = new ApiHelper();
+
+		$url = "http://localhost/contenedor_2/web/app_dev.php/ws/login-user";
+		$method = "POST";
+		$tokenApp = null;
+
+		$email = $request->get("_username");
+		$password = $request->get("_password");
+
+		if(isset($email) && isset($password)){
+			$postdata = json_encode(
+				array(
+					"email" => $email,
+					"password" => $password
+				)
+			);
+
+			$response = $apiHelper->connectServices($url, $method, $tokenApp, $postdata);
+			$response = json_decode($response);
+
+			if($response->status == 'success'){
+				$tokenApp = $response->data;
+				
+				//session
+				$session = $request->getSession();
+				$session->set("tokenapp", $tokenApp);
+
+				$userToken = WebServiceHelper::decodeJWTToken($tokenApp);
+
+				$modules = $userToken->modules;
+				$session->set("userModules",$modules);
+				$session->set("userData", $userToken);
+
+				if($userToken->mainModule){
+
+					$session->set("module_id", $userToken->mainModule->mcid);
+					return $this->redirectToRoute($userToken->mainModule->url_access);
+					
+				}
+			}
+
+		} 
+
+        return $this->render('@App/Backend/login.html.twig', array(
+        	"response" => $response
+        ));
+	}
+
     /**
      * @Route("/backend/main", name="backend_main")
      */
@@ -95,7 +152,7 @@ class IndexController extends Controller
     	$session = $this->get('request')->getSession();
     	$session->clear();
     	$session->invalidate(1);
-    	return $this->redirectToRoute("backend_login");
+    	return $this->redirectToRoute("backend_login_user");
     
     }
 }

@@ -16,37 +16,6 @@
 					<label>Men&uacute;</label>
 				</li>
 				{% for module in userModules  %}
-					{% if module.mcid == 30 %}
-						{% if app.user.jobPosition.id == 2 or app.user.jobPosition.id == 1 %}
-							<li data-username="Historial de Puntos" class="nav-item {{ menuId == module.mcid ? 'active' : '' }}">
-								<a href="{{ path(module.url_access) }}" class="nav-link">
-									<span class="pcoded-micon">
-										<i class="fa {{ module.module_icon }}"></i>
-									</span>
-									<span class="pcoded-mtext">Historial de Puntos</span>        					
-								</a>
-							</li>
-						{% else %}
-							<li data-username="{{ module.module_name }}" class="nav-item {{ module.count_children > 0 ? 'pcoded-hasmenu ' : ''}}{{ menuId == module.mcid ? 'active' : '' }}">
-								<a href="{{ module.count_children > 0 ? 'javascript:' : path(module.url_access) }}" class="nav-link">
-									<span class="pcoded-micon">
-										<i class="fa {{ module.module_icon }}"></i>
-									</span>
-									<span class="pcoded-mtext">{{ module.module_name }}</span>
-								</a>
-								{% if module.count_children > 0 %} 
-									{% for subModule in module.children %}
-										<ul class="pcoded-submenu">
-											<li class="">
-												<a class="" href="{{ path(subModule.url_access) }}"> {{ subModule.module_name }}
-												</a>
-											</li>
-										</ul> 
-									{% endfor %} 
-								{% endif %}
-							</li>
-						{% endif %}
-					{% else %}
 						<li data-username="{{ module.module_name }}" class="nav-item {{ module.count_children > 0 ? 'pcoded-hasmenu ' : ''}}{{ menuId == module.mcid ? 'active' : '' }}">
 							<a href="{{ module.count_children > 0 ? 'javascript:' : path(module.url_access) }}" class="nav-link"> 
 								<span class="pcoded-micon">
@@ -65,7 +34,6 @@
 								{% endfor %} 
 							{% endif %}
 						</li>
-					{% endif %}
 				{% endfor %}
 			</ul>
 		</div>

@@ -10,13 +10,13 @@ services:
         tags:
             - { name: twig.extension }
 
-    authentication.success.listener:
-        class: AppBundle\EventListener\AuthenticationEventListener
-        arguments: ['@router', '@security.context', '@service_container']
+    #authentication.success.listener:
+    #    class: AppBundle\EventListener\AuthenticationEventListener
+    #    arguments: ['@router', '@security.context', '@service_container']
         
-    authentication.staff.success.listener:
-        class: AppBundle\EventListener\AuthenticationStaffEventListener
-        arguments: ['@router', '@security.context', '@service_container']
+    #authentication.staff.success.listener:
+    #    class: AppBundle\EventListener\AuthenticationStaffEventListener
+    #    arguments: ['@router', '@security.context', '@service_container']
     
     exception.listener:
         class: AppBundle\EventListener\ExceptionListener
@@ -28,11 +28,11 @@ services:
         class: AppBundle\Helper\UserHelper
         arguments: ['@security.password_encoder']
 
-    user.role.handler:
-        class: AppBundle\Handler\UserRoleHandler
-        arguments: [ "@router", "@security.context", "@doctrine.orm.entity_manager", '@session', %invalid_module%]
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    #user.role.handler:
+    #    class: AppBundle\Handler\UserRoleHandler
+    #    arguments: [ "@router", "@security.context", "@doctrine.orm.entity_manager", '@session', %invalid_module%]
+    #    tags:
+    #        - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     message.helper:
         class: AppBundle\Helper\MessageHelper

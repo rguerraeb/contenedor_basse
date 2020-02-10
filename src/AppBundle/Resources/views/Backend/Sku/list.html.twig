@@ -1,63 +1,113 @@
-<div class="box box-success">
-    <div class="box-header">
-        <h3 class="box-title">Listado de {{ title }}</h3>
-    </div>
-    <!-- /.box-header -->
-    <div class="box-body table-responsive no-padding">
-        <table class="table table-hover">
-            <tr>
-                <th>ID</th>
-                <th>Categor&iacute;a</th>
-                <th>C&oacute;digo</th>
-                <th>Nombre SKU</th>                                
-                <th>Tipo</th>
-                <th>Herramientas</th>
-            </tr>
-            {% for sku in entities %}
-            <tr>
-                <td>{{ sku.skuId }}</td>
-                <td>{{ sku.skuCategory }}</td>
-                <td>{{ sku.brand }}</td>
-                <td>{{ sku.skuFilterString }}</td>                
-                <td>
-                	{% if sku.model == 'PREMIUM' %}
-                		<span class="label label-primary">{{ sku.model }}</span>
-                	{% else %}
-                		<span class="label label-warning">{{ sku.model }}</span>
-                	{% endif %}
-                </td>
-                <td class="list_tools">
-                	{% if permits["ep"] %}
-                    <a 
-                        href="{{ path(
-                                'backend_sku_edit',
-                                {'id': sku.skuId}
-                            ) }}">
-                        <i class="fa fa-fw fa-edit"></i>
-                    </a>
-                    {% endif %}
-                    
-                    {% if permits["dp"] %}
-                    <a
-                        class="delete-point-of-sale"
-                        data-id="{{ sku.skuId }}" 
-                        data-href="{{ path(
-                            'backend_sku_delete',
-                            {'id': sku.skuId}
-                        ) }}"
-                        data-toggle="modal"
-                        data-target="#confirm-modal">
-                        <i class="fa fa-fw fa-remove"></i>
-                    </a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer clearfix">
-    {{ knp_pagination_render(entities) }}
+<div class="card-header">
+    <h5>Listado de Productos</h5>
+	
+    <div class="card-header-right">
+    	<div class="btn-group card-option">
+    		<button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    			<i class="feather icon-more-horizontal"></i>
+    		</button>
+    		<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+    			<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+    			<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+    		</ul>
+    	</div>
     </div>
 </div>
-<!-- /.box -->
+
+<div class="card-block table-border-style">
+	<div class="table-responsive">
+		<table class="table table-hover dataTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Categoría</th>
+					<th>Código</th>
+					<th>Nombre SKU</th>
+					<th>Tipo</th>
+					<th>Estado</th>
+					<th>Herramientas</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for sku in list %}
+					<tr>
+						<td>{{ sku.skuId }}</td>
+						<td>{{ sku.skuCategoryName }}</td>
+						<td>{{ sku.brand }}</td>
+						<td>{{ sku.skuFilterString }}</td>
+						<td>{{ sku.model }}</td>
+						<td>
+							{% if sku.status == 'ACTIVO'%}
+								<span class="label bg-c-green f-12 text-white" href="#!">{{ sku.status }}</span>
+							{% else %}
+								<span class="label bg-c-red f-12 text-white" href="#!">{{ sku.status }}</span>
+							{% endif %}
+						</td>
+						<td>
+						{% if permits.ep %}
+							<a class="btn btn-icon btn-rounded theme-bg2 text-white" href="{{ path('backend_sku_edit', {'id': sku.skuId}) }}"  title="Editar Producto" data-toggle="tooltip">
+								<i class="feather icon-edit-1"></i>
+							</a>
+						{% endif %}
+						
+						{% if permits.dp %}
+							{% if sku.status == 'ACTIVO'%}
+								<span  title="Inactivar Producto" data-toggle="tooltip">
+									<a id="btn-delete"
+										class="btn btn-icon btn-rounded btn-danger text-white sweet-multiple"
+										data-id="{{ sku.skuId }}" 
+										data-name="{{ sku.skuFilterString }}" 
+										data-href="{{ path(
+											'backend_sku_delete',
+											{'id': sku.skuId}
+										) }}">
+										<i class="feather icon-trash-2"></i>
+									</a>
+								</span>
+							{% endif %}
+						{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.dataTable').DataTable({
+			"language": idioma_español,
+			"stateSave": true
+		});	
+		
+		$('table').on('click', '#btn-delete',function(){
+			$('.sweet-multiple').on('click', function() {
+				swal({
+					title: '¿Seguro que desea inactivar al producto "'+ $(this).attr('data-name') +'" ?',
+					icon: "warning",
+					buttons: ["Cancelar",true],
+					dangerMode: true,
+				}).then((willDelete) => {
+					if (willDelete) {
+						swal({
+							text: 'El producto "'+ $(this).attr('data-name') +'" se está inactivando',
+							icon: "info",
+							buttons: false,
+							content: {
+								element: "span",
+								attributes: {
+									className: "spinner-border spinner-border-sm"
+								}
+							}
+						});
+						window.location =  $(this).attr('data-href'); 
+					}
+				});
+			});
+		});
+	});
+
+</script>
+{% endblock %}

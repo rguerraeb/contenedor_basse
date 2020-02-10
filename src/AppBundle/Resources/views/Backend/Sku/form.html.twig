@@ -1,39 +1,94 @@
-{{ form_start(form) }}
-    <!-- /.box-header -->
-    <div class="box-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form_label(form.skuCategory, "Categoría"| convert_encoding('UTF-8', 'iso-8859-1')) }}
-                    {{form_widget(form.skuCategory, {'attr': {'class': 'required form-control' }}) }}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form_label(form.skuFilterString, "Nombre SKU"| convert_encoding('UTF-8', 'iso-8859-1')) }}
-                    {{form_widget(form.skuFilterString, {'attr': {'class': 'required form-control' }}) }}
-                </div>
-            </div>            
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form_label(form.brand, "Código"| convert_encoding('UTF-8', 'iso-8859-1')) }}
-                    {{form_widget(form.brand, {'attr': {'class': 'required form-control' }}) }}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form_label(form.model, "Es Premium"| convert_encoding('UTF-8', 'iso-8859-1')) }}
-                    {{form_widget(form.model, {'attr': {'class': 'required form-control' }}) }}
-                </div>
-            </div> 
-        </div>
-    </div>
-    <div class="box-footer">
-        <button type="reset"
-            onclick="window.location='{{ path('backend_sku') }}'"
-            class="btn btn-danger">Cancelar</button>
-        <button type="submit" class="btn btn-primary pull-right">
-            Guardar Datos
-        </button>
-    </div>
-{{ form_end(form) }}
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{% if 'edit' in currentPath %}
+	{% set skuFilterString = sku[0].skuFilterString %}
+	{% set skuCategoryId = sku[0].skuCategoryId %}
+	{% set code = sku[0].brand %}
+	{% set type = sku[0].model %}
+	{% set status = sku[0].status %}
+{% endif %}
+<form method="post" action="" id="skuForm" class="validateForm" autocomplete="false">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="sku_category">CategorÃ­a</label>
+					<select id="sku_category" name="sku[sku_category]" class="required form-control valid">
+                        <option value=""></option>
+						{% for skuCategory in skuCategories %}
+							<option value="{{ skuCategory.skuCategoryId }}" {% if 'edit' in currentPath %} {{ (skuCategoryId == skuCategory.skuCategoryId) ? 'selected' : '' }} {% endif %}>{{ skuCategory.skuCategoryName }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="sku_filter_string">Nombre SKU</label>
+					<input type="text" id="sku_filter_string" name="sku[sku_filter_string]" maxlength="45" class="required form-control" {% if 'edit' in currentPath %} value="{{ skuFilterString }}" {% endif %}>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="code">CÃ³digo</label>
+					<input type="text" id="code" name="sku[code]" maxlength="45" class="required form-control" {% if 'edit' in currentPath %} value="{{ code }}" {% endif %}>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="type">Es Premium</label>
+                    <select id="type" name="sku[type]" class="required form-control">
+                        <option value="PREMIUM"{% if 'edit' in currentPath %} {{ (type == "PREMIUM") ? 'selected' : '' }} {% endif %}>SI</option>
+                        <option value="OTRO"{% if 'edit' in currentPath %} {{ (type == "OTRO") ? 'selected' : '' }} {% endif %}>NO</option>
+                    </select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="status">Estado</label>
+					<select id="status" name="sku[status]" class="required form-control valid">
+						<option value="ACTIVO"{% if 'edit' in currentPath %} {{ (status == "ACTIVO") ? 'selected' : '' }} {% endif %}>ACTIVO</option>
+						<option value="INACTIVO"{% if 'edit' in currentPath %} {{ (status == "INACTIVO") ? 'selected' : '' }} {% endif %}>INACTIVO</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+			</div>	
+			<div class="col-md-6">
+				{% if 'edit' in currentPath %}
+					<button type="reset" onclick="window.location='{{ path('backend_sku') }}'" class="btn btn-rounded btn-danger">Cancelar</button>
+				{% else %}
+					<button type="reset" data-dismiss="modal" class="btn btn-rounded btn-danger">Cancelar</button>
+				{% endif %}
+			</div>
+			<div class="col-md-6">
+				<button id="button-save" type="submit" class="btn btn-rounded btn-success float-right" style="margin-right: 0px;">Guardar Datos</button>
+			</div>	
+		</div>
+</form>
+
+
+{% block extra_scripts %}
+
+	<script>
+
+		$(document).ready(function(){
+
+			$('#skuForm').validate({
+				submitHandler: function(form) {
+					var saveButton = document.getElementById("button-save");
+					var validateForm = document.getElementById("skuForm");
+					saveButton.setAttribute("disabled", true);
+					saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+					var elements = validateForm.elements;
+					for (var i = 0, len = elements.length; i < len; ++i) {
+						elements[i].readOnly = true;
+					}
+					document.getElementById("skuForm").submit(function() {
+						$('#skuForm').serializeArray();
+					});
+				}
+			});
+
+		});
+
+	</script>
+
+{% endblock %}

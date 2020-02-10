@@ -5,9 +5,8 @@ namespace AppBundle\Controller\Backend;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\SkuType;
-use AppBundle\Entity\Sku;
 use AppBundle\Repository\EbClosion;
+use AppBundle\Helper\ApiHelper;
 
 class SkuController extends Controller
 {
@@ -20,47 +19,62 @@ class SkuController extends Controller
     public function indexAction(Request $request)
     {
         
-    	$this->get("session")->set("module_id", $this->moduleId);
+        $this->get("session")->set("module_id", $this->moduleId);
+        $apiHelper = new ApiHelper();	
+        $userData = $this->get ( "session" )->get ( "userData" );
+        $skuForm = $request->get('sku');
     	
-        $em = $this->getDoctrine()->getManager();
+        if(isset($skuForm)){
+            $skuFilterString = $skuForm['sku_filter_string'];
+			$skuCategory = $skuForm['sku_category'];
+			$code = $skuForm['code'];
+			$type = $skuForm['type'];
+			$status = $skuForm['status'];
 
-        $sku = new Sku();
-        $form = $this->createForm (new SkuType (), $sku);
+			$postdata = json_encode(
+				array(
+					"sku_filter_string" => $skuFilterString,
+					"sku_category" => $skuCategory,
+					"code" => $code,
+					"type" => $type,
+					"status" => $status
+				)
+            );
+            
+            $insert = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/register-sku", "POST", $this->get("session")->get("tokenapp"), $postdata);
+			$insert = json_decode($insert);
 
-        $form->handleRequest ( $request );
+			if($insert->status == 'success'){
+				$this->addFlash('success_message', $insert->msg);
+			} else {
+				$this->addFlash('error_message', $insert->msg);
+			}
 
-        if ($form->isSubmitted ()) {
-            if ($form->isValid ()) {                               
-                
-                $error = $this->validateEdit($sku, NULL);
-
-                if ($error) {
-                    $this->addFlash('error_message', $error);
-                }
-                else {
-                    $sku = $this->create($sku);
-                    $this->addFlash ( 'success_message', $this->getParameter ( 'exito_actualizar' ) );
-                }
-            } else {
-                // Error validation
-                $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
-            }
         }
 
-        $skus = $em->getRepository ( 'AppBundle:Sku')->findAll();
-        $paginator = $this->get ( 'knp_paginator' );
+        $skus = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus", "GET", $this->get("session")->get("tokenapp"), null);
+        $skus = json_decode($skus);
         
-        $pagination = $paginator->paginate (
-            $skus,
-            $request->query->getInt ('page', 1 ),
-            $this->getParameter ("number_of_rows")
-        );
+        if($skus->status == 'success'){
+			$list = $skus->data;
+		} else {
+			$list = null;
+        }
+        
+        $skuCategories = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
+		$skuCategories = json_decode($skuCategories);
+
+		if($skuCategories->status == 'success'){
+			$skuCategoriesList = $skuCategories->data;
+		} else {
+			$skuCategoriesList = null;
+		}
         
         $mp = EbClosion::getModulePermission($this->moduleId, $this->get("session")->get("userModules"));
 
         return $this->render ( '@App/Backend/Sku/index.html.twig', array(
-                "skus" => $pagination,
-                "form" => $form->createView (),
+                "list" => $list,
+                "skuCategories" => $skuCategoriesList,
                 "permits" => $mp
         ) );
     }
@@ -68,132 +82,93 @@ class SkuController extends Controller
     /**
      * @Route("/backend/sku/edit/{id}", name="backend_sku_edit", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Sku $sku) {
-        if ($sku) {
-            $form = $this->createForm (new SkuType (), $sku);
+    public function editAction(Request $request) {
 
-            // Old variables
-            $oldSkuFilterString = $sku->getSkuFilterString();
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+		$skuId = $request->get('id');
+		$skuForm = $request->get('sku');
 
-            $form->handleRequest ( $request );
+        $skuService = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-sku/$skuId", "GET", $this->get("session")->get("tokenapp"), null);
+        $skuService = json_decode($skuService);
+        
+        if ($skuService->status == "success") {
 
-            if ($form->isSubmitted ()) {
-                if ($form->isValid ()) {
-                    $error = $this->validateEdit($sku, $oldSkuFilterString);
+            $sku = $skuService->data;
 
-                    if ($error) {
-                        $this->addFlash('error_message', $error);
-                    }
-                    else {
-                        $sku = $this->edit($sku);
-                        $this->addFlash ( 'success_message', $this->getParameter ( 'exito_actualizar' ) );
-                    }
-                } else {
-                    // Error validation
-                    $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
-                }
+            if(isset($skuForm)){
+                $skuFilterString = $skuForm['sku_filter_string'];
+                $skuCategory = $skuForm['sku_category'];
+                $code = $skuForm['code'];
+                $type = $skuForm['type'];
+                $status = $skuForm['status'];
+
+                $postdata = json_encode(
+                    array(
+                        "sku_filter_string" => $skuFilterString,
+                        "sku_category" => $skuCategory,
+                        "code" => $code,
+                        "type" => $type,
+                        "status" => $status
+                    )
+                );
+
+                $update = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/edit-sku/$skuId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
+				$update = json_decode($update);
+
+				if($update->status == 'success'){
+					$this->addFlash('success_message', $update->msg);
+					return $this->redirectToRoute ( "backend_sku_edit", ["id" => $skuId]);
+				} else {
+					$this->addFlash('error_message', $update->msg);
+				}
             }
+
+            $skuCategories = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
+            $skuCategories = json_decode($skuCategories);
+
+            if($skuCategories->status == 'success'){
+                $skuCategoriesList = $skuCategories->data;
+            } else {
+                $skuCategoriesList = null;
+            }
+
             return $this->render ( '@App/Backend/Sku/edit.html.twig', array(
-                    "form" => $form->createView ()
+                "sku" => $sku,
+                "skuCategories" => $skuCategoriesList
             ) );
+
         } else {
             $this->addFlash ( 'error_message', $this->getParameter ( 'error_editar' ) );
         }
+
         return $this->redirectToRoute ( "backend_sku" );
     }
 
     /**
      * @Route("/backend/sku/delete/{id}", name="backend_sku_delete", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Sku $sku) {
-        if ($sku) {
-            // Try to delete
-            try {
-                $em = $this->getDoctrine ()->getManager ();
+    public function deleteAction(Request $request) {
 
-                $em->remove( $sku );
-                $em->flush();
+		$apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+        $skuId = $request->get('id');
 
-                $this->addFlash ( 'success_message', $this->getParameter ( 'exito_eliminar' ) );
-            }
-            catch (\Exception $e) {
-                $this->addFlash ( 'error_message', $this->getParameter ( 'error_eliminar' ) );
-            }
-        } else {
-            $this->addFlash ( 'error_message', $this->getParameter ( 'error_eliminar' ) );
-        }
+        if ($skuId) {
+
+			$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-sku/$skuId", "DELETE", $this->get("session")->get("tokenapp"), null);
+			$delete = json_decode($delete);
+
+			if($delete->status == "success"){
+				$this->addFlash('success_message', $this->getParameter('exito_inactivar'));
+			}
+				
+		} else {
+			$this->addFlash ( 'error_message', $this->getParameter ( 'error_inactivar' ) );
+		}
+		
+		return $this->redirectToRoute ( "backend_sku" );
         
-        return $this->redirectToRoute ( "backend_sku" );
     }
 
-    /**
-     * Validates the information of a editing sku
-     *
-     * @param Sku $sku sku to edit
-     * @param string $oldSkuFilterString the sku filter string of the old entity
-     * @return string error message. NULL if no error
-     */
-    public function validateEdit($sku, $oldSkuFilterString) {
-        $em = $this->getDoctrine()->getManager();
-
-        // Sku filter string has to be unique
-        if ($sku->getSkuFilterString() != $oldSkuFilterString) {
-            $duplicate = $em->getRepository('AppBundle:Sku')
-                ->findOneBySkuFilterString($sku->getSkuFilterString());
-
-            if ($duplicate) {
-                return "Ya existe el material";
-            }
-        }
-
-        // Year has to have a valid format
-        /*
-        $year = $sku->getYear();
-        $d = \DateTime::createFromFormat('Y', $year);
-        if (! ($d && $d->format('Y') === $year)) {
-            // Invalid date
-            return 'Fecha inválida';
-        }
-        */
-
-        return null;
-    }
-
-    /**
-     * Makes some changes to entity and updates it in db
-     *
-     * @param Sku $sku sku to update
-     * @return Sku updated entity
-     */
-    public function edit($sku){
-        $em = $this->getDoctrine()->getManager();
-
-        // Store in DB
-        $em->persist($sku);
-        $em->flush();
-
-        return $sku;
-    }
-
-    /**
-     * Makes some changes to entity and insert it in db
-     *
-     * @param Sku $sku sku to insert
-     * @return Sku updated entity
-     */
-    public function create($sku){
-        $em = $this->getDoctrine()->getManager();
-
-        // Created at
-        $sku->setCreatedAt(new \DateTime());
-
-        // Created By
-        $sku->setCreatedBy($this->getUser()->getId());
-
-        // Store in DB
-        $em->persist($sku);
-        $em->flush();
-
-        return $sku;
-    }
 }

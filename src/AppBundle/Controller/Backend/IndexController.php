@@ -128,6 +128,54 @@ class IndexController extends Controller
         ));
 	}
 
+	/**
+     * @Route("/backend/recover-password/", name="backend_recover_password")
+     */
+    public function recoverPasswordAction(Request $request)
+    {   
+       // replace this example code with whatever you need
+        return $this->render('@App/Backend/recover_password.html.twig');
+	}
+
+	/**
+     * @Route("/backend/get-passwd", name="backend_get_passwd")
+     */
+	public function getPasswd(Request $request)
+	{
+		$response = [];
+
+		$email = $request->get('email');
+
+		$apiHelper = new ApiHelper();
+
+		$url = "http://localhost/contenedor_2/web/app_dev.php/ws/recover-password";
+		$method = "POST";
+
+		if($email){
+
+			$postdata = json_encode(
+				array(
+					"email" => $email
+				)
+			);
+
+			$response = $apiHelper->connectServices($url, $method, null, $postdata);
+			$response = json_decode($response);
+
+			return new JsonResponse(array(
+				'status' => $response->status,
+				'data' => $response->data,
+				'msg' => $response->msg
+			));
+		}
+
+		return new JsonResponse(array(
+			'status' => 'error',
+			'data' => $response,
+			'msg' => 'Error al recibir datos.'
+		));
+	}
+
     /**
      * @Route("/backend/main", name="backend_main")
      */

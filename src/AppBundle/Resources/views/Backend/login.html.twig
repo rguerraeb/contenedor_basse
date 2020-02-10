@@ -17,7 +17,7 @@
 					<img class="logo-login" src="{{ asset('images/lala_logo.png') }}">
 				</div>
 
-				<p class="mb-4">Inicie sesi&oacute;n</p>
+				<h3 class="mb-4">Inicie sesi&oacute;n</h3>
 				{#{% for flashMessage in app.session.flashbag.get('login_error') %}
 					<div class="alert alert-danger" role="alert">{{ flashMessage | raw }}</div>
 		        {% endfor %}#}
@@ -35,6 +35,9 @@
 						<input type="password" class="form-control required" placeholder="Password" name="_password">
 					</div>
 					<button type="submit" class="btn btn-primary shadow-2 mb-4">Ingresar</button>
+					<p class="mb-2 text-muted">
+						<a href="{{ path('backend_recover_password') }}">¿Olvidaste tú contraseña?</a>
+					</p>
 				</form>
 			</div>
 		</div>

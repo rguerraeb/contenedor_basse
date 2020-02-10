@@ -189,7 +189,6 @@ class UserController extends Controller {
 			if ($userId != $userData->userId) {
 
 				$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-user/$userId", "DELETE", $this->get("session")->get("tokenapp"), null);
-				var_dump($delete);
 				$delete = json_decode($delete);
 
 				if($delete->status == "success"){

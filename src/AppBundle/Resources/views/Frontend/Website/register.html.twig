@@ -12,21 +12,34 @@
 <section class="main alt">
 	<header>
 		<h2>Formulario de Registro</h2>
-		<h4>Registro de Gerentes</h4>
 		<p>Llena los datos del formulario, cuando tu registro sea
 			aprobado recibiras una notificaci&oacute;n por medio de un mensaje
 			de texto.</p>
 	</header>
 	<div class="inner narrow">
+			{% if register == true %}
+				<div class="row gtr-uniform">
+					<div class="col-12 col-12-xsmall">
+						{% if status == 'success' %}
+							<div class="alert alert-success" role="alert">
+								{{ msg }}
+							</div>
+						{% elseif status == 'error' %}
+							<div class="alert alert-danger" role="alert">
+								{{ msg }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+				<br>
+			{% endif %}
 		<form action="" method="post" id="registerForm"
 			enctype="multipart/form-data" class="alt">
-
-			{{ include('@App/Backend/flash_message.html.twig') }}
 
 			<div class="row gtr-uniform">
 
 				<div class="col-6 col-12-xsmall">
-					<input type="text" name="data[name]" placeholder="Nombres"
+					<input type="text" name="data[first_name]" placeholder="Nombres"
 						class="required form-control" />
 				</div>
 				<div class="col-6 col-12-xsmall">
@@ -40,47 +53,26 @@
 						, maxlength="13" />
 				</div>
 				<div class="col-6 col-12-xsmall">
-					{{form_widget(form.phoneSecondary, {'attr': {'class': 'required form-control' }}) }}
-				</div>
-				<div class="col-6 col-12-xsmall">
-					<input type="text" name="data[phone_main]"
+					<input type="number" name="data[phone]"
 						placeholder="N&uacute;mero de tel&eacute;fono"
 						class="required form-control digits" minlength="8" maxlength="8" />
 				</div>
 				<div class="col-6 col-12-xsmall">
-					<input type="text" name="data[name_comercial]" placeholder="Nombre Comercial Establecimiento"
+					<input type="email" name="data[email]" placeholder="Correo"
 						class="required form-control" />
 				</div>
 				<div class="col-6 col-12-xsmall">
-					<input type="text" name="data[nit_comercial]" placeholder="Nit del Establecimiento"
-						class="required form-control" />
-				</div>
-				<div class="col-6 col-12-xsmall">
-					<select name="data[job_position]" class="required form-control">
-						<option value="">- Seleccione su Puesto de Trabajo -</option>
-						{% for item in jobPosition %}
-						<option value="{{ item.id }}">{{ item.name }}</option>
+					<select name="data[country]" class="required form-control">
+						<option value="">- Seleccione su País -</option>
+						{% for item in countries %}
+						<option value="{{ item.countryId }}">{{ item.countryName }}</option>
 						{% endfor %}
 					</select>
 				</div>
-				<div class="col-6 col-12-xsmall">
-					<select name="data[pointOfSale_type]" class="required form-control">
-						<option value="">- Seleccione el tipo de Establecimiento -</option>
-						{% for item in pointOfSaleType %}
-						<option value="{{ item.id }}">{{ item.name }}</option>
-						{% endfor %}
-					</select>
-				</div>
-				<!--<div class="col-12 col-12-xsmall">
-					<p>Selecciona una fotograf&iacute;a de perfil</p><input
-						type="file" name="profile_image"
-						placeholder="Selecciona tu foto de perfil" class="required" />
-				</div>-->
 				<div class="col-12 col-12-xsmall" align="center">
 					<button type="submit" class="btn btn-lg btn-primary"
 						id="sendButton">Enviar Datos</button>
 				</div>
-				{{ form_widget(form._token) }}
 			</div>
 		</form>
 	</div>

@@ -1,17 +1,165 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Lala</title>
-	<link rel="stylesheet" href="">
-	<link href="{{ asset("css/frontend/style.css") }}" rel="stylesheet" type="text/css" />
-</head>
-<body class="landing-no-margin">
-	<div class="myContainer">
-		<img src="{{ asset('images/LANDING_LALA_01.jpg') }}" alt="" title="" id="landingImg" width="100%"/>
-		<a href="{{ asset('documentos/reglamento_regresemos_a_clases_juntos.pdf') }}" target="_blank" title="" class="myBtnPdf">Descargar aquí</a>
+{% extends '@App/Frontend/base.html.twig' %}
+
+{% block title %}
+- P&aacute;gina de Inicio
+{% endblock %}
+
+{% set homepage = true %}
+{% block body %}
+
+<!-- Banner -->
+<section id="banner"
+	style="background-image: url('{{ asset('images/frontend/bg_maderas_azules.jpg') }}');">
+	<div class=""><!--Tenia class content-->
+		<div class="row gtr-50 gtr-uniform">
+			<div class="col-12">
+				<!--<span class="image center"><img
+					src="{{ asset('images/frontend/lala_logo.png') }}" alt="" title=""
+					width="100%" /></span>-->
+			</div>
+		</div>
+
 	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</body>
-</html>
+	<a href="#aboutSection" class="more scrolly">Learn More</a>
+
+	<div style="position: absolute; bottom: 0; left: 0; overflow: hidden; width: 100%; text-align: center;">
+
+		<!--<div class="container">-->
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" style="max-height:700px;">
+					{#{% for item in siteContent %}
+					<div class="item {{ (item.title == "Bienvenida") ? 'active' : '' }}">
+						<img src="{{ asset('images/news/'~item.image) }}" alt="{{ item.title }}" style="width:100%;">
+						<div class="carousel-caption">
+							<h3>{{ item.title }}</h3>
+							<p>{{ item.content | raw }}</p>
+						</div>
+					</div>
+					{% endfor %}#}
+
+				</div>
+
+				<!-- Left and right controls -->
+				<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#myCarousel" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		<!--</div>-->
+
+
+	</div>
+</section>
+
+
+<!-- Section -->
+<section class="main accent2" id="aboutSection"
+	style="background-image: url('{{ asset('images/frontend/bg-interna.jpg') }}');">
+	<header>
+		<h2>&iquest; C&oacute;mo Funciona ?</h2>
+		<p>Texto introductorio, Aenean ornare velit lacus varius enim
+			ullamcorper proin aliquam facilisis ante sed etiam magna interdum
+			congue. Sed consequat amet dolor magna consequat. Lorem ipsum dolor
+			amet nullam sed etiam veroeros.</p>
+	</header>
+	<div class="inner">
+		<article class="post alt">
+			<div class="content">
+				<header>
+					<h3>Texto de Ejemplo</h3>
+				</header>
+				<p>Integer mollis, nisl amet convallis, porttitor magna
+					ullamcorper, amet egestas mauris. Ut magna finibus nisi nec sed
+					lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien
+					ac quam. Lorem ipsum dolor sit nullam magna tempus. Lorem ipsum sit
+					tempus amet feugiat.</p>
+				<p>Integer mollis, nisl amet convallis, porttitor magna
+					ullamcorper, amet egestas mauris.</p>
+				{#<ul class="actions"> <li><a href="#" class="button next">Learn
+				More</a></li> </ul>#}
+			</div>
+			<div class="image" data-position="center">
+				<img
+					src="{{ asset('bundles/px-relativity-html/orange/images/pic07.jpg') }}"
+					alt="" />
+			</div>
+		</article>
+		{#}<article class="post"> <div class="content"> <header> <h3>Paso
+		2</h3> </header> <p>Integer mollis, nisl amet convallis, porttitor
+		magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec sed
+		lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac
+		quam. Lorem ipsum dolor sit nullam magna tempus. Lorem ipsum sit
+		tempus amet feugiat.</p> </div> <div class="image"
+		data-position="center"> <img src="{{
+		asset('bundles/px-relativity-html/orange/images/pic08.jpg') }}" alt=""
+		/> </div> </article> <article class="post alt"> <div class="content">
+		<header> <h3>Paso 3</h3> </header> <p>Integer mollis, nisl amet
+		convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna
+		finibus nisi nec sed lacinia. Nam maximus erat id euismod egestas.
+		Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam magna
+		tempus. Lorem ipsum sit tempus amet feugiat.</p> </div> <div
+		class="image" data-position="center"> <img src="{{
+		asset('bundles/px-relativity-html/orange/images/pic09.jpg') }}" alt=""
+		/> </div> </article>#}
+	</div>
+</section>
+
+<!-- Section -->
+<section class="main alt" id="contactSection">
+	<header>
+		<h2>Cont&aacute;ctanos</h2>
+		<h4>Llama a Nuestra L&iacute;nea de Servicio</h4>
+		<h5>0000-0000</h5>
+		<p>De lunes a viernes de 8:00 a.m. a 5:00 p.m</p>
+	</header>
+	<div class="inner narrow">
+		<form action="{{ path('frontend_index') }}" method="post"
+			id="contactForm" class="alt">
+			{{ include('@App/Frontend/flash_message.html.twig') }}
+			<div class="row gtr-uniform">
+				<div class="col-6 col-12-xsmall">
+					<input name="data[name]" id="name" placeholder="Nombre" type="text"
+						class="required" />
+				</div>
+				<div class="col-6 col-12-xsmall">
+					<input name="data[email]" id="email" placeholder="Email"
+						class="required email" type="email" />
+				</div>
+				<div class="col-12 col-12-xsmall">
+					<textarea name="data[message]" id="message" rows="6"
+						class="required" placeholder="Mensaje"></textarea>
+				</div>
+				<div class="col-12 col-12-xsmall" align="center">
+					<button class="button next" type="submit" id="sendButton">Enviar
+						Mensaje</button>
+					</li>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript"
+	src="{{ asset('bundles/jquery-validate/jquery.validate.js') }}"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#contactForm').validate({
+			submitHandler : function(form) {
+				;
+				$("#sendButton").attr("disabled", "disabled");
+				form.submit();
+			}
+		});
+	});
+</script>
+{% endblock %}
+

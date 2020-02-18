@@ -23,19 +23,19 @@
 
 					{% if error %}
 					<div class="alert alert-danger" role="alert">
-						{{ error.messageKey|trans(error.messageData, 'security') }}
+						{{ error }}
 					</div>
 					{% endif %}
 
 					<div class="row gtr-uniform">
 						<div class="col-12 col-12-xsmall">
 							<input type="text" class="required digits form-control"
-								maxlength="8" placeholder="Tel&eacute;fono" name="_username">
+								maxlength="8" placeholder="Tel&eacute;fono" name="data[phone]">
 						</div>
 						<div class="col-12 col-12-xsmall">
 							<input type="password" id="password" maxlength="13"
 								class="required digits form-control" placeholder="DPI"
-								name="_password">
+								name="data[citizen_id]">
 						</div>
 						<div class="col-12 col-12-xsmall" align="center">
 							<button id="sendButton" class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
@@ -46,7 +46,6 @@
 								Servicio al 0000-00-00</p>
 						</div>
 					</div>
-					{{ form_widget(form._token) }}
 				</form>
 			</div>
 			<div class="col-3 col-12-xsmall"></div>

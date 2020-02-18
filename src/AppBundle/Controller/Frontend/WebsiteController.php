@@ -11,6 +11,7 @@ use AppBundle\Form\StaffType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\RegisterPending;
 use AppBundle\Helper\ApiHelper;
+use AppBundle\Helper\WebServiceHelper;
 
 class WebsiteController extends Controller
 {
@@ -108,8 +109,48 @@ class WebsiteController extends Controller
      */
     public function loginStaffAction (Request $request)
     {
+
+        $apiHelper = new ApiHelper();	
+        $error = false;
+        $form = $request->get('data');
+
+        if(isset($form)){
+
+            $phone = $form['phone'];
+            $citizenId = $form['citizen_id'];
+
+            $postdata = json_encode(
+				array(
+					"phone" => $phone,
+					"citizen_id" => $citizenId
+                )
+            );
+            
+            $response = $apiHelper->connectServices("http://localhost/contenedor_3/web/app_dev.php/ws/login-staff", "POST", null, $postdata);
+            $response = json_decode($response);
+
+			if($response->status == 'success'){
+				$tokenApp = $response->data;
+				
+				//session
+				$session = $request->getSession();
+				$session->set("tokenapp", $tokenApp);
+
+                $userToken = WebServiceHelper::decodeJWTToken($tokenApp);
+
+				$session->set("userData", $userToken);
+
+                return $this->redirectToRoute('staff_main');
+			} else {
+                $error = $response->msg;
+            }
+
+        }
+
         // replace this example code with whatever you need
-        return $this->render('@App/Frontend/Website/login.html.twig', array());
+        return $this->render('@App/Frontend/Website/login.html.twig', array(
+            "error" => $error
+        ));
     }
 
     

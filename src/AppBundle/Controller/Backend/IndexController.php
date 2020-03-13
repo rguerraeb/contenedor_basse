@@ -54,7 +54,7 @@ class IndexController extends Controller
      */
     public function indexAction(Request $request)
     {
-    	$user = new User();
+    	/*$user = new User();
     	$form = $this->createForm ( new UserLoginType(), $user );
 
     	
@@ -70,7 +70,9 @@ class IndexController extends Controller
         return $this->render('@App/Backend/login_old.html.twig', array(
         	"form" => $form->createView (),
             'error' => $error
-        ));
+		));*/
+		
+		return $this->redirectToRoute("backend_login_user");
     }
 	
 	/**

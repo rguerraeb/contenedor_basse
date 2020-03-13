@@ -1,14 +1,41 @@
 {% extends '@App/Backend/base.html.twig' %}
 
 {% block body %}
-    {{ include(
-        '@App/Backend/_edit.html.twig',
-        {
-            'editTitle': 'Criterio de Recompenza',
-            'smallTitle': 'Criterio de Recompenza',
-            'formPath': '@App/Backend/RewardCriteria/form.html.twig',
-            'form': form,
-            'titleRoute': 'backend_reward_criteria'
-        }
-    ) }}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Criterios de Recompenzas</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_reward_criteria') }}">Criterios de Recompenzas</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Editar</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+					
+				{{ include('@App/Backend/flash_message.html.twig') }}
+
+				<div class="card">
+					<div class="card-header">
+    					<h5>Editar Criterio de Recompenza</h5>
+					</div>
+					<div class="card-block">
+						{{ include('@App/Backend/RewardCriteria/form.html.twig', { 'rewardCriteria': rewardCriteria }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

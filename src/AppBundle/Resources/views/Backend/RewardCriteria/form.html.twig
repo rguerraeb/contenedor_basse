@@ -1,31 +1,40 @@
 {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-{{ form_start(form) }}
+{% if 'edit' in currentPath %}
+	{% set idRewardCriteria = rewardCriteria[0].idRewardCriteria %}
+	{% set filterGroupId = rewardCriteria[0].filterGroupId %}
+	{% set filterGroupName = rewardCriteria[0].filterGroupName %}
+	{% set distributorId = rewardCriteria[0].distributorId %}
+	{% set distributorName = rewardCriteria[0].distributorName %}
+	{% set mathematicalOperator = rewardCriteria[0].mathematicalOperator %}
+{% endif %}
+<form method="post" action="" id="rewardCriteriaForm" class="validateForm" autocomplete="false">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {{ form_label(form.filterGroup, "Filtro del Grupo") }}
-                {{form_widget(form.filterGroup, {'attr': {'class': 'required form-control' }}) }}
+                <label for="reward_criteria_filterGroup">Filtro del Grupo</label>
+                <select id="reward_criteria_filterGroup" name="reward_criteria[filterGroup]" class="required form-control">
+                    <option value=""></option>
+                    {% for filterGroup in filtersGroup %}
+						<option value="{{ filterGroup.filterGroupId }}" {% if 'edit' in currentPath %} {{ (filterGroupId == filterGroup.filterGroupId) ? 'selected' : '' }} {% endif %}>{{ filterGroup.filterGroupName }}</option>
+					{% endfor %}
+                </select>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {{ form_label(form.jobPosition, "Puesto") }}
-                {{form_widget(form.jobPosition, {'attr': {'class': 'required form-control' }}) }}
+                <label for="reward_criteria_distributor">Distribuidor</label>
+                <select id="reward_criteria_distributor" name="reward_criteria[distributor]" class="required form-control">
+                    <option value=""></option>
+                    {% for distributor in distributors %}
+						<option value="{{ distributor.distributorId }}" {% if 'edit' in currentPath %} {{ (distributorId == distributor.distributorId) ? 'selected' : '' }} {% endif %}>{{ distributor.name }}</option>
+					{% endfor %}
+                </select>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {{ form_label(form.mathematicalOperator, "Factor") }}
-                {{form_widget(
-                    form.mathematicalOperator,
-                    {'attr':
-                        {
-                            'class': 'required form-control',
-                            'type': 'number',
-                            'step': 0.01
-                        }
-                    })
-                }}
+                <label for="reward_criteria_mathematicalOperator">Factor</label>
+                <input type="text" id="reward_criteria_mathematicalOperator" name="reward_criteria[mathematicalOperator]" maxlength="45" class="required form-control" step="0.01" {% if 'edit' in currentPath %} value="{{ mathematicalOperator }}" {% endif %}>
             </div>
         </div>
         <div class="col-md-6">
@@ -38,7 +47,30 @@
 			{% endif %}
 		</div>
 		<div class="col-md-6">
-			<button type="submit" class="btn btn-rounded btn-success float-right">Guardar Datos</button>
+			<button id="button-save" type="submit" class="btn btn-rounded btn-success float-right">Guardar Datos</button>
 		</div>
     </div>
-{{ form_end(form) }}
+</form>
+
+	<script>
+
+		$(document).ready(function(){
+			$('#rewardCriteriaForm').validate({
+				submitHandler: function(form) {
+					var saveButton = document.getElementById("button-save");
+					var validateForm = document.getElementById("rewardCriteriaForm");
+					saveButton.setAttribute("disabled", true);
+					saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+					var elements = validateForm.elements;
+					for (var i = 0, len = elements.length; i < len; ++i) {
+						elements[i].readOnly = true;
+					}
+					document.getElementById("rewardCriteriaForm").submit(function() {
+						$('#rewardCriteriaForm').serializeArray();
+					});
+				}
+			});
+
+		});
+
+	</script>

@@ -5,9 +5,8 @@ namespace AppBundle\Controller\Backend;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\RewardCriteriaType;
-use AppBundle\Entity\RewardCriteria;
 use AppBundle\Repository\EbClosion;
+use AppBundle\Helper\ApiHelper;
 
 class RewardCriteriaController extends Controller
 {
@@ -19,47 +18,68 @@ class RewardCriteriaController extends Controller
      */
     public function indexAction(Request $request)
     {
-    	
+
         $this->get("session")->set("module_id", $this->moduleId);
+        $apiHelper = new ApiHelper();	
+        $userData = $this->get ( "session" )->get ( "userData" );
+        $rewardCriteriaForm = $request->get('reward_criteria');
     	
-        $em = $this->getDoctrine()->getManager();
+        if(isset($rewardCriteriaForm)){
+            $mathematicalOperator = $rewardCriteriaForm['mathematicalOperator'];
+			$distributorId = $rewardCriteriaForm['distributor'];
+			$filterGroupId = $rewardCriteriaForm['filterGroup'];
 
-        $rewardCriteria = new RewardCriteria();
-        $form = $this->createForm (new RewardCriteriaType (), $rewardCriteria);
+			$postdata = json_encode(
+				array(
+					"mathematical_operator" => $mathematicalOperator,
+					"distributor_id" => $distributorId,
+					"filter_group_id" => $filterGroupId
+				)
+            );
+            
+            $insert = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/register-reward-criteria", "POST", $this->get("session")->get("tokenapp"), $postdata);
+			$insert = json_decode($insert);
 
-        $form->handleRequest ( $request );
-
-        if ($form->isSubmitted ()) {
-            if ($form->isValid ()) {
-                $error = $this->validateEdit($rewardCriteria);
-
-                if ($error) {
-                    $this->addFlash('error_message', $error);
-                }
-                else {
-                    $user = $this->create($rewardCriteria);
-                    $this->addFlash ( 'success_message', $this->getParameter ( 'exito_actualizar' ) );
-                }
-            } else {
-                // Error validation
-                $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
-            }
+			if($insert->status == 'success'){
+				$this->addFlash('success_message', $insert->msg);
+			} else {
+				$this->addFlash('error_message', $insert->msg);
+			}
         }
 
-        $rewardCriterias = $em->getRepository ( 'AppBundle:RewardCriteria')->findAll();
-        $paginator = $this->get ( 'knp_paginator' );
+        $rewardCriterias = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-rewards-criteria", "GET", $this->get("session")->get("tokenapp"), null);
+		$rewardCriterias = json_decode($rewardCriterias);
+
+		if($rewardCriterias->status == 'success'){
+			$rewardCriteriasList = $rewardCriterias->data;
+		} else {
+			$rewardCriteriasList = null;
+        }
         
-        $pagination = $paginator->paginate (
-            $rewardCriterias,
-            $request->query->getInt ('page', 1 ),
-            $this->getParameter ("number_of_rows")
-        );
+        $distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+        $distributors = json_decode($distributors);
+
+		if($distributors->status == 'success'){
+			$distributorsList = $distributors->data;
+		} else {
+			$distributorsList = null;
+        }
+        
+        $filtersGroup = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
+        $filtersGroup = json_decode($filtersGroup);
+
+		if($filtersGroup->status == 'success'){
+			$filtersGroupList = $filtersGroup->data;
+		} else {
+			$filtersGroupList = null;
+        }
         
         $mp = EbClosion::getModulePermission($this->moduleId, $this->get("session")->get("userModules"));
 
         return $this->render ( '@App/Backend/RewardCriteria/index.html.twig', array(
-                "rewardCriterias" => $pagination,
-                "form" => $form->createView (),
+                "list" => $rewardCriteriasList,
+                "distributors" => $distributorsList,
+                "filtersGroup" => $filtersGroupList,
                 "permits" => $mp
         ) );
     }
@@ -67,113 +87,103 @@ class RewardCriteriaController extends Controller
     /**
      * @Route("/backend/reward-criteria/edit/{id}", name="backend_reward_criteria_edit", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, RewardCriteria $rewardCriteria) {
-        if ($rewardCriteria) {
-            $form = $this->createForm (new RewardCriteriaType (), $rewardCriteria);
+    public function editAction(Request $request) {
 
-            $form->handleRequest ( $request );
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+		$rewardCriteriaId = $request->get('id');
+        $rewardCriteriaForm = $request->get('reward_criteria');
+        
+        $rewardCriteriaService = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-reward-criteria/$rewardCriteriaId", "GET", $this->get("session")->get("tokenapp"), null);
+        $rewardCriteriaService = json_decode($rewardCriteriaService);
 
-            if ($form->isSubmitted ()) {
-                if ($form->isValid ()) {
-                    $error = $this->validateEdit($rewardCriteria);
+        if ($rewardCriteriaService->status == "success") {
 
-                    if ($error) {
-                        $this->addFlash('error_message', $error);
-                    }
-                    else {
-                        $user = $this->edit($rewardCriteria);
-                        $this->addFlash ( 'success_message', $this->getParameter ( 'exito_actualizar' ) );
-                    }
-                } else {
-                    // Error validation
-                    $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
+            $rewardCriteria = $rewardCriteriaService->data;
+
+            if(isset($rewardCriteriaForm)){
+                $mathematicalOperator = $rewardCriteriaForm['mathematicalOperator'];
+                $distributorId = $rewardCriteriaForm['distributor'];
+                $filterGroupId = $rewardCriteriaForm['filterGroup'];
+
+                $postdata = json_encode(
+                    array(
+                        "mathematical_operator" => $mathematicalOperator,
+                        "distributor_id" => $distributorId,
+                        "filter_group_id" => $filterGroupId
+                    )
+                );
+
+                $update = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/edit-reward-criteria/$rewardCriteriaId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
+				$update = json_decode($update);
+
+				if($update->status == 'success'){
+					$this->addFlash('success_message', $update->msg);
+				} else {
+                    $this->addFlash('error_message', $update->msg);
                 }
+                
+                return $this->redirectToRoute ( "backend_reward_criteria_edit", ["id" => $rewardCriteriaId]);
             }
+
+            $distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+            $distributors = json_decode($distributors);
+
+            if($distributors->status == 'success'){
+                $distributorsList = $distributors->data;
+            } else {
+                $distributorsList = null;
+            }
+            
+            $filtersGroup = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
+            $filtersGroup = json_decode($filtersGroup);
+
+            if($filtersGroup->status == 'success'){
+                $filtersGroupList = $filtersGroup->data;
+            } else {
+                $filtersGroupList = null;
+            }
+
             return $this->render ( '@App/Backend/RewardCriteria/edit.html.twig', array(
-                    "form" => $form->createView ()
+                "rewardCriteria" => $rewardCriteria,
+                "distributors" => $distributorsList,
+                "filtersGroup" => $filtersGroupList
             ) );
+
         } else {
             $this->addFlash ( 'error_message', $this->getParameter ( 'error_editar' ) );
         }
+
         return $this->redirectToRoute ( "backend_reward_criteria" );
+
     }
 
     /**
      * @Route("/backend/reward-criteria/delete/{id}", name="backend_reward_criteria_delete", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, RewardCriteria $rewardCriteria) {
-        if ($rewardCriteria) {
-            // Try to delete
-            try {
-                $em = $this->getDoctrine ()->getManager ();
+    public function deleteAction(Request $request) {
 
-                $em->remove( $rewardCriteria );
-                $em->flush();
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+        $rewardCriteriaId = $request->get('id');
 
-                $this->addFlash ( 'success_message', $this->getParameter ( 'exito_eliminar' ) );
-            }
-            catch (\Exception $e) {
+        if ($rewardCriteriaId) {
+
+			$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-sku/$rewardCriteriaId", "DELETE", $this->get("session")->get("tokenapp"), null);
+			$delete = json_decode($delete);
+
+			if($delete->status == "success"){
+				$this->addFlash('success_message', $this->getParameter('exito_eliminar'));
+			} else {
                 $this->addFlash ( 'error_message', $this->getParameter ( 'error_eliminar' ) );
             }
-        } else {
-            $this->addFlash ( 'error_message', $this->getParameter ( 'error_eliminar' ) );
-        }
-        
-        return $this->redirectToRoute ( "backend_reward_criteria" );
+				
+		} else {
+			$this->addFlash ( 'error_message', $this->getParameter ( 'error_eliminar' ) );
+		}
+		
+		return $this->redirectToRoute ( "backend_reward_criteria" );
+
     }
 
-    /**
-     * Validates the information of a editing rewardCriteria
-     *
-     * @param RewardCriteria $rewardCriteria rewardCriteria to edit
-     * @return string error message. NULL if no error
-     */
-    public function validateEdit($rewardCriteria) {
-        $em = $this->getDoctrine()->getManager();
-
-        // Mathematical operator has to be number
-        if (! is_numeric($rewardCriteria->getMathematicalOperator())) {
-            return 'Operador matemático incorrecto';
-        }
-
-        return null;
-    }
-
-    /**
-     * Makes some changes to entity and updates it in db
-     *
-     * @param RewardCriteria $rewardCriteria rewardCriteria to update
-     * @return RewardCriteria updated entity
-     */
-    public function edit($rewardCriteria){
-        $em = $this->getDoctrine()->getManager();
-
-        // Store in DB
-        $em->persist($rewardCriteria);
-        $em->flush();
-
-        return $rewardCriteria;
-    }
-
-    /**
-     * Makes some changes to entity and insert it in db
-     *
-     * @param RewardCriteria $rewardCriteria rewardCriteria to insert
-     * @return RewardCriteria updated entity
-     */
-    public function create($rewardCriteria){
-        $em = $this->getDoctrine()->getManager();
-
-        // Created at
-        $rewardCriteria->setCreatedAt(new \DateTime());
-
-        // Created By
-        $rewardCriteria->setCreatedBy($this->getUser()->getId());
-
-        // Store in DB
-        $em->persist($rewardCriteria);
-        $em->flush();
-
-        return $rewardCriteria;
-    }
 }

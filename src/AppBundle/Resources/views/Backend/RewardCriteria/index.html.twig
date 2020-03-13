@@ -1,22 +1,61 @@
 {% extends '@App/Backend/base.html.twig' %}
-
-{% block title %}
-    LoyaltyV2 | Backend | Criterios Recompenzas
-{% endblock %}
-
 {% block body %}
-    {{
-        include(
-            '@App/Backend/_index.html.twig',
-            {
-                'listPath': '@App/Backend/RewardCriteria/list.html.twig',
-                'entities': rewardCriterias,
-                'title': 'Criterios de Recompenzas',
-                'deleteQuestion': '¿Seguro que desea eliminar el criterio #[ID]?',
-                'form': form,
-                'formPath': '@App/Backend/RewardCriteria/form.html.twig',
-                'singleTitle': 'Criterio de Recompenza'
-            }
-        )
-    }}
+	<div class="row">
+		<div class="col-6">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Criterios de Recompenzas</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Criterios de Recompenzas</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>
+		<div class="col-6">
+			{% if permits.wp %}
+				<div  class="text-right m-b-5">
+					<span  title="Agregar Criterio de recompenza" data-toggle="tooltip">
+						<a class="btn btn-icon btn-rounded theme-bg text-white" data-toggle="modal" data-target="#exampleModalLive"><span><i class="feather icon-plus"></i></span></a>
+					</span>
+				</div>
+			{% endif %}
+		</div>		
+	</div>
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	{{ include('@App/Backend/flash_message.html.twig') }}
+	            	
+					<div class="card Application-list">
+				
+						{% if permits.wp %}
+							{{
+								include(
+									'@App/Backend/create_modal.html.twig',
+									{
+										'title': 'Criterio de Recompenza',
+										'filtersGroup': filtersGroup,
+										'distributors': distributors,
+										'formPath': '@App/Backend/RewardCriteria/form.html.twig'
+									}
+								)
+							}}
+						{% endif %}
+			
+						{% if permits.rp %}
+							{{ include('@App/Backend/RewardCriteria/list.html.twig', { 'list': list }) }}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

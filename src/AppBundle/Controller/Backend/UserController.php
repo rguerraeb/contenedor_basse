@@ -18,6 +18,12 @@ class UserController extends Controller {
      */
 	public function indexAction(Request $request) {
 		
+		$validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
+		
 		$this->get("session")->set("module_id", $this->moduleId);	
 		$apiHelper = new ApiHelper();	
 		$userData = $this->get ( "session" )->get ( "userData" );
@@ -97,6 +103,12 @@ class UserController extends Controller {
 	 * @Route("/backend/user/edit/{id}", name="backend_user_edit", requirements={"id": "\d+"})
 	 */
 	public function editAction(Request $request) {
+		$validateSession = EbClosion::validateSession();
+		if($validateSession === false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
+
 		$apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");
 		$userId = $request->get('id');
@@ -179,6 +191,12 @@ class UserController extends Controller {
 	 * @Route("/backend/user/delete/{id}", name="backend_user_delete", requirements={"id": "\d+"})
 	 */
 	public function deleteAction(Request $request) {
+
+		$validateSession = EbClosion::validateSession();
+		if($validateSession === false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
 		$userId = $request->get('id');
 		$userData = $this->get("session")->get("userData");

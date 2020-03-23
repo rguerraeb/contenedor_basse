@@ -138,7 +138,19 @@ class EbClosion {
         fclose( $ifp );
 
         return true;
-    }
+	}
+	
+	public function validateSession(){
+
+		$session = $this->get("session")->get("userData");
+
+		if(isset($session)){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 
 

@@ -18,9 +18,9 @@
 				</div>
 
 				<h3 class="mb-4">Inicie sesi&oacute;n</h3>
-				{#{% for flashMessage in app.session.flashbag.get('login_error') %}
+				{% for flashMessage in app.session.flashbag.get('login_error') %}
 					<div class="alert alert-danger" role="alert">{{ flashMessage | raw }}</div>
-		        {% endfor %}#}
+		        {% endfor %}
 		        {% if response %}
 					{% if response.status == 'error' %}
 						<div>{{ response.msg }}</div>
@@ -57,5 +57,9 @@
     });
     
   });
+
+	function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
 </script>
 {% endblock %}

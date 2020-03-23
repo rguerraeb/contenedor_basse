@@ -18,6 +18,11 @@ class RewardCriteriaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
         $this->get("session")->set("module_id", $this->moduleId);
         $apiHelper = new ApiHelper();	
@@ -87,7 +92,13 @@ class RewardCriteriaController extends Controller
     /**
      * @Route("/backend/reward-criteria/edit/{id}", name="backend_reward_criteria_edit", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request) {
+    public function editAction(Request $request) 
+    {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
         $apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");
@@ -161,7 +172,13 @@ class RewardCriteriaController extends Controller
     /**
      * @Route("/backend/reward-criteria/delete/{id}", name="backend_reward_criteria_delete", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request) {
+    public function deleteAction(Request $request) 
+    {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
         $apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");

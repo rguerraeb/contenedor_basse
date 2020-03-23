@@ -18,6 +18,11 @@ class SkuController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
         
         $this->get("session")->set("module_id", $this->moduleId);
         $apiHelper = new ApiHelper();	
@@ -82,7 +87,13 @@ class SkuController extends Controller
     /**
      * @Route("/backend/sku/edit/{id}", name="backend_sku_edit", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request) {
+    public function editAction(Request $request) 
+    {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
         $apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");
@@ -148,7 +159,13 @@ class SkuController extends Controller
     /**
      * @Route("/backend/sku/delete/{id}", name="backend_sku_delete", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request) {
+    public function deleteAction(Request $request) 
+    {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+		}
 
 		$apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");

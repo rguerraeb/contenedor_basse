@@ -19,6 +19,12 @@ class InvoiceWhatsappController extends Controller
      */
     public function indexAction (Request $request)
     {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+        }
+        
         $this->get("session")->set("module_id", $this->moduleId);
         $apiHelper = new ApiHelper();	
         $userData = $this->get ( "session" )->get ( "userData" );
@@ -47,6 +53,12 @@ class InvoiceWhatsappController extends Controller
      */
     public function editAction (Request $request)
     {
+        $validateSession = EbClosion::validateSession();
+		if($validateSession == false){
+			$this->addFlash('login_error', "Session no iniciada.");
+			return $this->redirectToRoute("backend_login_user");
+        }
+        
         $apiHelper = new ApiHelper();
 		$userData = $this->get("session")->get("userData");
         $invoiceId = $request->get('id');

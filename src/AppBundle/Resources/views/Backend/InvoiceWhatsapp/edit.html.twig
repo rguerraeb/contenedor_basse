@@ -1,133 +1,223 @@
 {% extends '@App/Backend/base.html.twig' %}
 
 {% block body %}
-    <div class="page-header">
-        <div class="page-block">
-            <div class="row align-items-center">
-                <div class="col-md-12">
-                    <div class="page-header-title">
-                        <h5 class="m-b-10">Aprobaci&oacute;n de Facturas</h5>
-                    </div>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="{{ path('backend_invoice_whatsapp') }}">Aprobaci&oacute;n de Facturas</a></li>
-                    </ul>
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Aprobación de Facturas</h5>
                 </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('backend_invoice_whatsapp') }}">Aprobación de Facturas</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Editar</a></li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+					
+				{{ include('@App/Backend/flash_message.html.twig') }}
 
-    <div class="main-body">
-        <div class="page-wrapper">
-            <div class="row">
-                <div class="col-sm-12">
-                        
-                    {{ include('@App/Backend/flash_message.html.twig') }}
-
-                    <div class="card m-b-10">
-                        <div class="card-header">
-                            <h5>Procesar Factura</h5>
-                        </div>
-                        <div class="card-block">
-                            {{ include('@App/Backend/InvoiceWhatsapp/form.html.twig', { 
-                                'formInvoice':formInvoice,
-                                'formStaff':formStaff,
-                                'imgName':imgName,
-                                'countryAct':countryAct,
-                                'statusAct':statusAct,
-                                'statusOpt':statusOpt,
-                                'countryOpt':countryOpt,
-                                'recurrent':recurrent
-                            }) }}
-                        </div>
-                        <a href="javascript:void(0)" id="returnInvoiceWhatsApp" class="f-16"> <i class="fas fa-angle-left"></i> Regresar</a>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-
-                    <div class="card User-Activity">
-                        <div class="card-header">
-                            <h5>Listado de facturas procesadas</h5>
-                            <div class="card-header-right">
-                                <div class="btn-group card-option">
-                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="feather icon-more-horizontal"></i>
-                                    </button>
-                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                                    </ul>
+				<div class="card">
+					<div class="card-header">
+    					<h5>Editar Factura</h5>
+					</div>
+					<div class="card-block">
+					<form method="post" action="" id="invoice_pending_form" class="validateForm" autocomplete="false">	
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="staff">Staff</label>
+                                    <input type="text" id="staff" name="staff" class="form-control" value="{{ invoice[0].staffName }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dpi">DPI</label>
+                                    <input type="text" id="dpi" name="dpi" class="form-control" value="{{ invoice[0].staffCitizenId }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Teléfono</label>
+                                    <input type="text" id="phone" name="phone" class="form-control" value="{{ invoice[0].staffPhone }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <img src="{{ invoice[0].invoiceImage }}" style="max-width: 270px !important;">
+                            </div>
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="invoice_number">No. de Factura</label>
+                                    <input type="text" id="invoice_number" name="invoice_number" class="form-control" value="{{ invoice[0].invoiceNumber }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="invoice_date">Fecha de Factura</label>
+                                    <input type="text" id="invoice_date" name="invoice_date" class="form-control" value="{{ invoice[0].invoiceDate|date("Y-m-d") }}" disabled>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-block pb-0">
-                            <div class="table-responsive m-b-15">
-                                <table class="table table-hover dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>#Correlativo</th>
-                                            <th>Tel&eacute;fono</th>
-                                            <th>Fecha de Ingreso</th>
-                                            <th>Factura</th>                    
-                                            <th>Estatus</th>
-                                            <th>Recurrente</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in listProcesados %}
-                                            <tr>
-                                                <td><h6 class="m-0">{{ item.invoiceId }}</h6></td>
-                                                <td><h6 class="m-0">{{ item.staff.phone }}</h6></td>
-                                                <td><h6 class="m-0">{{ item.createdAt | date('d-m-Y h:i:s') }}</h6></td>
-                                                {% if item.status.name == 'Aprobado' %}
-                                                    <td><h6 class="m-0"><b>{{ item.invoiceNumber }}</b></h6></td>
-                                                {% else %}
-                                                    <td><h6 class="m-0">---</h6></td>
-                                                {% endif %}
-                                                <td>
-                                                    {% if item.status.name == 'Aprobado' %}
-                                                        <span class="badge badge-pill badge-primary st-new-b theme-bg">{{ item.status.name }}</span>
-                                                    {% else %}
-                                                        <span class="badge badge-pill badge-danger st-new-b">{{ item.status.name }}</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if item.recurrent == 1 %}
-                                                        <span class="badge badge-pill badge-info st-new-b">Sí</span>
-                                                    {% else %}
-                                                        <span class="badge badge-pill badge-secondary st-new-b">No</span>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+
+						<div class="row">
+							<div class="col-md-12" id="productRowContainer">
+								<div class="row" id="productRow0">
+									<div class="col-md-3">
+										<label>Producto</label> <select name="prod[0][sku]"
+											onchange="loadProductType($(this), 0)"
+											class="form-control required select2">
+											<option value="">- Seleccione -</option>
+											{% for item in skuList %}
+											<option value="{{ item.skuId }}">{{ item.skuFilterString }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-md-2">
+										<label>Tipo</label> <input type="text" disabled="disabled"
+											value="" class="form-control" id="prodType0" />
+									</div>
+									<div class="col-md-3">
+										<label>Presentaci&oacute;n</label> <select
+											name="prod[0][presentation]" class="form-control required">
+											<option value="">- Seleccione -</option>
+											<option value="1">TRAGO</option>
+											<option value="2">BOTELLA</option>
+										</select>
+									</div>
+									<div class="col-md-2">
+										<label>Cantidad</label> <input type="text" value=""
+											name="prod[0][quantity]" class="required form-control digits" />
+									</div>
+									<div class="col-md-2" style="padding-top: 25px">
+										<a class="btn btn-primary btn-block"
+											href="javascript:newProductRow();" id="addInvoice"> <i
+											class="fa fa-plus-square"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br><br>
+                        <div class="row">
+                            <div class="col-6">
+								<span title="Rechazar Factura" data-toggle="tooltip">
+									<a id="btn-refuse"
+										class="btn btn-rounded btn-danger text-white sweet-multiple"
+										data-id="{{ invoice[0].invoicePendingId }}" 
+										data-name="{{ invoice[0].invoiceNumber }}" 
+										data-href="{{ path(
+											'backend_invoice_process',
+											{'id': invoice[0].invoicePendingId, 'status': 'RECHAZADO'}
+										) }}">
+										Rechazar
+									</a>
+								</span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span  title="Aprobar Factura" data-toggle="tooltip">
+                                    <button type="submit" id="button-save" class="btn btn-rounded btn-success text-white">Aprobado</button>
+                                </span>
                             </div>
                         </div>
-                    </div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $("#returnInvoiceWhatsApp").on('click',function(){
-            window.location = '{{ path('backend_invoice_whatsapp') }}'
-        });
-    </script>
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		$(document).on('click', '#btn-refuse',function(){
+			$('.sweet-multiple').on('click', function() {
+				swal({
+					title: '¿Seguro que desea rechazar la factura "'+ $(this).attr('data-name') +'" ?',
+					icon: "warning",
+					buttons: ["Cancelar",true],
+					dangerMode: true,
+				}).then((willDelete) => {
+					if (willDelete) {
+						swal({
+							text: 'La factura "'+ $(this).attr('data-name') +'" se está rechazando',
+							icon: "info",
+							buttons: false,
+							content: {
+								element: "span",
+								attributes: {
+									className: "spinner-border spinner-border-sm"
+								}
+							}
+						});
+						window.location =  $(this).attr('data-href'); 
+					}
+				});
+			});
+		});
+	});
 
+	$('#invoice_pending_form').validate({
+		submitHandler: function(form) {
+			var saveButton = document.getElementById("button-save");
+			var validateForm = document.getElementById("invoice_pending_form");
+			saveButton.setAttribute("disabled", true);
+			saveButton.innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Cargando...";
+			var elements = validateForm.elements;
+			for (var i = 0, len = elements.length; i < len; ++i) {
+				elements[i].readOnly = true;
+			}
+			document.getElementById("invoice_pending_form").submit();
+		}
+	});
 
-    <script>
-        $(document).ready(function() {
-            $('.dataTable').DataTable( {
-                dom: 'Bfrtip', buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5']
-            });
-        });     
-    </script>
+	function loadProductType(obj, index) {
+    	if (obj.val()) {
+    		$('#prodType'+index).val("Cargando datos...");
+            var data = {'sid': obj.val()}
+        	$.post("{{ path('backend_invoice_load_type') }}", data, function (res) {
+                                     
+                $('#prodType'+index).val(res.brand);
+    
+          	});
+    	}
+    }
+
+    var row = 1;
+    function newProductRow() {        
+        var productRow = '<div class="row padding5" id="productRow'+row+'">';
+        productRow += '<div class="col-md-3"><label>Producto</label>';;
+        productRow += ' <select id="productList'+row+'" name="prod['+row+'][sku]" onchange="loadProductType($(this), '+row+')" class="form-control required select2">';
+        productRow += ' <option value="">- Seleccione -</option>';
+        {% for item in skuList %}
+        	productRow += '<option value="{{ item.skuId }}">{{ item.skuFilterString }}</option>';
+		{% endfor %}
+		productRow += '</select></div>';
+		productRow += '<div class="col-md-2"><label>Tipo</label><input type="text" disabled="disabled" value="" class="form-control" id="prodType'+row+'" /></div>';
+		productRow += '<div class="col-md-3"><label>Presentaci&oacute;n</label>';
+		productRow += '<select name="prod['+row+'][presentation]" class="form-control required"><option value="">- Seleccione -</option><option value="1">TRAGO</option><option value="2">BOTELLA</option></select>';
+		productRow += '</div>';
+		productRow += '<div class="col-md-2"><label>Cantidad</label> <input type="text" value="" name="prod['+row+'][quantity]" class="required form-control digits" />';
+		productRow += '</div><div class="col-md-2" style="padding-top: 25px"><a class="btn btn-danger btn-block" href="javascript:deleteProductRow('+row+');"> <i class="fa fa-minus-square"></i></a></div>';	
+			
+        $('#productRowContainer').append(productRow);
+        $('#productList'+row).select2();
+        row++;
+    }
+
+    function deleteProductRow(row) {
+        $('#productRow'+row).fadeOut();
+    }
+
+</script>
 {% endblock %}

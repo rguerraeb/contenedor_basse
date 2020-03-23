@@ -73,7 +73,7 @@ class WebsiteController extends Controller
 				)
             );
             
-            $insert = $apiHelper->connectServices("http://localhost/contenedor_4/web/app_dev.php/ws/register-staff", "POST", null, $postdata);
+            $insert = $apiHelper->connectServices($this->getParameter("contenedor_4")."register-staff", "POST", null, $postdata);
 			$insert = json_decode($insert);
 
 			if($insert->status == 'success'){
@@ -85,7 +85,7 @@ class WebsiteController extends Controller
 			}
         }
 
-        $coutries = $apiHelper->connectServices("http://localhost/contenedor_4/web/app_dev.php/ws/get-countries", "GET", null, null);
+        $coutries = $apiHelper->connectServices($this->getParameter("contenedor_4")."get-countries", "GET", null, null);
         $coutries = json_decode($coutries);
         
         if($coutries->status == 'success'){
@@ -126,7 +126,7 @@ class WebsiteController extends Controller
                 )
             );
             
-            $response = $apiHelper->connectServices("http://localhost/contenedor_3/web/app_dev.php/ws/login-staff", "POST", null, $postdata);
+            $response = $apiHelper->connectServices($this->getParameter("contenedor_3")."login-staff", "POST", null, $postdata);
             $response = json_decode($response);
 
 			if($response->status == 'success'){

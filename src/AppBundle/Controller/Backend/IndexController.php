@@ -84,7 +84,7 @@ class IndexController extends Controller
 
 		$apiHelper = new ApiHelper();
 
-		$url = "http://localhost/contenedor_2/web/app_dev.php/ws/login-user";
+		$url = $this->getParameter("contenedor_2")."login-user";
 		$method = "POST";
 		$tokenApp = null;
 
@@ -150,7 +150,7 @@ class IndexController extends Controller
 
 		$apiHelper = new ApiHelper();
 
-		$url = "http://localhost/contenedor_2/web/app_dev.php/ws/recover-password";
+		$url = $this->getParameter("contenedor_2")."recover-password";
 		$method = "POST";
 
 		if($email){

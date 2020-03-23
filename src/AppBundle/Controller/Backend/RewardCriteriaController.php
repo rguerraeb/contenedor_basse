@@ -37,7 +37,7 @@ class RewardCriteriaController extends Controller
 				)
             );
             
-            $insert = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/register-reward-criteria", "POST", $this->get("session")->get("tokenapp"), $postdata);
+            $insert = $apiHelper->connectServices($this->getParameter("contenedor_2")."register-reward-criteria", "POST", $this->get("session")->get("tokenapp"), $postdata);
 			$insert = json_decode($insert);
 
 			if($insert->status == 'success'){
@@ -47,7 +47,7 @@ class RewardCriteriaController extends Controller
 			}
         }
 
-        $rewardCriterias = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-rewards-criteria", "GET", $this->get("session")->get("tokenapp"), null);
+        $rewardCriterias = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-rewards-criteria", "GET", $this->get("session")->get("tokenapp"), null);
 		$rewardCriterias = json_decode($rewardCriterias);
 
 		if($rewardCriterias->status == 'success'){
@@ -56,7 +56,7 @@ class RewardCriteriaController extends Controller
 			$rewardCriteriasList = null;
         }
         
-        $distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+        $distributors = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
         $distributors = json_decode($distributors);
 
 		if($distributors->status == 'success'){
@@ -65,7 +65,7 @@ class RewardCriteriaController extends Controller
 			$distributorsList = null;
         }
         
-        $filtersGroup = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
+        $filtersGroup = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
         $filtersGroup = json_decode($filtersGroup);
 
 		if($filtersGroup->status == 'success'){
@@ -94,7 +94,7 @@ class RewardCriteriaController extends Controller
 		$rewardCriteriaId = $request->get('id');
         $rewardCriteriaForm = $request->get('reward_criteria');
         
-        $rewardCriteriaService = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-reward-criteria/$rewardCriteriaId", "GET", $this->get("session")->get("tokenapp"), null);
+        $rewardCriteriaService = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-reward-criteria/$rewardCriteriaId", "GET", $this->get("session")->get("tokenapp"), null);
         $rewardCriteriaService = json_decode($rewardCriteriaService);
 
         if ($rewardCriteriaService->status == "success") {
@@ -114,7 +114,7 @@ class RewardCriteriaController extends Controller
                     )
                 );
 
-                $update = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/edit-reward-criteria/$rewardCriteriaId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
+                $update = $apiHelper->connectServices($this->getParameter("contenedor_2")."edit-reward-criteria/$rewardCriteriaId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
 				$update = json_decode($update);
 
 				if($update->status == 'success'){
@@ -126,7 +126,7 @@ class RewardCriteriaController extends Controller
                 return $this->redirectToRoute ( "backend_reward_criteria_edit", ["id" => $rewardCriteriaId]);
             }
 
-            $distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+            $distributors = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
             $distributors = json_decode($distributors);
 
             if($distributors->status == 'success'){
@@ -135,7 +135,7 @@ class RewardCriteriaController extends Controller
                 $distributorsList = null;
             }
             
-            $filtersGroup = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
+            $filtersGroup = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-filters-group", "GET", $this->get("session")->get("tokenapp"), null);
             $filtersGroup = json_decode($filtersGroup);
 
             if($filtersGroup->status == 'success'){
@@ -169,7 +169,7 @@ class RewardCriteriaController extends Controller
 
         if ($rewardCriteriaId) {
 
-			$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-sku/$rewardCriteriaId", "DELETE", $this->get("session")->get("tokenapp"), null);
+			$delete = $apiHelper->connectServices($this->getParameter("contenedor_2")."delete-sku/$rewardCriteriaId", "DELETE", $this->get("session")->get("tokenapp"), null);
 			$delete = json_decode($delete);
 
 			if($delete->status == "success"){

@@ -1,30 +1,12 @@
 <?php
 namespace AppBundle\Controller\Backend;
-use AppBundle\Entity\Sale;
-use AppBundle\Entity\SaleStaff;
-use DateTime;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\RegisterPending;
-use AppBundle\Entity\Staff;
-use AppBundle\Entity\PromoCupon;
-use AppBundle\Entity\AccruedPointDetails;
-use AppBundle\Entity\StaffPointOfSale;
-use AppBundle\Form\RegisterPendingType;
-use AppBundle\Helper\SessionHelper;
 use AppBundle\Repository\EbClosion;
-use AppBundle\Entity\StaffPromoPoints;
-use AppBundle\Entity\SkuCategory;
-use AppBundle\Form\InvoicePendingType;
-use AppBundle\Entity\PurchasedProductDetail;
-use AppBundle\Entity\InvoiceWhatsapp;
-use AppBundle\Form\InvoiceWhatsappType;
-use AppBundle\Form\StaffType;
-use AppBundle\Entity\StaffCode;
-
+use AppBundle\Helper\ApiHelper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class InvoiceWhatsappController extends Controller
 {
@@ -33,204 +15,169 @@ class InvoiceWhatsappController extends Controller
 
     /**
      *
-     * @Route("/backend/invoice-whatsapp", name="backend_invoice_whatsapp")
+     * @Route("/backend/invoices-pending", name="backend_invoice_whatsapp")
      */
     public function indexAction (Request $request)
     {
         $this->get("session")->set("module_id", $this->moduleId);
+        $apiHelper = new ApiHelper();	
+        $userData = $this->get ( "session" )->get ( "userData" );
 
-        $mp = EbClosion::getModulePermission($this->moduleId,
-                $this->get("session")->get("userModules"));
-        $em = $this->getDoctrine()->getManager();
-
-        $list = $em->getRepository("AppBundle:InvoiceWhatsapp")->findBy(array("status" => 1),array('createdAt' => 'DESC'));
+        $invoices = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-invoices", "GET", $this->get("session")->get("tokenapp"), null);
+        $invoices = json_decode($invoices);
         
-       $listProcesados = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getInvProcessed();
-        return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
-                array(
-                        "list" => $list,
-                        "listProcesados" => $listProcesados,
-                        "permits" => $mp
-                ));
-    }
+        if($invoices->status == 'success'){
+			$list = $invoices->data;
+		} else {
+			$list = null;
+        }
 
+        $mp = EbClosion::getModulePermission($this->moduleId, $this->get("session")->get("userModules"));
+        
+        return $this->render('@App/Backend/InvoiceWhatsapp/index.html.twig',
+            array(
+                "list" => $list,
+                "permits" => $mp
+            ));
+    }
 
     /**
      *
-     * @Route("/backend/invoice-whatsapp-pending/review/{id}", name="backend_invoice_whatsapp_pending_review", requirements={"id": "\w+"})
+     * @Route("/backend/invoices-pending/edit/{id}", name="backend_invoice_edit")
      */
     public function editAction (Request $request)
     {
-        $iwId = $request->get('id');
-        $iwStaffObj = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
-        $imgName = $iwStaffObj->getImageName();
-        $recurrent = $iwStaffObj->getRecurrent();
-        $createdAt = $iwStaffObj->getCreatedAt();
-        $stId = $iwStaffObj->getStaff()->getStaffId();
-        $form = $this->createForm ( new InvoiceWhatsappType (), $iwStaffObj);
-        $form->handleRequest ( $request );
-        if ($form->isSubmitted ()) {
-            if ($form->isValid ()) {
-                
-                $staffData = $request->get('staff');
-                $iwsData = $request->get('appbundle_invoicewhatsapp');
-
-                $em = $this->getDoctrine()->getManager();
-                $iwEnt = $em->getRepository("AppBundle:InvoiceWhatsapp")->findOneBy(array("invoiceId"=>$iwId));
-                $newStatus = $em->getRepository("AppBundle:MainStatus")->findOneBy(array("mainStatusId"=>$iwsData['status']));
-                $staffEnt = $em->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$stId));
-
-                //AQUI SE ESTA OBTENIEDO EL OBJETO DE PREMIO QUE CORRESPONDE CON EL GRANDE O PEQUEÑO. PRIZE_TYPE = 1 ES PREMIO GRANDE, 0 ES PEQUEÑO
-                if ($iwsData['prizeType'] == '1') {
-                    $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"26")); 
-                }else{
-                    $prizeObj = $em->getRepository("AppBundle:Prize")->findOneBy(array("id"=>"27"));
-                }
-                
-                if ($iwsData['productQuantity'] == '') {
-                    $pqty = 0;
-                }else{
-                    $pqty = $iwsData['productQuantity'];
-                }
-                if ($iwsData['status'] == 3) {
-                    $iwEnt->setNotifiStatus('pendiente');
-                }
-                $iwEnt->setProductQuantity($pqty);
-                $iwEnt->setImageName($imgName);
-                $iwEnt->setInvoiceNumber($iwsData['invoiceNumber']);
-                $iwEnt->setNit($iwsData['nit']);
-                $iwEnt->setTotalInvoice($iwsData['totalInvoice']);
-                $iwEnt->setPrizeType($iwsData['prizeType']);    
-                $iwEnt->setRecurrent($recurrent);
-                $iwEnt->setCreatedAt($createdAt);
-                $iwEnt->setUpdatedAt(new \DateTime());
-                $iwEnt->setStaff($staffEnt);
-                $iwEnt->setStatus($newStatus);
-                $iwEnt->setRejectionMessage($iwsData['rejectionMessage']);
-                $em->persist($iwEnt);
-                
-                $newCountry = $em->getRepository("AppBundle:Country")->findOneBy(array("id"=>$staffData['country']));
-                $staffEnt->setName($staffData['name']);
-                $staffEnt->setCitizenId($staffData['citizenId']);
-                $staffEnt->setEmail($staffData['email']);
-                $staffEnt->setCountry($newCountry);
-                $em->persist($staffEnt);
-
-                if ($iwsData['status'] == 2) {
-                    $winnCode = strtoupper("T".substr( md5(microtime()), 1, 5));
-                    $codeStatusObj = $em->getRepository("AppBundle:CodeStatus")->findOneBy(array("codeStatusId"=>"2"));
-                    $storeObj = $em->getRepository("AppBundle:Store")->findOneBy(array("id"=>"54"));
-                    $staffCodeObj = new StaffCode();
-                    $staffCodeObj->setCode($winnCode);
-                    $staffCodeObj->setStaff($staffEnt);
-                    $staffCodeObj->setCodeStatus($codeStatusObj);
-                    $staffCodeObj->setCreatedAt(new \DateTime());
-                    $staffCodeObj->setPrize($prizeObj);
-                    $staffCodeObj->setWhatsappStatus('pendiente');
-                    $staffCodeObj->setStore($storeObj); //ID = 54     STORE_NAME = TIENDA DE PRODUCTOS LALA
-                    $staffCodeObj->setBillNumber($iwsData['invoiceNumber']);
-                    $em->persist($staffCodeObj);
-                }
-
-                $em->flush();
-                
-                $this->addFlash ( 'success_message', $this->getParameter ( 'exito' ) );
-                return $this->redirectToRoute ( "backend_invoice_whatsapp" );
-            }else{
-
-                $this->addFlash ( 'error_message', $this->getParameter ( 'error_form' ) );
-                return $this->redirectToRoute ( "backend_invoice_whatsapp" );
-            }
-        }
-        $staffObj = $this->getDoctrine()->getRepository("AppBundle:Staff")->findOneBy(array("staffId"=>$iwStaffObj->getStaff()->getStaffId()));
-        $formStaff = $this->createForm(new StaffType(),$staffObj);
-        $statusAct = $iwStaffObj->getStatus()->getMainStatusId();
-        $statusObj = $this->getDoctrine()->getRepository("AppBundle:MainStatus")->findBy(array("forTable"=>"INVOICE_WHATSAPP"));
-        $statusOpt = [];
-        foreach ($statusObj as $value) {
-            $statusOpt[$value->getMainStatusId()]['id'] = $value->getMainStatusId();
-            $statusOpt[$value->getMainStatusId()]['name'] = $value->getName(); 
-        }
-        $countryAct = $staffObj->getCountry()->getId();
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+        $invoiceId = $request->get('id');
         
-        $countryObj = $this->getDoctrine()->getRepository("AppBundle:Country")->findAll();
-        $countryOpt = [];
-        foreach ($countryObj as $value) {
-            $countryOpt[$value->getId()]['id'] = $value->getId();
-            $countryOpt[$value->getId()]['name'] = $value->getName(); 
+        if(isset($invoiceId)){
+
+            $products = $request->get("prod");
+
+            if(isset($products)){
+
+                $postdata = json_encode(
+                    array(
+                        "invoice_pending_status" => 'ACEPTADO',
+                        "products" => $products
+                    )
+                );
+
+                $process = $apiHelper->connectServices($this->getParameter("contenedor_3")."register-points-assign/$invoiceId", "POST", $this->get("session")->get("tokenapp"), $postdata);
+                var_dump($process);
+                $process = json_decode($process);
+                
+                var_dump($process);
+
+                if($process->status == 'success'){
+                    $this->addFlash('success_message', $process->msg);
+                } else {
+                    $this->addFlash('error_message', $process->msg);
+                }
+
+                return $this->redirectToRoute("backend_invoice_whatsapp");
+
+            }
+
+            $invoice = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-invoice/$invoiceId", "GET", $this->get("session")->get("tokenapp"), null);
+            $invoice = json_decode($invoice);
+            
+            if($invoice->status == 'success'){
+                $list = $invoice->data;
+            } else {
+                $list = null;
+            }
+
+            $skus = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-skus", "GET", $this->get("session")->get("tokenapp"), null);
+            $skus = json_decode($skus);
+            
+            if($skus->status == 'success'){
+                $skuList = $skus->data;
+            } else {
+                $skuList = null;
+            }
+
+        } else {
+            $this->addFlash('error_message', $this->getParameter('error_editar'));
+            return $this->redirectToRoute("backend_invoice_whatsapp");
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery(  'SELECT p
-                                                FROM AppBundle:InvoiceWhatsapp p
-                                                WHERE p.status > :sta')->setParameter('sta', 1);
-        $listProcesados = $query->getResult();
-
-        $qtyCodesAssigned = $this->getDoctrine()->getRepository("AppBundle:InvoiceWhatsapp")->getQtyCodes($iwId);
+        
         return $this->render('@App/Backend/InvoiceWhatsapp/edit.html.twig',
-            array(  "formInvoice" => $form->createView (),
-                    "formStaff" => $formStaff->createView(),
-                    "imgName" => $iwStaffObj->getImageName(),
-                    "countryAct" => $countryAct,
-                    "statusAct" => $statusAct,
-                    "statusOpt" => $statusOpt,
-                    "countryOpt" => $countryOpt,
-                    "recurrent" => $recurrent,
-                    "listProcesados" => $listProcesados,
-                    "qtyCodesAssigned" => $qtyCodesAssigned
+            array(
+                "invoice" => $list,
+                "skuList" => $skuList
             ));
+
     }
 
     /**
      *
-     * @Route("/backend/invoice-pending/load-product-type", name="backend_invoice_pending_load_type")
+     * @Route("/backend/invoices-pending/load-product-type", name="backend_invoice_load_type")
      */
     public function loadProductTypeAction (Request $request)
     {
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
         $skuId = $request->get("sid");
         if ($skuId) {
-            $sku = $this->getDoctrine()
-                ->getRepository("AppBundle:Sku")
-                ->findOneBy(array(
-                    "skuId" => $skuId
-            ));
+
+            $service = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-sku/$skuId", "GET", $this->get("session")->get("tokenapp"), null);
+            $service = json_decode($service);
+            
+            if($service->status == 'success'){
+                $sku = $service->data;
+            } else {
+                $sku = null;
+            }
+
             return new JsonResponse(array(
-                    "brand" => $sku->getModel()
+                "brand" => $sku[0]->model
             ));
         } else {
             return new JsonResponse(array(
-                    false
+                false
             ));
         }
     }
 
-
     /**
      *
-     * @Route("/backend/invoice-verify", name="backend_invoice_verify")
+     * @Route("/backend/invoices-pending/process/{id}/{status}", name="backend_invoice_process")
      */
-    public function invoiceVerifyAction (Request $request)
+    public function processAction (Request $request)
     {
-        $myInvoice = $request->get("myInvoice");
-        if ($myInvoice) {
-            $mInvObj = $this->getDoctrine()
-                ->getRepository("AppBundle:InvoiceWhatsapp")
-                ->findOneBy(array(
-                    "invoiceNumber" => $myInvoice
-            ));
-            if ( is_null($mInvObj) ) {
-                $invNone = 'none';
-            }else{
-                $invNone = 'exist';
-            }
-            return new JsonResponse(array(
-                    "invoice" => $invNone
-            ));
+        $apiHelper = new ApiHelper();
+		$userData = $this->get("session")->get("userData");
+        $invoiceId = $request->get('id');
+        $status = $request->get('status');
+
+        if(isset($invoiceId)){
+
+            $postdata = json_encode(
+                array(
+                    "invoice_pending_status" => $status
+                )
+            );
+
+            $process = $apiHelper->connectServices($this->getParameter("contenedor_3")."register-points-assign/$invoiceId", "POST", $this->get("session")->get("tokenapp"), $postdata);
+            var_dump($process);
+            $process = json_decode($process);
+            
+            var_dump($process);
+
+			if($process->status == 'success'){
+				$this->addFlash('success_message', $process->msg);
+			} else {
+				$this->addFlash('error_message', $process->msg);
+			}
+
         } else {
-            return new JsonResponse(array(
-                    false
-            ));
+            $this->addFlash('error_message', $this->getParameter('error_editar'));
         }
+
+        return $this->redirectToRoute("backend_invoice_whatsapp");
+
     }
 
 }

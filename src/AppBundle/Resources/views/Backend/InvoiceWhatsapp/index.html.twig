@@ -1,48 +1,37 @@
 {% extends '@App/Backend/base.html.twig' %}
-
 {% block body %}
-
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10">Aprobaci&oacute;n de Facturas</h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!">Aprobación de Facturas</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<section class="content">
-	
-	{{ include('@App/Backend/flash_message.html.twig') }}
-
-	
-	{% if permits["rp"] %}
-			{{ include('@App/Backend/InvoiceWhatsapp/list.html.twig', { 'list': list,'listProcesados':listProcesados }) }}
-	{% endif %}
-	
-	{{ include(
-		'@App/Backend/invoice_whatsapp_modal.html.twig',
-		{
-			'confirmQuestion': '¿Seguro que desea desactivar al usuario?'
-		}
-	) }}
-</section>
-
-<script>
-    $(document).ready(function() {
-        $('.dataTable').DataTable( {
-            dom: 'Bfrtip', 
-            buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5'],
-            ordering: false
-        });
-    });     
-</script>
-
+	<div class="row">
+		<div class="col-12">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Aprobación de Facturas</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Aprobación de Facturas</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>		
+	</div>
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	{{ include('@App/Backend/flash_message.html.twig') }}
+	            	
+					<div class="card Application-list">			
+						{% if permits.rp %}
+							{{ include('@App/Backend/InvoiceWhatsapp/list.html.twig', { 'list': list }) }}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

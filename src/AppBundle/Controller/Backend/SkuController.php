@@ -41,7 +41,7 @@ class SkuController extends Controller
 				)
             );
             
-            $insert = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/register-sku", "POST", $this->get("session")->get("tokenapp"), $postdata);
+            $insert = $apiHelper->connectServices($this->getParameter("contenedor_2")."register-sku", "POST", $this->get("session")->get("tokenapp"), $postdata);
 			$insert = json_decode($insert);
 
 			if($insert->status == 'success'){
@@ -52,7 +52,7 @@ class SkuController extends Controller
 
         }
 
-        $skus = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus", "GET", $this->get("session")->get("tokenapp"), null);
+        $skus = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-skus", "GET", $this->get("session")->get("tokenapp"), null);
         $skus = json_decode($skus);
         
         if($skus->status == 'success'){
@@ -61,7 +61,7 @@ class SkuController extends Controller
 			$list = null;
         }
         
-        $skuCategories = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
+        $skuCategories = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
 		$skuCategories = json_decode($skuCategories);
 
 		if($skuCategories->status == 'success'){
@@ -89,7 +89,7 @@ class SkuController extends Controller
 		$skuId = $request->get('id');
 		$skuForm = $request->get('sku');
 
-        $skuService = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-sku/$skuId", "GET", $this->get("session")->get("tokenapp"), null);
+        $skuService = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-sku/$skuId", "GET", $this->get("session")->get("tokenapp"), null);
         $skuService = json_decode($skuService);
         
         if ($skuService->status == "success") {
@@ -113,7 +113,7 @@ class SkuController extends Controller
                     )
                 );
 
-                $update = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/edit-sku/$skuId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
+                $update = $apiHelper->connectServices($this->getParameter("contenedor_2")."edit-sku/$skuId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
 				$update = json_decode($update);
 
 				if($update->status == 'success'){
@@ -124,7 +124,7 @@ class SkuController extends Controller
 				}
             }
 
-            $skuCategories = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
+            $skuCategories = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-skus-categories", "GET", $this->get("session")->get("tokenapp"), null);
             $skuCategories = json_decode($skuCategories);
 
             if($skuCategories->status == 'success'){
@@ -156,7 +156,7 @@ class SkuController extends Controller
 
         if ($skuId) {
 
-			$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-sku/$skuId", "DELETE", $this->get("session")->get("tokenapp"), null);
+			$delete = $apiHelper->connectServices($this->getParameter("contenedor_2")."delete-sku/$skuId", "DELETE", $this->get("session")->get("tokenapp"), null);
 			$delete = json_decode($delete);
 
 			if($delete->status == "success"){

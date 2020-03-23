@@ -44,7 +44,7 @@ class UserController extends Controller {
 				)
 			);
 
-			$insert = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/register-user", "POST", $this->get("session")->get("tokenapp"), $postdata);
+			$insert = $apiHelper->connectServices($this->getParameter("contenedor_2")."register-user", "POST", $this->get("session")->get("tokenapp"), $postdata);
 			$insert = json_decode($insert);
 
 			if($insert->status == 'success'){
@@ -55,7 +55,7 @@ class UserController extends Controller {
 
 		}
 		
-		$users = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-users", "GET", $this->get("session")->get("tokenapp"), null);
+		$users = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-users", "GET", $this->get("session")->get("tokenapp"), null);
 		$users = json_decode($users);
 
 		if($users->status == 'success'){
@@ -64,7 +64,7 @@ class UserController extends Controller {
 			$list = null;
 		}
 
-		$roles = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-roles", "GET", $this->get("session")->get("tokenapp"), null);
+		$roles = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-roles", "GET", $this->get("session")->get("tokenapp"), null);
 		$roles = json_decode($roles);
 
 		if($roles->status == 'success'){
@@ -73,7 +73,7 @@ class UserController extends Controller {
 			$rolesList = null;
 		}
 
-		$distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+		$distributors = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
 		$distributors = json_decode($distributors);
 
 		if($distributors->status == 'success'){
@@ -102,7 +102,7 @@ class UserController extends Controller {
 		$userId = $request->get('id');
 		$userForm = $request->get('user');
 
-		$userService = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-user/$userId", "GET", $this->get("session")->get("tokenapp"), null);
+		$userService = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-user/$userId", "GET", $this->get("session")->get("tokenapp"), null);
 		$userService = json_decode($userService);
 
 		if ($userService->status == "success") {
@@ -133,7 +133,7 @@ class UserController extends Controller {
 					)
 				);
 
-				$update = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/edit-user/$userId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
+				$update = $apiHelper->connectServices($this->getParameter("contenedor_2")."edit-user/$userId", "PUT", $this->get("session")->get("tokenapp"), $postdata);
 				$update = json_decode($update);
 
 				if($update->status == 'success'){
@@ -145,7 +145,7 @@ class UserController extends Controller {
 
 			}
 
-			$roles = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-roles", "GET", $this->get("session")->get("tokenapp"), null);
+			$roles = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-roles", "GET", $this->get("session")->get("tokenapp"), null);
 			$roles = json_decode($roles);
 	
 			if($roles->status == 'success'){
@@ -154,7 +154,7 @@ class UserController extends Controller {
 				$rolesList = null;
 			}
 	
-			$distributors = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
+			$distributors = $apiHelper->connectServices($this->getParameter("contenedor_2")."get-distributors", "GET", $this->get("session")->get("tokenapp"), null);
 			$distributors = json_decode($distributors);
 	
 			if($distributors->status == 'success'){
@@ -188,7 +188,7 @@ class UserController extends Controller {
 			// Can't delete yourself
 			if ($userId != $userData->userId) {
 
-				$delete = $apiHelper->connectServices("http://localhost/contenedor_2/web/app_dev.php/ws/delete-user/$userId", "DELETE", $this->get("session")->get("tokenapp"), null);
+				$delete = $apiHelper->connectServices($this->getParameter("contenedor_2")."delete-user/$userId", "DELETE", $this->get("session")->get("tokenapp"), null);
 				$delete = json_decode($delete);
 
 				if($delete->status == "success"){

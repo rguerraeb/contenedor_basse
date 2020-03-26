@@ -1,47 +1,17 @@
-<div class="box box-success">
-    <div class="box-header">
-        <h3 class="box-title">Catalogo de premios</h3>
-    </div>
-    <!-- /.box-header -->
-    <div class="box-body no-padding">
-        
-        
-
-        
-        {% for item in entities %}
-        
-        <div class="col-md-4 col-sm-6 col-xs-12" style='height:130px !important;'>
-          <div class="info-box" style='min-height:120px;'>
-            <span class="info-box-icon bg-aqua" style='background-color:#fff !important;line-height:0px !important;height:100%;'>
-            	<img alt="Avatar" src="{{ asset('images/') }}{{ item.imagePath }}"/>
-            	
-            	
-            </span>
- 				
-            <div class="info-box-content">
-              <p>{{ item.displayName }}</p>
-              <span class="info-box-text"><b>Q. {{ item.amount }}</b></span>
-              {% if item.quantity != 'none' %}
-              	<span class="info-box-text" style = "color:red"><b>{{ item.quantity }} disponibles</b></span>
+  <div class="card-columns">
+      {% for item in list %}
+        <div class="card">
+          <img class="card-img-top" src="{{ item.prizeImagePath }}" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title">{{ item.prizeName }}</h6>
+            <p class="card-text">
+              <b>Q. {{ item.prizeAmount }}</b>
+              {% if item.prizeQuantity != 'none' %}
+                <br><b class="text-c-red">{{ item.prizeQuantity }} disponibles</b>
               {% endif %}
-
-                {% if staff is not defined %}
-                      <a href="{{ path('staff_prize_details',{'id': item.id} ) }}" class="upload-link btn btn-success">
-                           Seleccionar
-                      </a>
-                {% else %}
-                    <a href="{{ path('backend_prize_details',{'id': item.id, "staffId": staff.staffId} ) }}" class="upload-link btn btn-success">
-                        Seleccionar
-                    </a>
-                {% endif %}
-            </div>
-            <!-- /.info-box-content -->
+            </p>
+            <a href="{{ path('staff_prize_details',{'id': item.prizeId} ) }}" class="btn btn-success">Seleccionar</a>
           </div>
-          <!-- /.info-box -->
         </div>
-        {% endfor %}        
-    </div>
-    <!-- /.box-body -->
-    {{ knp_pagination_render(entities) }}
-</div>
-<!-- /.box -->
+      {% endfor %}
+  </div>

@@ -1,8 +1,8 @@
 {% extends '@App/Backend/base.html.twig' %}
-{% block extra_css %}
+{#{% block extra_css %}
     <link rel="stylesheet"
           href="{{ asset('css/backend/loading_animation.css') }}">
-{% endblock %}
+{% endblock %}#}
 
 {% block title %}
     LoyaltyV2 | Backend | Premios
@@ -11,7 +11,7 @@
 
 {% block body %}
 
-    <section class="content">
+    {#<section class="content">
         {{ include('@App/Backend/loading_css.html.twig') }}
 
         {{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
@@ -163,6 +163,102 @@
     </script>
 
 
-    <!-- /.box -->
+    <!-- /.box -->#}
+
+
+
+
+    {{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
+
+    <div class="row">
+		<div class="col-12">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Ver y Canjear Premios</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="{{ path('backend_staff_redeem') }}">Catálogo de Premios</a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Confirmar Canje</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>		
+	</div>
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	{{ include('@App/Backend/flash_message.html.twig') }}
+	            	
+					<div class="card">
+                        <div class="card-header">
+                            <h5>Confirmar Canje</h5>
+                            
+                            <div class="card-header-right">
+                                <div class="btn-group card-option">
+                                    <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-more-horizontal"></i>
+                                    </button>
+                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Ocultar</span><span style="display:none"><i class="feather icon-plus"></i> Expandir</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-block">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{ prize[0].prizeImagePath }}" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ prize[0].prizeName }}</h6>
+                                            <p class="card-text">
+                                            <b>Q. {{ prize[0].prizeAmount }}</b>
+                                            {% if prize[0].prizeQuantity != 'none' %}
+                                                <br><b class="text-c-red">{{ prize[0].prizeQuantity }} disponibles</b>
+                                            {% endif %}
+                                            </p>
+                                            <a href="{{ path('staff_get_prize',{'id': prize[0].prizeId,'channel':'WEB'} ) }}" class="btn btn-success">Canjear</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <h4 class="text-center">Instrucciones para reclamar tu premio:</h4>
+
+                                    {% set counter = 0 %}
+                                    <ul>
+                                    {% for step in prizeSteps %}
+                                        {% set counter = counter + 1 %}
+                                            <li><b>Paso {{ counter }}: </b>{{ step.stepText }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 
+
+
+
+
+
+
+
+
 {% endblock %}
 

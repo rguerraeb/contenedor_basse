@@ -10,6 +10,7 @@ use AppBundle\Entity\Staff;
 use AppBundle\Entity\StaffLog;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Form\MyProfileType;
+use AppBundle\Helper\ApiHelper;
 
 class StaffController extends Controller
 {
@@ -421,21 +422,30 @@ class StaffController extends Controller
      */
     public function exchangeAction (Request $request)
     {
-        $this->get("session")->set("module_id", 16);
+        $this->get("session")->set("module_id", 22);
 
         $userData = $this->get("session")->get("userData");
-        $exchangeList = $this->getDoctrine()
-            ->getRepository('AppBundle:PrizeExchange')
-            ->findBy(array(
-                "staff" => $userData["staff_id"]
-        ), array(
-                'createdAt' => 'DESC'
-        ));
+        $staffId = $userData->userId;
+        $token = $this->get("session")->get("tokenapp");
+        
+        $apiHelper = new ApiHelper();
+        
+        $service = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-prize-staff/$staffId", "GET", $token, null);
+        
+        $service = json_decode($service);
+                
+        if($service->status == 'success'){
+                $exchangeList = $service->data;
+        } else {
+                $exchangeList = null;
+        }
 
-        // replace this example code with whatever you need
+        $mp = EbClosion::getModulePermission(22, $this->get("session")->get("userModules"));  
+
         return $this->render('@App/Frontend/Staff/exchange.html.twig',
                 array(
-                        'exchangeList' => $exchangeList
+                        'list' => $exchangeList,
+                        "permits" => $mp
                 ));
     }
 
@@ -445,22 +455,32 @@ class StaffController extends Controller
      */
     public function mainAction (Request $request)
     {
-        $this->get("session")->set("module_id", 12);
-        $counter = array();
+        $this->get("session")->set("module_id", 20);
 
-        $news = $this->getDoctrine()
-            ->getRepository('AppBundle:SiteContent')
-            ->findBy(array(
-                "published" => 1
-        ), array(
-                'createdAt' => 'DESC'
-        ));
+        $userData = $this->get("session")->get("userData");
 
-        // replace this example code with whatever you need
+        $countryId = $userData->countryId;
+        $token = $this->get("session")->get("tokenapp");
+                
+        $apiHelper = new ApiHelper();
+                
+        $service = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-news/$countryId", "GET", $token, null);
+                
+        $service = json_decode($service);
+                        
+        if($service->status == 'success'){
+                $news = $service->data;
+        } else {
+                $news = null;
+        }
+        
+        $mp = EbClosion::getModulePermission(20, $this->get("session")->get("userModules"));  
+        
         return $this->render('@App/Frontend/Staff/dashboard.html.twig',
                 array(
-                        'counter' => $counter,
-                        'news' => $news
+                        'today' => new \DateTime(),
+                        'news' => $news,
+                        "permits" => $mp
                 ));
     }
 
@@ -483,60 +503,88 @@ class StaffController extends Controller
      */
     public function redeemAction (Request $request)
     {
-        $this->get("session")->set("module_id", 14);
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->get("session")->get("userData");
-        $user_id = $user["staff_id"];
-        $user_info = $em->getRepository('AppBundle:Staff')->findOneByStaffId(
-                $user_id);
-        $phone = $user_info->getPhoneMain();
-        $area_code = "502";
-        $sessionHelper = new SessionHelper($request->getSession(),
-                $this->getDoctrine());
-        $staffs = $em->getRepository('AppBundle:Prize')->getList();
-        $paginator = $this->get('knp_paginator');
 
-        $pagination = $paginator->paginate($staffs,
-                $request->query->getInt('page', 1),
-                $this->getParameter("number_of_rows"));
-        $mp = EbClosion::getModulePermission(14,
-                $this->get("session")->get("userModules"));
+        $this->get("session")->set("module_id", 21);
+
+        $userData = $this->get("session")->get("userData");
+        $token = $this->get("session")->get("tokenapp");
+
+        $apiHelper = new ApiHelper();
+
+        $service = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-prizes", "GET", $token, null);
+
+        $service = json_decode($service);
+        
+        if($service->status == 'success'){
+		$prizes = $service->data;
+	} else {
+		$prizes = null;
+        }
+
+        $mp = EbClosion::getModulePermission(21, $this->get("session")->get("userModules"));    
+
         return $this->render('@App/Frontend/Staff/prize.html.twig',
                 array(
-                        "staffs" => $pagination,
-                        'form' => '',
+                        "list" => $prizes,
                         "permits" => $mp
                 ));
     }
 
     /**
      *
-     * @Route("/staff/prizeDetails", name="staff_prize_details", requirements={"id": "\d+"})
+     * @Route("/staff/prizeDetails/{id}", name="staff_prize_details", requirements={"id": "\d+"})
      */
     public function prizeDetailsAction (Request $request)
     {
-        $prize_id = $request->get("id", "");
-        $em = $this->getDoctrine()->getManager();
-        $staffs = $em->getRepository('AppBundle:Prize')->findOneById($prize_id);
-        $prizeSteps = $em->getRepository('AppBundle:PrizeStep')->findBy(
-                array(
-                        'prize' => $prize_id
-                ));
+
+        $this->get("session")->set("module_id", 21);
+
+        $prizeId = $request->get("id");
+        $userData = $this->get("session")->get("userData");
+        $token = $this->get("session")->get("tokenapp");
+
+        $apiHelper = new ApiHelper();
+        
+        $service = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-prize/$prizeId", "GET", $token, null);
+        
+        $service = json_decode($service);
+                
+        if($service->status == 'success'){
+                $prize = $service->data;
+                
+                if(isset($prize)){
+                        $prizeIdService = $prize[0]->prizeId;
+
+                        $serviceStep = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-prize-step/$prizeIdService", "GET", $token, null);
+
+                        $serviceStep = json_decode($serviceStep);
+
+                        if($serviceStep->status == 'success'){
+                                $step = $serviceStep->data;
+                        } else {
+                                $step = null;
+                        }
+                }
+        } else {
+                $prize = null;
+                $step = null;
+        }
 
         return $this->render('@App/Frontend/Staff/prizeDetail.html.twig',
                 array(
-                        "staffs" => $staffs,
-                        "prizeSteps" => $prizeSteps
+                        "prize" => $prize,
+                        "prizeSteps" => $step,
+                        "staff" => $userData
                 ));
     }
 
     /**
      *
-     * @Route("/staff/getPrize", name="staff_get_prize", requirements={"id": "\d+"})
+     * @Route("/staff/getPrize/{id}/{channel}", name="staff_get_prize")
      */
     public function getPrizeAction (Request $request)
     {
-        $channel_exchange = "WEB";
+        /*$channel_exchange = "WEB";
         $prize_id = $request->get("id", "");
         $connection = $request->get("conn", "");
         $channel_exchange = $request->get("channel", "");
@@ -843,6 +891,33 @@ class StaffController extends Controller
                         "message" => $message,
                         "channel" => $channel_exchange
                 ));
+        */
+
+        
+        $this->get("session")->set("module_id", 21);
+
+        $prizeId = $request->get("id");
+        $channelExchange = $request->get("channel", "WEB");
+
+        $userData = $this->get("session")->get("userData");
+        $token = $this->get("session")->get("tokenapp");
+
+        $apiHelper = new ApiHelper();
+        
+        if(isset($prizeId) && isset($channelExchange)){
+                $exchange = $apiHelper->connectServices($this->getParameter("contenedor_3")."register-exchange-prize/$prizeId/$channelExchange", "GET", $token, null);
+                
+                $exchange = json_decode($exchange);
+
+                if($exchange->status == 'success'){
+                        $this->addFlash('success_message', $exchange->msg);
+                        return $this->redirectToRoute("backend_staff_redeem");
+                } else {
+                        $this->addFlash('error_message', $exchange->msg);
+                        return $this->redirectToRoute ( "staff_prize_details", ["id" => $prizeId]);
+                }
+        }
+
     }
 
     /**
@@ -916,13 +991,21 @@ class StaffController extends Controller
 
     public function headerPointsAction (Request $request)
     {
+            
         $userData = $this->get("session")->get("userData");
-        $userId = $userData["staff_id"];
+        $token = $this->get("session")->get("tokenapp");
 
-        $em = $this->getDoctrine()->getManager();
+        $apiHelper = new ApiHelper();
 
-        $pointDetail = $em->getRepository("AppBundle:Staff")->getPointSummary(
-                $userId);
+        $service = $apiHelper->connectServices($this->getParameter("contenedor_3")."get-staff-points-header", "GET", $token, null);
+
+        $service = json_decode($service);
+        
+        if($service->status == 'success'){
+		$pointDetail = $service->data;
+	} else {
+		$pointDetail = null;
+        }
 
         // replace this example code with whatever you need
         return $this->render('@App/Frontend/Staff/header_points.html.twig',

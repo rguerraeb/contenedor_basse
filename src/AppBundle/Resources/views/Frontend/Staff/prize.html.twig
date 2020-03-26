@@ -6,23 +6,41 @@
 
 
 {% block body %}	
-<section class="content">
 
     {{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
-
-
-    {{
     
-        include(
-            '@App/Backend/_index.html.twig',
-            {
-                'listPath': '@App/Frontend/Staff/listPrize.html.twig',
-                'entities': staffs,
-                'title': 'Premios',
-                'deleteQuestion': 'Seguro que desea eliminar el empleado '
-            }
-        )
-    }}
-    
-    
+	<div class="row">
+		<div class="col-12">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Ver y Canjear Premios</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Catálogo de Premios</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>		
+	</div>
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	{{ include('@App/Backend/flash_message.html.twig') }}
+	            	
+					{#<div class="card Application-list">#}
+						{% if permits.rp %}
+							{{ include('@App/Frontend/Staff/listPrize.html.twig', { 'list': list }) }}
+						{% endif %}
+					{#</div>#}
+				</div>
+			</div>
+		</div>
+	</div> 
 {% endblock %}

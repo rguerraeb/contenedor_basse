@@ -131,13 +131,15 @@ class WebsiteController extends Controller
 
 			if($response->status == 'success'){
 				$tokenApp = $response->data;
-				
+
 				//session
-				$session = $request->getSession();
-				$session->set("tokenapp", $tokenApp);
+                $session = $request->getSession();
+                $session->set("tokenapp", $tokenApp);
 
                 $userToken = WebServiceHelper::decodeJWTToken($tokenApp);
-
+                
+                $modules = $userToken->modules;
+                $session->set("userModules",$modules);
 				$session->set("userData", $userToken);
 
                 return $this->redirectToRoute('staff_main');

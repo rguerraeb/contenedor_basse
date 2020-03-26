@@ -1,15 +1,38 @@
 <div class="row" id="headerPoints">
-	<div class="col-md-4 col-sm-6 col-xs-12">
-		<div class="info-box">
-			<span class="info-box-icon bg-aqua"><i class="fa fa-plus"></i></span>
 
-			<div class="info-box-content">
-				<span class="info-box-text">Q. Acumulados</span> <span
-					class="info-box-number">{{ pointDetail.acumulados }}</span>
+	<div class="col-md-6 col-xl-4 col-12">
+		<div class="card bg-primary bitcoin-wallet">
+			<div class="card-block">
+			<h5 class="text-white mb-2">Q. Acumulados</h5>
+			<h2 class="text-white mb-2 f-w-300">{{ pointDetail.acumulados }}</h2>
+			<i class="fas fa-plus f-70 text-white"></i>
 			</div>
 		</div>
 	</div>
-	<!-- div class="col-md-3 col-sm-6 col-xs-12">
+
+	<div class="col-md-6 col-xl-4 col-12">
+		<div class="card bg-success bitcoin-wallet">
+			<div class="card-block">
+			<h5 class="text-white mb-2">Q. Canjeados</h5>
+			<h2 class="text-white mb-2 f-w-300">{{ pointDetail.canjeados }}</h2>
+			<i class="fas fa-minus f-70 text-white"></i>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 col-xl-4 col-12">
+		<div class="card bg-warning bitcoin-wallet">
+			<div class="card-block">
+			<h5 class="text-white mb-2">Q. Disponibles</h5>
+			<h2 class="text-white mb-2 f-w-300">{{ pointDetail.disponibles }}</h2>
+			<i class="fas fa-equals f-70 text-white"></i>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+	{#<!-- div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
 			<span class="info-box-icon bg-teal"><i class="fa fa-plus"></i></span>
 
@@ -20,30 +43,8 @@
 		
 		</div>
 		
-	</div-->
-	<div class="col-md-4 col-sm-6 col-xs-12">
-		<div class="info-box">
-			<span class="info-box-icon bg-green"><i class="fa fa-minus"></i></span>
+	</div-->#}
 
-			<div class="info-box-content">
-				<span class="info-box-text">Q. Canjeados</span> <span
-					class="info-box-number">{{ pointDetail.canjeados }}</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4 col-sm-6 col-xs-12">
-		<div class="info-box available-points">
-			<span class="info-box-icon bg-yellow">
-				<i class="fa fa fa-pause" id='equal'></i>
-			</span>
-
-			<div class="info-box-content">
-				<span class="info-box-text">
-					Q. Disponibles
-				</span>
-				<span class="info-box-number">
-					{{ pointDetail.disponibles }}
-				</span>
 				{#
 				<!--p class="promo-detail">
 					<span class="promo-points-label">
@@ -53,7 +54,4 @@
 						{{ pointDetail.promocionales - pointDetail.promocionales_canjeados }}
 					</span>
 				</p-->#}
-			</div>
-		</div>
-	</div>
-</div>
+

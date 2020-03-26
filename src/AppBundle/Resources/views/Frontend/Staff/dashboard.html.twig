@@ -7,12 +7,12 @@
  
 	{{ render(controller("AppBundle:Frontend/Staff:headerPoints")) }}
 
-	<div class="row">
+	{#<div class="row">
 		<div class="col-xs-12">
 
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title">Notificaciones y Promociones</h3>
+					<h3 class="box-title">Noticias y Promociones</h3>
 				</div>
 
 				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="background-image: url('{{ asset('images/frontend/bg_maderas_azules.jpg') }}');">
@@ -48,7 +48,77 @@
 	</div>
 
 </section>
-<!-- /.content -->
+<!-- /.content -->#}
+
+
+
+
+	<div class="row">
+		<div class="col-12">
+			<div class="page-header">
+			    <div class="page-block">
+			        <div class="row align-items-center">
+			            <div class="col-md-12">
+			                <div class="page-header-title">
+			                    <h5 class="m-b-10">Noticias y Promociones</h5>
+			                </div>
+			                <ul class="breadcrumb">
+			                    <li class="breadcrumb-item"><a href="#!"><i class="feather icon-home"></i></a></li>
+			                    <li class="breadcrumb-item"><a href="#!">Noticias y Promociones</a></li>
+			                </ul>
+			            </div>
+			        </div>
+			    </div>
+			</div>			
+		</div>		
+	</div>
+	<div class="main-body">
+	    <div class="page-wrapper">
+	        <div class="row">
+	            <div class="col-sm-12">
+	            	{{ include('@App/Backend/flash_message.html.twig') }}
+	            	
+					{% if permits.rp %}
+						<div class="card">
+							<div class="card-header">
+								<h5>Noticias y Promociones</h5>
+							</div>
+							<div class="card-body">
+								<div id="carouselExampleIndicatorscaption" class="carousel slide" data-ride="carousel">
+									<div class="carousel-inner">
+										{% set count = 0 %}
+										{% for item in news %}
+											{% if today|date("Y-m-d") < item.durationDate|date("Y-m-d") %}
+												<div class="carousel-item {{ (count == 0) ? 'active' : '' }}">
+													<img class="d-block w-100" src="{{ asset('images/news/'~item.image) }}" alt="{{ item.title }}}">
+													<div class="carousel-caption d-none d-md-block">
+														<h5 class="text-white">{{ item.title }}</h5>
+														<p>{{ item.content | raw }}</p>
+													</div>
+												</div>
+												{% set count = count + 1 %}
+											{% endif %}
+										{% endfor %}
+									</div>
+									<a class="carousel-control-prev" href="#carouselExampleIndicatorscaption" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Anterior</span></a>
+									<a class="carousel-control-next" href="#carouselExampleIndicatorscaption" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Siguiente</span></a>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div> 
+
+
+
+
+
+
+
+
+
 {% endblock %}
 
 {% block extra_scripts %}

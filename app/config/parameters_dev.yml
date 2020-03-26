@@ -1,10 +1,10 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: localhost
-    database_port: null
+    database_host: 127.0.0.1
+    database_port: 3306
     database_name: lala_promo
     database_user: root
-    database_password: 
+    database_password: rgwebs
 
     mailer_transport: gmail
     mailer_host: smtp.gmail.com:465
@@ -142,3 +142,9 @@ parameters:
     promo_specific_prize: Felicidades CEMPRO te regala [PRIZE]
     promo_points_message: Felicidades CEMPRO te regala Q. [POINTS]
     promo_pre_winners_max: 10
+
+# API's url
+
+    contenedor_2: http://localhost:8080/EBClosion/contenedor_2/web/app_dev.php/ws/
+    contenedor_3: http://localhost:8080/EBClosion/contenedor_3/web/app_dev.php/ws/
+    contenedor_4: http://localhost:8080/EBClosion/contenedor_4/web/app_dev.php/ws/
